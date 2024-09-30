@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CommonViewModel {
+class CommonViewModel {
     
      /* 日付を任意のフォーマットに変換
       -param date 日付
