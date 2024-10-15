@@ -14,6 +14,8 @@ struct InputText: View {
     var height: CGFloat = 50
     @Binding var text: String
     @FocusState var focus: Bool
+    var isDispStroke = true
+    var isDispShadow = true
     var body: some View {
         TextField(placeHolder, text: $text)
             .focused($focus)
@@ -21,8 +23,15 @@ struct InputText: View {
             .frame(height: height)
             .padding(.horizontal, 10)
             .background {
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color(uiColor: .systemGray5))
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.changeable)
+                    .overlay {
+                        if isDispStroke {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(lineWidth: 0.5)
+                                .fill(.changeableStroke)
+                        }
+                    }.shadow(color: isDispShadow ? .changeableShadow.opacity(0.5) : .clear, radius: 10)
             }.multilineTextAlignment(alignment)
             .onChange(of: focus) {
                 if text != "" && focus {

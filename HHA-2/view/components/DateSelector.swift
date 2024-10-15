@@ -11,24 +11,31 @@ struct DateSelector: View {
     @Binding var selectDate: Date
     @State var isShowSheet = false
     var height: CGFloat = 50
+    var isDispStroke = true
+    var isDispShadow = true
     let commonVm = CommonViewModel()
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(Color(uiColor: .systemGray5))
-                .frame(height: height)
-                .overlay {
-                    Text(commonVm.getFormatDate(format: "yyyy年M月d日", date: selectDate))
+        RoundedRectangle(cornerRadius: 10)
+            .fill(.changeable)
+            .overlay {
+                if isDispStroke {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(lineWidth: 0.5)
+                        .fill(.changeableStroke)
                 }
-                .onTapGesture {
-                    self.isShowSheet.toggle()
-                }
-                .floatingSheet(isPresented: $isShowSheet) {
-                    DatePickerRect()
-                        .presentationDetents([.height(310)])
-                        .presentationBackgroundInteraction(.enabled(upThrough: .height(310)))
-                }
-        }
+            }.shadow(color: isDispShadow ? .changeableShadow.opacity(0.5) : .clear, radius: 10)
+            .frame(height: height)
+            .overlay {
+                Text(commonVm.getFormatDate(format: "yyyy年M月d日", date: selectDate))
+            }
+            .onTapGesture {
+                self.isShowSheet.toggle()
+            }
+            .floatingSheet(isPresented: $isShowSheet) {
+                DatePickerRect()
+                    .presentationDetents([.height(310)])
+                    .presentationBackgroundInteraction(.enabled(upThrough: .height(310)))
+            }
     }
     
     @ViewBuilder

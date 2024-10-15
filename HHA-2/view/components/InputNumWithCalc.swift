@@ -14,12 +14,21 @@ struct InputNumWithCalc: View {
     @State var isPushedSymbolButton = false
     @State var pushedSymbolBehavior: CalculatorBehavior = .none
     @State var calcTargetNum = ""
+    var isDispStroke = true
+    var isDispShadow = true
     var font: Font = .body
     var height: CGFloat = 50
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(Color(uiColor: .systemGray5))
+            RoundedRectangle(cornerRadius:10)
+                .fill(.changeable)
+                .overlay {
+                    if isDispStroke {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(lineWidth: 0.5)
+                            .fill(.changeableStroke)
+                    }
+                }.shadow(color: isDispShadow ? .changeableShadow.opacity(0.5) : .clear, radius: 10)
                 .onTapGesture {
                     self.isSheetShow.toggle()
                 }

@@ -11,10 +11,19 @@ struct SectionSelector: View {
     @Binding var selectIndex: Int
     @State var isShowSheet = false
     var height: CGFloat = 50
+    var isDispStroke = true
+    var isDispShadow = true
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(Color(uiColor: .systemGray5))
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.changeable)
+                .overlay {
+                    if isDispStroke {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(lineWidth: 0.5)
+                            .fill(.changeableStroke)
+                    }
+                }.shadow(color: isDispShadow ? .changeableShadow.opacity(0.5) : .clear, radius: 10)
                 .onTapGesture {
                     self.isShowSheet.toggle()
                 }
@@ -35,8 +44,8 @@ struct SectionSelector: View {
     @ViewBuilder
     func SectionList() -> some View {
         let isSelectInc = selectIndex ==  0
-        GeometryReader {
-            let safeAreaInsetx = $0.safeAreaInsets
+//        GeometryReader {
+//            let safeAreaInsetx = $0.safeAreaInsets
             ZStack {
                 UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10)
                     .fill(.changeable)
@@ -70,7 +79,7 @@ struct SectionSelector: View {
                         .frame(height: 200)
                 }.padding(.horizontal, 20)
             }.ignoresSafeArea()
-        }
+//        }
     }
 }
 

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct CommonViewModel {
+class CommonViewModel {
+    
+    let realm = try! Realm()
     
      /* 日付を任意のフォーマットに変換
       -param date 日付

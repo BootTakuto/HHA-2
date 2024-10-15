@@ -18,8 +18,12 @@
 		2C4D49A22C930F0B00CAA89F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4D49A12C930F0B00CAA89F /* ContentView.swift */; };
 		2C4D49A42C930F0C00CAA89F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4D49A32C930F0C00CAA89F /* Assets.xcassets */; };
 		2C4D49A72C930F0C00CAA89F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4D49A62C930F0C00CAA89F /* Preview Assets.xcassets */; };
+		2C65458B2CB72665002EA834 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65458A2CB72665002EA834 /* CheckBox.swift */; };
+		2C65458D2CB7341D002EA834 /* BalanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65458C2CB7341D002EA834 /* BalanceModel.swift */; };
+		2C65458F2CB736FF002EA834 /* InputPageVeiwModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65458E2CB736FF002EA834 /* InputPageVeiwModel.swift */; };
 		2C67A49D2CA4BC9900BBF5FE /* DateSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C67A49C2CA4BC9900BBF5FE /* DateSelector.swift */; };
-		2C8A0B132C9EDA12003D7647 /* FloatingSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8A0B122C9EDA12003D7647 /* FloatingSheet.swift */; };
+		2C767F672CBBA1F70023EE8A /* BalanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C767F662CBBA1F70023EE8A /* BalanceViewModel.swift */; };
+		2C8A0B132C9EDA12003D7647 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */; };
 		2C8A0B172C9F6A7B003D7647 /* InputNumWithCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8A0B162C9F6A7B003D7647 /* InputNumWithCalc.swift */; };
 		2C9348C82C95C38000E9129B /* YearMonthSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9348C72C95C37F00E9129B /* YearMonthSelector.swift */; };
 		2C97A1992C9B7CE900E4EB2D /* InputPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97A1982C9B7CE900E4EB2D /* InputPage.swift */; };
@@ -51,8 +55,12 @@
 		2C4D49A12C930F0B00CAA89F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2C4D49A32C930F0C00CAA89F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C4D49A62C930F0C00CAA89F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2C65458A2CB72665002EA834 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		2C65458C2CB7341D002EA834 /* BalanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceModel.swift; sourceTree = "<group>"; };
+		2C65458E2CB736FF002EA834 /* InputPageVeiwModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPageVeiwModel.swift; sourceTree = "<group>"; };
 		2C67A49C2CA4BC9900BBF5FE /* DateSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelector.swift; sourceTree = "<group>"; };
-		2C8A0B122C9EDA12003D7647 /* FloatingSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingSheet.swift; sourceTree = "<group>"; };
+		2C767F662CBBA1F70023EE8A /* BalanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceViewModel.swift; sourceTree = "<group>"; };
+		2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		2C8A0B162C9F6A7B003D7647 /* InputNumWithCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNumWithCalc.swift; sourceTree = "<group>"; };
 		2C9348C72C95C37F00E9129B /* YearMonthSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearMonthSelector.swift; sourceTree = "<group>"; };
 		2C97A1982C9B7CE900E4EB2D /* InputPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPage.swift; sourceTree = "<group>"; };
@@ -96,7 +104,9 @@
 		2C1C670C2CAC2CDC00E96552 /* viewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2C767F662CBBA1F70023EE8A /* BalanceViewModel.swift */,
 				2C1C670D2CAC2D2800E96552 /* CommonViewModel.swift */,
+				2C65458E2CB736FF002EA834 /* InputPageVeiwModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -104,7 +114,7 @@
 		2C31998A2C9396B0007EDC3C /* molecules */ = {
 			isa = PBXGroup;
 			children = (
-				2C8A0B122C9EDA12003D7647 /* FloatingSheet.swift */,
+				2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */,
 				2C31998B2C9396C4007EDC3C /* Card.swift */,
 				2C31998D2C9397E0007EDC3C /* RoundedButton.swift */,
 				2CCC87042C9A31BA00345310 /* Border.swift */,
@@ -113,6 +123,7 @@
 				2C4CC8262C9CD61F0022B791 /* Footnote.swift */,
 				2CFBCC942CA60BC800E8A72A /* RoundedIcon.swift */,
 				2C9AC8342C9E7B0400C57CDD /* InputText.swift */,
+				2C65458A2CB72665002EA834 /* CheckBox.swift */,
 			);
 			path = molecules;
 			sourceTree = "<group>";
@@ -139,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				2C4D499F2C930F0B00CAA89F /* HHA_2App.swift */,
-				2C4D49A12C930F0B00CAA89F /* ContentView.swift */,
 				2C4D49A32C930F0C00CAA89F /* Assets.xcassets */,
 				2CB19EE32C931A69008D1600 /* view */,
 				2C1C670C2CAC2CDC00E96552 /* viewModel */,
@@ -160,6 +170,7 @@
 		2CB19EE32C931A69008D1600 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				2C4D49A12C930F0B00CAA89F /* ContentView.swift */,
 				2C31998A2C9396B0007EDC3C /* molecules */,
 				2CB19EE62C931A99008D1600 /* components */,
 				2CB19EE72C931AA7008D1600 /* pages */,
@@ -198,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				2CB19EEF2C931B1F008D1600 /* CommonModel.swift */,
+				2C65458C2CB7341D002EA834 /* BalanceModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -329,13 +341,16 @@
 				2C31998E2C9397E0007EDC3C /* RoundedButton.swift in Sources */,
 				2C31998C2C9396C4007EDC3C /* Card.swift in Sources */,
 				2C15264E2C963F7100D20E35 /* CompareChart.swift in Sources */,
-				2C8A0B132C9EDA12003D7647 /* FloatingSheet.swift in Sources */,
+				2C65458D2CB7341D002EA834 /* BalanceModel.swift in Sources */,
+				2C8A0B132C9EDA12003D7647 /* ViewExtension.swift in Sources */,
 				2CCC87052C9A31BA00345310 /* Border.swift in Sources */,
 				2C4D49A22C930F0B00CAA89F /* ContentView.swift in Sources */,
 				2C4CC8272C9CD61F0022B791 /* Footnote.swift in Sources */,
+				2C65458F2CB736FF002EA834 /* InputPageVeiwModel.swift in Sources */,
 				2C97A19B2C9B835700E4EB2D /* SegmentedSelector.swift in Sources */,
 				2CB19EF02C931B1F008D1600 /* CommonModel.swift in Sources */,
 				2CB8AB9D2C95BADD006ED0C4 /* InnerHeader.swift in Sources */,
+				2C65458B2CB72665002EA834 /* CheckBox.swift in Sources */,
 				2C4D49A02C930F0B00CAA89F /* HHA_2App.swift in Sources */,
 				2CF193032C9689A600D4843B /* PieChart.swift in Sources */,
 				2CB19EF22C931BA3008D1600 /* CustomTab.swift in Sources */,
@@ -347,6 +362,7 @@
 				2C1C670E2CAC2D2800E96552 /* CommonViewModel.swift in Sources */,
 				2C4CC8252C9CC8540022B791 /* CustomToggle.swift in Sources */,
 				2C97A1992C9B7CE900E4EB2D /* InputPage.swift in Sources */,
+				2C767F672CBBA1F70023EE8A /* BalanceViewModel.swift in Sources */,
 				2C67A49D2CA4BC9900BBF5FE /* DateSelector.swift in Sources */,
 				2C8A0B172C9F6A7B003D7647 /* InputNumWithCalc.swift in Sources */,
 				2CB19EEA2C931ADC008D1600 /* DepositWithdrawPage.swift in Sources */,
@@ -409,7 +425,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -466,7 +482,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

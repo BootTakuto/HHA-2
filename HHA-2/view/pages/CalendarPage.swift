@@ -74,8 +74,7 @@ struct CalendarPage: View {
         let depo = 450000
         let draw = 40000
         let total = depo - draw
-        ZStack {
-            Card()
+        Card() {
             HStack(spacing: 0) {
                 VStack {
                     Text("¥\(depo)")

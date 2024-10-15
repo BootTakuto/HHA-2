@@ -10,9 +10,15 @@ import SwiftUI
 struct BalanceListPage: View {
     var accentColor: Color
     @Binding var isTotalShow: Bool
+    @State var balanceList = BalanceViewModel().getBalnaceResults()
+    // 残高入力関連
     @State var isSheetShow = false
+    @State var inputBalNm = ""
+    @State var selectBalColorIndex = 0
     // 画面表示設定
     @State var hiddenOffset: CGFloat = -50
+    // ビューモデル
+    let viewModel = BalanceViewModel()
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
@@ -21,10 +27,59 @@ struct BalanceListPage: View {
                 BalTotalList(size: geometry.size)
                     .offset(y: isTotalShow ? 0 : hiddenOffset)
                     .frame(height: geometry.size.height)
+            }.floatingSheet(isPresented: $isSheetShow) {
+                Card {
+                    VStack(spacing: 0) {
+                        Text("残高情報の登録")
+                            .foregroundStyle(.changeableText)
+                            .padding(.bottom, 5)
+                            .padding(.top, 10)
+                        Footnote(text: "残高")
+                            .frame(width: geometry.size.width - 40, alignment: .leading)
+                            .padding(.bottom, 10)
+                        InputText(placeHolder: "20文字以内", text: $inputBalNm, isDispShadow: false)
+                            .padding(.bottom, 10)
+                        Footnote(text: "タグ")
+                            .frame(width: geometry.size.width - 40, alignment: .leading)
+                            .padding(.bottom, 10)
+                        ScrollView {
+                            VStack {
+                                ForEach (0 ..< 5, id: \.self) { row in
+                                    HStack(spacing: 30) {
+                                        ForEach (0 ..< 6, id: \.self) { col in
+                                            let index = col + (row * 6)
+                                            Circle()
+                                                .frame(width: 30)
+                                                .overlay {
+                                                    Text("\(index)")
+                                                        .foregroundStyle(.black)
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+                        }.frame(height: 130)
+                            .scrollIndicators(.hidden)
+                            .padding(.bottom, 20)
+                        RoundedButton(radius: 10, color: accentColor, text: "登録") {
+                            let balanceModel = BalanceModel()
+                            balanceModel.balKey = UUID().uuidString
+                            balanceModel.balName = inputBalNm
+                            balanceModel.balColorIndex = selectBalColorIndex
+                            viewModel.reigstBalance(balanceModel: balanceModel)
+                            self.isSheetShow.toggle()
+                        }.frame(height: 40)
+                            .padding(.bottom, 10)
+                        RoundedButton(radius: 10, color: .gray.opacity(0.5), text: "閉じる") {
+                            self.isSheetShow.toggle()
+                        }.frame(height: 40)
+                    }.padding(.horizontal, 10)
+                        .frame(height: 400, alignment: .top)
+                }.frame(height: 400)
+                    .presentationDetents([.fraction(0.999)])
+                    .padding(.horizontal, 10)
+//                    .presentationBackgroundInteraction(.enabled(upThrough: .height(300)))
             }
-        }
-        .sheet(isPresented: $isSheetShow) {
-            
         }
     }
     
@@ -40,7 +95,9 @@ struct BalanceListPage: View {
                     .minimumScaleFactor(0.5)
                     .frame(width: size.width / 2 - 50, alignment: .trailing)
                 RoundedButton(radius: .infinity, color: accentColor, imageNm: "plus") {
-                    
+                    withAnimation {
+                        self.isSheetShow.toggle()
+                    }
                 }.frame(width: 25, height: 25)
                     .padding(.leading, 5)
             }.font(.title3)
@@ -49,58 +106,58 @@ struct BalanceListPage: View {
     }
     
     @ViewBuilder
-    func BalDetaiCard(size: CGSize) -> some View {
-        Card(radiuses: [0,0,10,10])
-            .frame(height: 80)
-            .overlay {
-                HStack(spacing: 0) {
-                    Rectangle()
-                        .fill(.orange)
-                        .frame(width: 5)
-                    
-                    VStack {
-                        HStack(spacing: 0) {
-                            Text("テスト")
-                                .frame(width: (size.width - 60) / 2, alignment: .leading)
-                                .padding(.leading, 10)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.8)
-                            Spacer()
-                        }
-                        HStack(spacing: 0) {
-                            Spacer()
-                            Text("¥\(1000000)")
-                                .frame(width: (size.width - 60) / 2, alignment: .trailing)
-                                .padding(.trailing, 10)
-                                .lineLimit(1)
-                        }
-                    }.font(.subheadline)
-                }.frame(maxWidth: .infinity, alignment: .leading)
-            }
+    func BalDetaiCard(size: CGSize, balanceModel: BalanceModel) -> some View {
+        let colors: [Color] = [.yellow, .orange]
+        Card {
+            HStack(spacing: 0) {
+                RoundedRectangle(cornerRadius: .infinity)
+                    .fill(colors[balanceModel.balColorIndex])
+                    .frame(width: 5, height: 60)
+                VStack {
+                    HStack(spacing: 0) {
+                        Text(balanceModel.balName)
+//                            .frame(width: (size.width - 100) / 2, alignment: .leading)
+                            .padding(.leading, 10)
+                            .lineLimit(1)
+                        Spacer()
+                    }
+                    HStack(spacing: 0) {
+                        Spacer()
+                        Text("¥\(balanceModel.balAmount)")
+//                            .frame(width: (size.width - 100) / 2, alignment: .trailing)
+                            .padding(.trailing, 10)
+                            .lineLimit(1)
+                    }
+                }.font(.subheadline)
+                Image(systemName: "chevron.compact.right")
+                    .foregroundStyle(.gray)
+            }.padding(.horizontal, 10)
+        }.frame(height: 80)
     }
     
     @ViewBuilder
     func BalTotalList(size: CGSize) -> some View {
-//        VStack {
-//            HStack {
-//                Spacer()
-//                RoundedButton(radius: .infinity, color: accentColor,
-//                              text: "追加", imageNm: "") {
-//                    self.isSheetShow = true
-//                }.frame(width: 80, height: 25)
-//            }.padding(.horizontal, 20)
-//                .padding(.vertical, 10)
-            ScrollView() {
-                VStack {
-                    ForEach(0 ..< 10, id: \.self) { index in
-                        BalDetaiCard(size: size)
+        if !balanceList.isEmpty {
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(balanceList, id: \.self) { balModel in
+                        BalDetaiCard(size: size, balanceModel: balModel)
                             .padding(.bottom, 15)
                             .padding(.horizontal, 20)
                     }
-                }.padding(.top, 10)
-                    .padding(.bottom, isTotalShow ? 160 : 90)
+                }.padding(.top, 20)
+                    .padding(.bottom, isTotalShow ? 140 : 90)
             }.scrollIndicators(.hidden)
-//        }
+        } else {
+            VStack {
+                Text("登録されている残高がありません。")
+                    .foregroundStyle(.gray)
+                RoundedButton(radius: 10, text: "残高を登録する") {
+                    self.isSheetShow.toggle()
+                    balanceList = viewModel.getBalnaceResults()
+                }.frame(width: 120, height: 30)
+            }
+        }
     }
 }
 
