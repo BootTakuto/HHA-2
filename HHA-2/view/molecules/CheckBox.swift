@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CheckBox: View {
     @Binding var isChecked: Bool
-    var accentColor: Color
+    var accentColor: Color = CommonViewModel.getAccentColor()
+    var textColor: Color = CommonViewModel.getTextColor()
     var text: String = ""
     var body: some View {
         GeometryReader {
@@ -25,7 +26,7 @@ struct CheckBox: View {
                                 .resizable()
                                 .frame(width: 10, height: 10)
                                 .fontWeight(.heavy)
-                                .foregroundStyle(.white)
+                                .foregroundStyle(textColor)
                         }
                     }
                 Footnote(text: text)

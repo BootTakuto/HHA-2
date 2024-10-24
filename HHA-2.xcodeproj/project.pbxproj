@@ -36,7 +36,10 @@
 		2CB19EF02C931B1F008D1600 /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EEF2C931B1F008D1600 /* CommonModel.swift */; };
 		2CB19EF22C931BA3008D1600 /* CustomTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EF12C931BA3008D1600 /* CustomTab.swift */; };
 		2CB8AB9D2C95BADD006ED0C4 /* InnerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB8AB9C2C95BADD006ED0C4 /* InnerHeader.swift */; };
+		2CBFB4552CC4732E00FC7578 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB4542CC4732E00FC7578 /* Palette.swift */; };
 		2CCC87052C9A31BA00345310 /* Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC87042C9A31BA00345310 /* Border.swift */; };
+		2CD68B522CC7072200EEC61D /* RegistButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD68B512CC7072200EEC61D /* RegistButton.swift */; };
+		2CD68B542CC7072D00EEC61D /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD68B532CC7072D00EEC61D /* CancelButton.swift */; };
 		2CF193032C9689A600D4843B /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF193022C9689A600D4843B /* PieChart.swift */; };
 		2CFBCC932CA609FA00E8A72A /* SectionSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBCC922CA609FA00E8A72A /* SectionSelector.swift */; };
 		2CFBCC952CA60BC800E8A72A /* RoundedIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBCC942CA60BC800E8A72A /* RoundedIcon.swift */; };
@@ -73,7 +76,10 @@
 		2CB19EEF2C931B1F008D1600 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
 		2CB19EF12C931BA3008D1600 /* CustomTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTab.swift; sourceTree = "<group>"; };
 		2CB8AB9C2C95BADD006ED0C4 /* InnerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerHeader.swift; sourceTree = "<group>"; };
+		2CBFB4542CC4732E00FC7578 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		2CCC87042C9A31BA00345310 /* Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
+		2CD68B512CC7072200EEC61D /* RegistButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistButton.swift; sourceTree = "<group>"; };
+		2CD68B532CC7072D00EEC61D /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		2CF193022C9689A600D4843B /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		2CFBCC922CA609FA00E8A72A /* SectionSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSelector.swift; sourceTree = "<group>"; };
 		2CFBCC942CA60BC800E8A72A /* RoundedIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedIcon.swift; sourceTree = "<group>"; };
@@ -114,7 +120,6 @@
 		2C31998A2C9396B0007EDC3C /* molecules */ = {
 			isa = PBXGroup;
 			children = (
-				2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */,
 				2C31998B2C9396C4007EDC3C /* Card.swift */,
 				2C31998D2C9397E0007EDC3C /* RoundedButton.swift */,
 				2CCC87042C9A31BA00345310 /* Border.swift */,
@@ -151,6 +156,7 @@
 			children = (
 				2C4D499F2C930F0B00CAA89F /* HHA_2App.swift */,
 				2C4D49A32C930F0C00CAA89F /* Assets.xcassets */,
+				2CBFB4512CC31BD600FC7578 /* helpers */,
 				2CB19EE32C931A69008D1600 /* view */,
 				2C1C670C2CAC2CDC00E96552 /* viewModel */,
 				2CB19EE82C931AAB008D1600 /* model */,
@@ -189,6 +195,9 @@
 				2CF193022C9689A600D4843B /* PieChart.swift */,
 				2C67A49C2CA4BC9900BBF5FE /* DateSelector.swift */,
 				2CFBCC922CA609FA00E8A72A /* SectionSelector.swift */,
+				2CBFB4542CC4732E00FC7578 /* Palette.swift */,
+				2CD68B512CC7072200EEC61D /* RegistButton.swift */,
+				2CD68B532CC7072D00EEC61D /* CancelButton.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -212,6 +221,14 @@
 				2C65458C2CB7341D002EA834 /* BalanceModel.swift */,
 			);
 			path = model;
+			sourceTree = "<group>";
+		};
+		2CBFB4512CC31BD600FC7578 /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */,
+			);
+			path = helpers;
 			sourceTree = "<group>";
 		};
 		C7D416C629D897F03972D1B9 /* Pods */ = {
@@ -342,6 +359,7 @@
 				2C31998C2C9396C4007EDC3C /* Card.swift in Sources */,
 				2C15264E2C963F7100D20E35 /* CompareChart.swift in Sources */,
 				2C65458D2CB7341D002EA834 /* BalanceModel.swift in Sources */,
+				2CD68B542CC7072D00EEC61D /* CancelButton.swift in Sources */,
 				2C8A0B132C9EDA12003D7647 /* ViewExtension.swift in Sources */,
 				2CCC87052C9A31BA00345310 /* Border.swift in Sources */,
 				2C4D49A22C930F0B00CAA89F /* ContentView.swift in Sources */,
@@ -358,8 +376,10 @@
 				2CFBCC932CA609FA00E8A72A /* SectionSelector.swift in Sources */,
 				2C9348C82C95C38000E9129B /* YearMonthSelector.swift in Sources */,
 				2CB19EE52C931A8E008D1600 /* BalanceListPage.swift in Sources */,
+				2CD68B522CC7072200EEC61D /* RegistButton.swift in Sources */,
 				2CFBCC952CA60BC800E8A72A /* RoundedIcon.swift in Sources */,
 				2C1C670E2CAC2D2800E96552 /* CommonViewModel.swift in Sources */,
+				2CBFB4552CC4732E00FC7578 /* Palette.swift in Sources */,
 				2C4CC8252C9CC8540022B791 /* CustomToggle.swift in Sources */,
 				2C97A1992C9B7CE900E4EB2D /* InputPage.swift in Sources */,
 				2C767F672CBBA1F70023EE8A /* BalanceViewModel.swift in Sources */,

@@ -44,6 +44,8 @@ class InputPageVeiwModel: CommonViewModel {
 struct LinkBalanaceData {
     // 残高の連携有無
     var isSelected: Bool
+    // 金額入力
+    var inputAmt: String = "0"
     // 連携残高情報
     var balModel: BalanceModel
     // オーバーライド

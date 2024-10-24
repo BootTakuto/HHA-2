@@ -9,6 +9,7 @@ import SwiftUI
 
 struct InnerHeader<Content: View>: View {
     @Binding var isShow: Bool
+    var isAbleShrink = true
     var hiddenOffset: CGFloat
     var height: CGFloat
     @ViewBuilder var content: Content
@@ -21,15 +22,19 @@ struct InnerHeader<Content: View>: View {
                 VStack(spacing: 0) {
                     content
                         .frame(height: height - 20)
-                    Image(systemName: "chevron.compact.down")
-                        .rotationEffect(Angle(degrees: isShow ? 180 : 0))
-                        .frame(width: .infinity, height: 20)
+                    if isAbleShrink {
+                        Image(systemName: "chevron.compact.down")
+                            .rotationEffect(Angle(degrees: isShow ? 180 : 0))
+                            .frame(width: .infinity, height: 20)
+                    }
                 }
             }
         }.frame(height: height)
             .onTapGesture {
-                withAnimation {
-                    self.isShow.toggle()
+                if isAbleShrink {
+                    withAnimation {
+                        self.isShow.toggle()
+                    }
                 }
             }.offset(y: isShow ? 0 : hiddenOffset)
     }

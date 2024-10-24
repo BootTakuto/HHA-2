@@ -7,11 +7,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("ACCENT_COLOR") var accentColorIndex: Int = 0
-    @State var accentColor = Color.blue
     @State var pageIndex = 0
     @State var isHeaderShow = true
     @State var isInputShow = false
+    @State var accentColor = CommonViewModel.getAccentColor()
+    @State var accentTextColor = CommonViewModel.getTextColor()
     let pageNames = ["残高一覧", "入出金", "カレンダー", "メニュー"]
     var body: some View {
         GeometryReader {
@@ -23,35 +23,47 @@ struct ContentView: View {
                 ZStack(alignment: .bottom) {
                     switch pageIndex {
                     case 0:
-                        BalanceListPage(accentColor: accentColor,
-                                        isTotalShow: $isHeaderShow)
+                        BalanceListPage(isTotalShow: $isHeaderShow)
                     case 1:
                         DepositWithdrawPage(isTotalShow: $isHeaderShow)
                     case 2:
                         CalendarPage(isCalendarShow: $isHeaderShow)
                     case 3:
-                        MenuPage()
+                        MenuPage(accentColor: $accentColor,
+                                 accentTextColor: $accentTextColor)
                     default:
-                        BalanceListPage(accentColor: accentColor,
-                                        isTotalShow: $isHeaderShow)
+                        BalanceListPage(isTotalShow: $isHeaderShow)
                     }
                     InputAmountButton()
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.horizontal, 10)
                         .padding(.bottom, 10)
                 }
-                CustomTab(accentColor: accentColor, pageIndex: $pageIndex, pageNames: pageNames)
+                CustomTab(accentColor: accentColor,
+                          accentTextColor: accentTextColor,
+                          pageIndex: $pageIndex,
+                          pageNames: pageNames)
                 Rectangle()
                     .fill(.changeable)
                     .frame(height: safeAreaInsets.bottom)
             }.ignoresSafeArea()
-        }.onAppear {
-            self.accentColor = CommonModel.colors[accentColorIndex]
-        }.onChange(of: pageIndex) {
+        }
+//        .onAppear {
+//            self.accentColor = CommonViewModel.getAccentColor()
+//        }
+        .onChange(of: pageIndex) {
             withAnimation {
                 self.isHeaderShow = true
             }
-        }.fullScreenCover(isPresented: $isInputShow) {
+        }
+//        .onChange(of: accentColorHex) {
+//            withAnimation {
+//                print("accentcolor")
+//                self.accentColor = CommonViewModel.getAccentColor()
+//                self.accentTextColor = CommonViewModel.getTextColor()
+//            }
+//        }
+        .fullScreenCover(isPresented: $isInputShow) {
             InputPage(accentColor: accentColor, isPresented: $isInputShow)
         }
     }
@@ -75,10 +87,10 @@ struct ContentView: View {
                             
                         }) {
                             Image(systemName: "questionmark.circle")
-                                .foregroundStyle(.gray)
                         }
                     }
                 }.padding(.horizontal, 30)
+                    .foregroundStyle(accentTextColor)
             }
         }.frame(height:  isHeaderShow ?  safeAreaInsets.top + 30 : safeAreaInsets.top)
     }
@@ -95,7 +107,7 @@ struct ContentView: View {
                         Image(systemName: "square.and.pencil")
                         Text("入力")
                             .font(.system(size: 10))
-                    }.foregroundStyle(.changeableText)
+                    }.foregroundStyle(accentTextColor)
                 }
                 .frame(width: 60)
                 .compositingGroup()

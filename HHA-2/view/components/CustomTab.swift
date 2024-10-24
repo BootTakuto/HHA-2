@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomTab: View {
     var accentColor: Color
+    var accentTextColor: Color
     @Binding var pageIndex: Int
     let pageIcons = ["list.bullet", "arrow.up.arrow.down", "calendar", "ellipsis"]
     let pageNames: [String]
@@ -40,10 +41,11 @@ struct CustomTab: View {
                                     .background {
                                         Circle()
                                             .fill(isSelected ? accentColor : .clear)
-                                    }
+                                    }.foregroundStyle(isSelected ? accentTextColor : .changeableText)
                                 Text(isSelected ? pageNames[index] : "")
                                     .font(.system(size: 10))
-                            }.foregroundStyle(.changeableText)
+                                    .foregroundStyle(.changeableText)
+                            }
                         }
                     }
             }

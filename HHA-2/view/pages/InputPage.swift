@@ -9,7 +9,8 @@ import SwiftUI
 
 struct InputPage: View {
     // 共通プロパティ
-    var accentColor: Color
+    var accentColor: Color = CommonViewModel.getAccentColor()
+    var accentTextColor: Color = CommonViewModel.getTextColor()
     @Binding var isPresented: Bool
     @State var selectedIndex = 0
     @State var isLinkBal = false
@@ -20,8 +21,9 @@ struct InputPage: View {
     // 残高未連携　入力情報
     @State var unLinkInputAmt = "0"
     // 残高連携　入力情報
-    @State var linkBalArray = [LinkBalanaceData]()
-    @State var selectBalKeyArray = [String]()
+    @State var linkBalArray = [LinkBalanaceData]() // 表示用
+    @State var selectBalArray = [LinkBalanaceData]() // 登録用
+    @State var dic:[Int: String] = [0: "0", 1: "1", 2: "2"]
     // 画面表示設定
     @State var isShowInnerHeader = true
     @State var hiddenOffset: CGFloat = -90
@@ -35,25 +37,23 @@ struct InputPage: View {
             VStack(spacing: 0) {
                 Header(size: size, safeAreaInsets: safeAreaInsets, isSelectIncome: isSelectIncome)
                     .zIndex(1000)
-                SegmentedSelector(accentColor: accentColor, selectedIndex: $selectedIndex, texts: ["収入", "支出"])
-                    .frame(width: 200)
-                    .padding(.vertical, 10)
                 ScrollView {
                     InputAmt(size: size, isSelectedIncome: isSelectIncome)
-                        .padding(.top, 10)
+                        .padding(.top, 15)
                     Sections(size: size, isSelectedIncome: isSelectIncome)
                     SelectDate(size: size)
                     Memo(size: size)
-                    RoundedButton(radius: 10, color: accentColor, text: "登録", font: .body, shadwoRadius: 5) {
+                    RegistButton(text: "登録") {
                         
-                    }.frame(width: 180, height: 40)
+                    }.frame(height: 40)
                         .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
                 }.offset(y: isShowInnerHeader ? 0 : hiddenOffset)
             }.ignoresSafeArea()
                 .onAppear {
                     self.linkBalArray = viewModel.getLinkBalArray()
                 }.floatingSheet(isPresented: $isSheetShow) {
-                    SelectBalList(size: size)
+                    SelectBalCheckList(size: size)
                         .presentationDetents([.height(300)])
                         .presentationBackgroundInteraction(.enabled(upThrough: .height(300)))
                 }
@@ -62,34 +62,41 @@ struct InputPage: View {
     
     @ViewBuilder
     func Header(size: CGSize, safeAreaInsets: EdgeInsets, isSelectIncome: Bool) -> some View {
-        ZStack(alignment: .topLeading) {
-            RoundedRectangle(cornerRadius: isShowInnerHeader ? 0 : 20)
-                .fill(.changeable)
-            UnevenRoundedRectangle(bottomLeadingRadius: 20)
-                .fill(accentColor)
-            VStack {
-                Spacer()
-                    .frame(height: safeAreaInsets.top - 5)
-                HStack {
-                    Text("入力")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                    Button(action: {
-                        
-                    }) {
-                        Image(systemName: "questionmark.circle")
-                            .foregroundStyle(.gray)
-                    }
+        VStack(spacing: 0) {
+            ZStack(alignment: .topLeading) {
+                Rectangle()
+                    .fill(.changeable)
+                UnevenRoundedRectangle(bottomLeadingRadius: 20)
+                    .fill(accentColor)
+                VStack {
                     Spacer()
-                    Button(action: {
-                        self.isPresented = false
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(.gray)
-                    }
-                }.padding(.horizontal, 30)
+                        .frame(height: safeAreaInsets.top - 5)
+                    HStack {
+                        Text("入力")
+                            .font(.title3)
+                            .fontWeight(.medium)
+                        Button(action: {
+                            
+                        }) {
+                            Image(systemName: "questionmark.circle")
+                        }
+                        Spacer()
+                        Button(action: {
+                            self.isPresented = false
+                        }) {
+                            Image(systemName: "xmark")
+                        }
+                    }.padding(.horizontal, 30)
+                        .foregroundStyle(accentTextColor)
+                }
+            }.frame(height:  safeAreaInsets.top + 30)
+                .zIndex(100)
+            InnerHeader(isShow: $isShowInnerHeader, isAbleShrink: false, hiddenOffset: 0, height: 50) {
+                SegmentedSelector(selectedIndex: $selectedIndex, texts: ["収入", "支出"])
+                    .frame(width: 200)
+                    .padding(.vertical, 10)
             }
-        }.frame(height:  safeAreaInsets.top + 30)
+        }
     }
     
     @ViewBuilder
@@ -118,7 +125,7 @@ struct InputPage: View {
                     LinkBalToggle(isSelectedIncome: isSelectedIncome)
                     if isLinkBal {
                         InputAmtLinkBal(size: size, isSelectedIncome: isSelectedIncome)
-                            .frame(height: selectBalKeyArray.isEmpty ? 70 : 180)
+                            .frame(height: selectBalArray.isEmpty ? 70 : 180)
                             .padding(.bottom, 10)
                     } else {
                         InputNumWithCalc(accentColor: accentColor, inputNum: $unLinkInputAmt, isDispStroke: false)
@@ -134,7 +141,7 @@ struct InputPage: View {
     @ViewBuilder
     func InputAmtLinkBal(size: CGSize, isSelectedIncome: Bool) -> some View {
         VStack {
-            if selectBalKeyArray.isEmpty {
+            if selectBalArray.isEmpty {
                 RoundedButton(radius: 10, text: "連携する残高を選択してください。",
                               font: .footnote, textColor: .gray, shadwoRadius: 5) {
                     self.isSheetShow.toggle()
@@ -142,10 +149,10 @@ struct InputPage: View {
             } else {
                 ScrollView(.horizontal) {
                     LazyHStack {
-                        ForEach (selectBalKeyArray.indices, id: \.self) { index in
-                            let balModel = viewModel.getBalModelByKey(balKey: selectBalKeyArray[index])
-                            let balNm = balModel.balName
-                            let balAmt = balModel.balAmount
+                        ForEach (selectBalArray.indices, id: \.self) { index in
+                            let linkBalModel = selectBalArray[index]
+                            let balNm = linkBalModel.balModel.balName
+                            let balAmt = linkBalModel.balModel.balAmount
                             Card(shadowColor: .changeableShadow.opacity(0.5), shadowRadius: 10) {
                                 GeometryReader { local in
                                     VStack(spacing: 0) {
@@ -166,7 +173,8 @@ struct InputPage: View {
                                                 .lineLimit(1)
                                         }.padding(.vertical, 10)
                                             .frame(height: 50)
-                                        InputNumWithCalc(accentColor: accentColor, inputNum: $unLinkInputAmt, isDispShadow: false)
+                                        InputNumWithCalc(accentColor: accentColor,
+                                                         inputNum: $selectBalArray[index].inputAmt, isDispShadow: false)
                                             .padding(.horizontal, 10)
                                     }
                                 }
@@ -185,8 +193,8 @@ struct InputPage: View {
     }
     
     @ViewBuilder
-    func SelectBalList(size: CGSize) -> some View {
-        let balCount = linkBalArray.count % 3 > 0 ? linkBalArray.count + (3 - linkBalArray.count) : linkBalArray.count
+    func SelectBalCheckList(size: CGSize) -> some View {
+        let rowCount = linkBalArray.count % 3 > 0 ? linkBalArray.count + (3 - linkBalArray.count) : linkBalArray.count
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .fill(.changeable)
@@ -202,23 +210,23 @@ struct InputPage: View {
             } else {
                 ScrollView {
                     VStack {
-                        ForEach(0 ..< balCount, id: \.self) { col in
+                        ForEach(0 ..< rowCount, id: \.self) { row in
                             HStack(spacing: 3) {
-                                ForEach(0 ..< 3, id: \.self) { row in
-                                    let index = row + (col * 3)
+                                ForEach(0 ..< 3, id: \.self) { col in
+                                    let index = CommonViewModel.getRowColIndex(col, row, 3)
                                     ZStack {
                                         Rectangle()
                                             .fill(.clear)
                                         if linkBalArray.count > index {
-                                            let balModel = linkBalArray[index].balModel
-                                            CheckBox(isChecked: $linkBalArray[index].isSelected,
-                                                     accentColor: accentColor, text: balModel.balName)
+                                            let linkBalModel = linkBalArray[index]
+                                            let balModel = linkBalModel.balModel
+                                            CheckBox(isChecked: $linkBalArray[index].isSelected, text: balModel.balName)
                                             .onChange(of: linkBalArray[index].isSelected) {
                                                 withAnimation {
-                                                    if !selectBalKeyArray.contains(balModel.balKey) {
-                                                        self.selectBalKeyArray.append(balModel.balKey)
+                                                    if !selectBalArray.contains(where: {$0.balModel.balKey == balModel.balKey}) {
+                                                        self.selectBalArray.append(linkBalModel)
                                                     } else {
-                                                        self.selectBalKeyArray.removeAll(where: {$0 == balModel.balKey})
+                                                        self.selectBalArray.removeAll(where: {$0.balModel.balKey == balModel.balKey})
                                                     }
                                                 }
                                             }
@@ -270,7 +278,7 @@ struct InputPage: View {
 
 #Preview {
     @Previewable @State var isPresented = false
-    InputPage(accentColor: .orange, isPresented: $isPresented)
+    InputPage(isPresented: $isPresented)
 }
 //#Preview {
 //    ContentView()

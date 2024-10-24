@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct BalanceListPage: View {
-    var accentColor: Color
+    var accentColor: Color = CommonViewModel.getAccentColor()
+    var accentTextColor: Color = CommonViewModel.getTextColor()
     @Binding var isTotalShow: Bool
     @State var balanceList = BalanceViewModel().getBalnaceResults()
     // 残高入力関連
     @State var isSheetShow = false
     @State var inputBalNm = ""
-    @State var selectBalColorIndex = 0
+    @State var selectBalColorHex = "FFFFFF"
     // 画面表示設定
     @State var hiddenOffset: CGFloat = -50
     // ビューモデル
@@ -22,69 +23,21 @@ struct BalanceListPage: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                BalTotaHeader(size: geometry.size)
+                BalTotalHeader(size: geometry.size)
                     .zIndex(1000)
                 BalTotalList(size: geometry.size)
                     .offset(y: isTotalShow ? 0 : hiddenOffset)
                     .frame(height: geometry.size.height)
             }.floatingSheet(isPresented: $isSheetShow) {
-                Card {
-                    VStack(spacing: 0) {
-                        Text("残高情報の登録")
-                            .foregroundStyle(.changeableText)
-                            .padding(.bottom, 5)
-                            .padding(.top, 10)
-                        Footnote(text: "残高")
-                            .frame(width: geometry.size.width - 40, alignment: .leading)
-                            .padding(.bottom, 10)
-                        InputText(placeHolder: "20文字以内", text: $inputBalNm, isDispShadow: false)
-                            .padding(.bottom, 10)
-                        Footnote(text: "タグ")
-                            .frame(width: geometry.size.width - 40, alignment: .leading)
-                            .padding(.bottom, 10)
-                        ScrollView {
-                            VStack {
-                                ForEach (0 ..< 5, id: \.self) { row in
-                                    HStack(spacing: 30) {
-                                        ForEach (0 ..< 6, id: \.self) { col in
-                                            let index = col + (row * 6)
-                                            Circle()
-                                                .frame(width: 30)
-                                                .overlay {
-                                                    Text("\(index)")
-                                                        .foregroundStyle(.black)
-                                                }
-                                        }
-                                    }
-                                }
-                            }
-                        }.frame(height: 130)
-                            .scrollIndicators(.hidden)
-                            .padding(.bottom, 20)
-                        RoundedButton(radius: 10, color: accentColor, text: "登録") {
-                            let balanceModel = BalanceModel()
-                            balanceModel.balKey = UUID().uuidString
-                            balanceModel.balName = inputBalNm
-                            balanceModel.balColorIndex = selectBalColorIndex
-                            viewModel.reigstBalance(balanceModel: balanceModel)
-                            self.isSheetShow.toggle()
-                        }.frame(height: 40)
-                            .padding(.bottom, 10)
-                        RoundedButton(radius: 10, color: .gray.opacity(0.5), text: "閉じる") {
-                            self.isSheetShow.toggle()
-                        }.frame(height: 40)
-                    }.padding(.horizontal, 10)
-                        .frame(height: 400, alignment: .top)
-                }.frame(height: 400)
+                RegistBalancePopUp(geometry: geometry)
                     .presentationDetents([.fraction(0.999)])
                     .padding(.horizontal, 10)
-//                    .presentationBackgroundInteraction(.enabled(upThrough: .height(300)))
             }
         }
     }
     
     @ViewBuilder
-    func BalTotaHeader(size: CGSize) -> some View {
+    func BalTotalHeader(size: CGSize) -> some View {
         InnerHeader(isShow: $isTotalShow, hiddenOffset: hiddenOffset, height: 80) {
             HStack(spacing: 0) {
                 Text("合計")
@@ -94,7 +47,7 @@ struct BalanceListPage: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .frame(width: size.width / 2 - 50, alignment: .trailing)
-                RoundedButton(radius: .infinity, color: accentColor, imageNm: "plus") {
+                RoundedButton(radius: .infinity, color: accentColor, imageNm: "plus", textColor: accentTextColor) {
                     withAnimation {
                         self.isSheetShow.toggle()
                     }
@@ -107,16 +60,14 @@ struct BalanceListPage: View {
     
     @ViewBuilder
     func BalDetaiCard(size: CGSize, balanceModel: BalanceModel) -> some View {
-        let colors: [Color] = [.yellow, .orange]
         Card {
             HStack(spacing: 0) {
                 RoundedRectangle(cornerRadius: .infinity)
-                    .fill(colors[balanceModel.balColorIndex])
+                    .fill(CommonViewModel.getColorFromHex(hex: balanceModel.balColorHex))
                     .frame(width: 5, height: 60)
                 VStack {
                     HStack(spacing: 0) {
                         Text(balanceModel.balName)
-//                            .frame(width: (size.width - 100) / 2, alignment: .leading)
                             .padding(.leading, 10)
                             .lineLimit(1)
                         Spacer()
@@ -124,7 +75,6 @@ struct BalanceListPage: View {
                     HStack(spacing: 0) {
                         Spacer()
                         Text("¥\(balanceModel.balAmount)")
-//                            .frame(width: (size.width - 100) / 2, alignment: .trailing)
                             .padding(.trailing, 10)
                             .lineLimit(1)
                     }
@@ -158,6 +108,52 @@ struct BalanceListPage: View {
                 }.frame(width: 120, height: 30)
             }
         }
+    }
+    
+    @ViewBuilder
+    func RegistBalancePopUp(geometry: GeometryProxy) -> some View {
+        Card {
+            VStack(spacing: 0) {
+                Text("残高情報の登録")
+                    .foregroundStyle(.changeableText)
+                    .padding(.bottom, 5)
+                    .padding(.top, 10)
+                Footnote(text: "残高")
+                    .frame(width: geometry.size.width - 40, alignment: .leading)
+                    .padding(.bottom, 10)
+                InputText(placeHolder: "20文字以内", text: $inputBalNm, isDispShadow: false)
+                    .padding(.bottom, 10)
+                HStack {
+                    Footnote(text: "タグ")
+                    Spacer()
+                    Circle()
+                        .fill(CommonViewModel.getColorFromHex(hex: selectBalColorHex))
+                        .frame(width: 25, height: 25)
+                        .shadow(color: .changeableShadow, radius: 3)
+                        .padding(.trailing, 5)
+                }.padding(.bottom, 10)
+                ScrollView {
+                    VStack {
+                        Palette(hex: $selectBalColorHex)
+                    }.frame(height: 320)
+                }.frame(height: 150)
+                    .scrollIndicators(.hidden)
+                    .padding(.bottom, 10)
+                RegistButton(text: "登録") {
+                    let balanceModel = BalanceModel()
+                    balanceModel.balKey = UUID().uuidString
+                    balanceModel.balName = inputBalNm
+                    balanceModel.balColorHex = selectBalColorHex
+                    viewModel.reigstBalance(balanceModel: balanceModel)
+                    self.isSheetShow.toggle()
+                }.frame(height: 40)
+                    .padding(.bottom, 5)
+                CancelButton(text: "閉じる") {
+                    self.isSheetShow.toggle()
+                }.frame(height: 40)
+            }.padding(.horizontal, 10)
+                .frame(height: 420, alignment: .top)
+        }.frame(height: 420)
     }
 }
 

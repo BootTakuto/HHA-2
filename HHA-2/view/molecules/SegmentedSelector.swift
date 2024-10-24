@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SegmentedSelector: View {
-    var accentColor: Color
+    var accentColor: Color = CommonViewModel.getAccentColor()
+    var accentTextColor: Color = CommonViewModel.getTextColor()
     @Binding var selectedIndex: Int
     @State var elementRectOffset: CGFloat = 5
     var texts: [String]
@@ -26,8 +27,11 @@ struct SegmentedSelector: View {
                     .offset(x: elementRectOffset)
                 HStack(spacing: 0) {
                     ForEach(texts.indices, id: \.self) { index in
+                        let isSelected = self.selectedIndex == index
+                        let selectedTextColor: Color = isSelected ? accentTextColor : .changeableText
                         Text(texts[index])
                             .font(.footnote)
+                            .foregroundStyle(selectedTextColor)
                             .frame(width: elementWidth)
                             .contentShape(Rectangle()) 
                             .onTapGesture {
@@ -45,5 +49,5 @@ struct SegmentedSelector: View {
 
 #Preview {
     @Previewable @State var selectedIndex = 0
-    SegmentedSelector(accentColor: .orange, selectedIndex: $selectedIndex, texts: ["A", "B", "C"])
+    SegmentedSelector(selectedIndex: $selectedIndex, texts: ["A", "B", "C"])
 }
