@@ -125,11 +125,10 @@ struct InputPage: View {
                     LinkBalToggle(isSelectedIncome: isSelectedIncome)
                     if isLinkBal {
                         InputAmtLinkBal(size: size, isSelectedIncome: isSelectedIncome)
-                            .frame(height: selectBalArray.isEmpty ? 70 : 180)
-                            .padding(.bottom, 10)
+                            .frame(height: selectBalArray.isEmpty ? 80 : 170)
                     } else {
                         InputNumWithCalc(accentColor: accentColor, inputNum: $unLinkInputAmt, isDispStroke: false)
-                            .frame(height: 90)
+                            .frame(height: 80)
                     }
                 }.padding(.horizontal, 10)
                     .padding(.vertical, 10)
@@ -140,7 +139,7 @@ struct InputPage: View {
     
     @ViewBuilder
     func InputAmtLinkBal(size: CGSize, isSelectedIncome: Bool) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             if selectBalArray.isEmpty {
                 RoundedButton(radius: 10, text: "連携する残高を選択してください。",
                               font: .footnote, textColor: .gray, shadwoRadius: 5) {
@@ -153,13 +152,14 @@ struct InputPage: View {
                             let linkBalModel = selectBalArray[index]
                             let balNm = linkBalModel.balModel.balName
                             let balAmt = linkBalModel.balModel.balAmount
-                            Card(shadowColor: .changeableShadow.opacity(0.5), shadowRadius: 10) {
+                            let tagColor = CommonViewModel.getColorFromHex(hex: linkBalModel.balModel.balColorHex)
+                            Card(shadowColor: .changeableShadow.opacity(0.5), shadowRadius: 5) {
                                 GeometryReader { local in
                                     VStack(spacing: 0) {
                                         HStack(spacing: 0) {
                                             let width = local.size.width
                                             RoundedRectangle(cornerRadius: .infinity)
-                                                .fill(.orange)
+                                                .fill(tagColor)
                                                 .frame(width: 5, height: 30)
                                             Footnote(text: balNm)
                                                 .frame(width: width / 2 - 20)
@@ -181,11 +181,11 @@ struct InputPage: View {
                             }.frame(width: 310, height: 110)
                         }
                     }.scrollTargetLayout()
-                        .padding(.horizontal, 16)
-                } .scrollTargetBehavior(.viewAligned)
+                        .padding(.horizontal, 15)
+                }.scrollTargetBehavior(.viewAligned)
                     .scrollIndicators(.hidden)
                 RoundedButton(radius: 10, text: "残高を選択",
-                              font: .footnote, textColor: .gray, shadwoRadius: 10) {
+                              font: .footnote, textColor: .gray, shadwoRadius: 5) {
                     self.isSheetShow.toggle()
                 }.frame(width: 150, height: 30)
             }
@@ -220,14 +220,11 @@ struct InputPage: View {
                                         if linkBalArray.count > index {
                                             let linkBalModel = linkBalArray[index]
                                             let balModel = linkBalModel.balModel
-                                            CheckBox(isChecked: $linkBalArray[index].isSelected, text: balModel.balName)
-                                            .onChange(of: linkBalArray[index].isSelected) {
-                                                withAnimation {
-                                                    if !selectBalArray.contains(where: {$0.balModel.balKey == balModel.balKey}) {
-                                                        self.selectBalArray.append(linkBalModel)
-                                                    } else {
-                                                        self.selectBalArray.removeAll(where: {$0.balModel.balKey == balModel.balKey})
-                                                    }
+                                            CheckBox(text: balModel.balName) {
+                                                if !selectBalArray.contains(where: {$0.balModel.balKey == balModel.balKey}) {
+                                                    self.selectBalArray.append(linkBalModel)
+                                                } else {
+                                                    self.selectBalArray.removeAll(where: {$0.balModel.balKey == balModel.balKey})
                                                 }
                                             }
                                         }
@@ -247,6 +244,7 @@ struct InputPage: View {
     
     @ViewBuilder
     func Sections(size: CGSize,  isSelectedIncome: Bool) -> some View {
+//        let isIncome = selectedIndex == 0
         VStack {
             Footnote(text: isSelectedIncome ? "収入カテゴリー" : "支出カテゴリー")
                 .frame(width: size.width - 40, alignment: .leading)

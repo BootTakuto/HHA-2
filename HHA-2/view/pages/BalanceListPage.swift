@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct BalanceListPage: View {
     var accentColor: Color = CommonViewModel.getAccentColor()
     var accentTextColor: Color = CommonViewModel.getTextColor()
     @Binding var isTotalShow: Bool
-    @State var balanceList = BalanceViewModel().getBalnaceResults()
+//    @State var balanceList = BalanceViewModel().getBalnaceResults()
+    @ObservedResults(BalanceModel.self) var balanceList
     // 残高入力関連
     @State var isSheetShow = false
     @State var inputBalNm = ""
@@ -21,15 +23,16 @@ struct BalanceListPage: View {
     // ビューモデル
     let viewModel = BalanceViewModel()
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader {
+            let size = $0.size
             VStack(spacing: 0) {
-                BalTotalHeader(size: geometry.size)
+                BalTotalHeader(size: size)
                     .zIndex(1000)
-                BalTotalList(size: geometry.size)
+                BalTotalList(size: size)
                     .offset(y: isTotalShow ? 0 : hiddenOffset)
-                    .frame(height: geometry.size.height)
+                    .frame(height: size.height)
             }.floatingSheet(isPresented: $isSheetShow) {
-                RegistBalancePopUp(geometry: geometry)
+                RegistBalancePopUp(size: size)
                     .presentationDetents([.fraction(0.999)])
                     .padding(.horizontal, 10)
             }
@@ -47,7 +50,13 @@ struct BalanceListPage: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .frame(width: size.width / 2 - 50, alignment: .trailing)
-                RoundedButton(radius: .infinity, color: accentColor, imageNm: "plus", textColor: accentTextColor) {
+//                RoundedButton(radius: .infinity, color: accentColor, imageNm: "plus", textColor: accentTextColor) {
+//                    withAnimation {
+//                        self.isSheetShow.toggle()
+//                    }
+//                }.frame(width: 25, height: 25)
+//                    .padding(.leading, 5)
+                CircleButton(imageNm: "plus") {
                     withAnimation {
                         self.isSheetShow.toggle()
                     }
@@ -93,7 +102,7 @@ struct BalanceListPage: View {
                     ForEach(balanceList, id: \.self) { balModel in
                         BalDetaiCard(size: size, balanceModel: balModel)
                             .padding(.bottom, 15)
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 10)
                     }
                 }.padding(.top, 20)
                     .padding(.bottom, isTotalShow ? 140 : 90)
@@ -104,14 +113,13 @@ struct BalanceListPage: View {
                     .foregroundStyle(.gray)
                 RoundedButton(radius: 10, text: "残高を登録する") {
                     self.isSheetShow.toggle()
-                    balanceList = viewModel.getBalnaceResults()
                 }.frame(width: 120, height: 30)
             }
         }
     }
     
     @ViewBuilder
-    func RegistBalancePopUp(geometry: GeometryProxy) -> some View {
+    func RegistBalancePopUp(size: CGSize) -> some View {
         Card {
             VStack(spacing: 0) {
                 Text("残高情報の登録")
@@ -119,7 +127,7 @@ struct BalanceListPage: View {
                     .padding(.bottom, 5)
                     .padding(.top, 10)
                 Footnote(text: "残高")
-                    .frame(width: geometry.size.width - 40, alignment: .leading)
+                    .frame(width: size.width - 40, alignment: .leading)
                     .padding(.bottom, 10)
                 InputText(placeHolder: "20文字以内", text: $inputBalNm, isDispShadow: false)
                     .padding(.bottom, 10)
@@ -136,7 +144,8 @@ struct BalanceListPage: View {
                     VStack {
                         Palette(hex: $selectBalColorHex)
                     }.frame(height: 320)
-                }.frame(height: 150)
+                }.clipShape(RoundedRectangle(cornerRadius: 10))
+                    .frame(height: 150)
                     .scrollIndicators(.hidden)
                     .padding(.bottom, 10)
                 RegistButton(text: "登録") {

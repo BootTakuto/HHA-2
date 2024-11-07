@@ -18,11 +18,4 @@ class BalanceViewModel: CommonViewModel {
             realm.add(balanceModel)
         }
     }
-    
-    /*
-     残高の登録情報を取得します
-     */
-    func getBalnaceResults() -> Results<BalanceModel> {
-        return realm.objects(BalanceModel.self)
-    }
 }

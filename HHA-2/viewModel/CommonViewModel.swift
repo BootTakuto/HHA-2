@@ -75,7 +75,7 @@ class CommonViewModel {
     }
     
     /*
-     16進数のカラーコードを元にカラーを取得する
+     任意の16進数のカラーコードを元にカラーを取得する
      -param hex 16s進数カラーコード
      -return カラー
      */
@@ -85,6 +85,25 @@ class CommonViewModel {
         let green = rgbDictionary["green"]!
         let blue = rgbDictionary["blue"]!
         return Color(red: red / 255.0, green: green / 255.0, blue: blue / 255.0)
+    }
+    
+    /*
+     任意のカラーコードの相対輝度に応じた文字色を取得
+     */
+    static func getTextColorFromHex(hex: String) -> Color {
+        var textColor: Color = .white
+        let rgbDictionary: [String: Double] = getRGBFromHex(hex: hex)
+        let red = rgbDictionary["red"]! / 255
+        let green = rgbDictionary["green"]! / 255
+        let blue = rgbDictionary["blue"]! / 255
+        // 相対輝度を取得
+        let relativeLuminace = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+       
+        if relativeLuminace >= 0.6 {
+            textColor = .black
+        }
+        
+        return textColor
     }
     
     /*

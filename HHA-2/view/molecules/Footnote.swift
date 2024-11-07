@@ -9,10 +9,11 @@ import SwiftUI
 
 struct Footnote: View {
     var text: String
+    var color: Color = .gray
     var body: some View {
         Text(text)
             .font(.footnote)
-            .foregroundStyle(.gray)
+            .foregroundStyle(color)
     }
 }
 

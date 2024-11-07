@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DepositWithdrawPage: View {
+struct IncomeConsumePage: View {
     @Binding var isTotalShow: Bool
     @State var hiddenOffset: CGFloat = -190
     @State var selectDate = Date()

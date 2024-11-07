@@ -10,20 +10,33 @@ import SwiftUI
 struct RoundedIcon: View {
     var radius: CGFloat = 10
     var image: String = "yensign"
+    var text: String = ""
     var rectColor: Color = .mint
+    var iconColor: Color = .changeableText
+    var rectSize: CGFloat = 30
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: radius)
                 .fill(rectColor)
-            Image(systemName: image)
-                .resizable()
-                .scaledToFit()
-                .padding(10)
-                .foregroundStyle(.changeableText)
-        }.frame(width: 30, height: 30)
+            if text != "" {
+                VStack(spacing: 0) {
+                    Image(systemName: image)
+                    Text(text)
+                        .font(.system(size: 10, weight: .medium))
+                        .lineLimit(1)
+                        .padding(1)
+                }.foregroundStyle(iconColor)
+            } else {
+                Image(systemName: image)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(10)
+                    .foregroundStyle(iconColor)
+            }
+        }.frame(width: rectSize, height: rectSize)
     }
 }
 
 #Preview {
-    RoundedIcon()
+    RoundedIcon(text: "あいうえおかきくけこ", rectSize: 45)
 }

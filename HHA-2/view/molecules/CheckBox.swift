@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct CheckBox: View {
-    @Binding var isChecked: Bool
+    @State var isChecked = false
     var accentColor: Color = CommonViewModel.getAccentColor()
     var textColor: Color = CommonViewModel.getTextColor()
     var text: String = ""
+    var action: () -> ()
     var body: some View {
         GeometryReader {
             let size = $0.size
@@ -30,18 +31,32 @@ struct CheckBox: View {
                         }
                     }
                 Footnote(text: text)
-                    .frame(width: size.width - (5 + 15 + 1)) // size + HStack spaing 5 + rect size 15 + line width 1
+                    .frame(width: size.width - (5 + 15 + 1), alignment: .leading) // size + HStack spaing 5 + rect size 15 + line width 1
                     .lineLimit(1)
             }.onTapGesture {
                 withAnimation(.linear(duration: 0.15)) {
                     isChecked.toggle()
+                }
+                withAnimation {
+                    action()
                 }
             }
         }
     }
 }
 
+struct CheckModel {
+    var primaryKey: String
+    var isChecked: Bool
+    init(primaryKey: String, isChecked: Bool) {
+        self.primaryKey = primaryKey
+        self.isChecked = isChecked
+    }
+}
+
 #Preview {
-    @Previewable @State var isChecked = true
-    CheckBox(isChecked: $isChecked, accentColor: .orange, text: "check")
+    @Previewable @State var id = 0
+    CheckBox(text: "check") {
+        print("a")
+    }
 }

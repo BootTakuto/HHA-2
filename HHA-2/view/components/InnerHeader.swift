@@ -15,7 +15,7 @@ struct InnerHeader<Content: View>: View {
     @ViewBuilder var content: Content
     var body: some View {
         ZStack {
-            UnevenRoundedRectangle(bottomLeadingRadius: 20)
+            UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
                 .fill(.changeable)
                 .shadow(color: .changeableShadow, radius: 5)
             VStack {

@@ -14,18 +14,26 @@ struct MenuPage: View {
     @State var selectAccentColorHex = "FFFFFF"
     @State var isSheetShow = false
     @State var isInnerHeaderShow = true
+    @State var isPresentedIncConsSec = false
     var body: some View {
-        GeometryReader { geom in
-            VStack {
-                AccentColor()
-                ScrollView {
-
+        NavigationStack {
+            GeometryReader { geom in
+                VStack(spacing: 0) {
+                    AccentColor()
+                    ScrollView {
+                        VStack {
+                            EditIncConsSec()
+                        }.padding(10)
+                            .padding(.vertical, 10)
+                    }
+                }.floatingSheet(isPresented: $isSheetShow) {
+                    SelectAccentColorPopUp()
+                        .presentationDetents([.fraction(0.999)])
+                        .padding(.horizontal, 10)
                 }
-            }.floatingSheet(isPresented: $isSheetShow) {
-                SelectAccentColorPopUp()
-                    .presentationDetents([.fraction(0.999)])
-                    .padding(.horizontal, 10)
             }
+        }.navigationDestination(isPresented: $isPresentedIncConsSec) {
+            IncConsSecListPage(isPresetntedIncConsSec: $isPresentedIncConsSec)
         }
     }
     
@@ -33,10 +41,10 @@ struct MenuPage: View {
     func AccentColor() -> some View {
         InnerHeader(isShow: $isInnerHeaderShow, isAbleShrink: false, hiddenOffset: 0, height: 50) {
             HStack {
-                Footnote(text: "アクセントカラー")
                 Image(systemName: "paintpalette")
                     .font(.footnote)
-                    .foregroundStyle(.gray)
+                    .foregroundStyle(.changeableText)
+                Footnote(text: "アクセントカラー", color: .changeableText)
                 Spacer()
                 Circle()
                     .stroke(lineWidth: 2)
@@ -88,6 +96,44 @@ struct MenuPage: View {
                 }.frame(height: 40)
             }.padding(10)
         }.frame(height: 420)
+    }
+    
+    @ViewBuilder
+    func HowToUse() -> some View {
+        
+    }
+    
+    @ViewBuilder
+    func EditIncConsSec() -> some View {
+        Button(action: {
+            self.isPresentedIncConsSec = true
+        }) {
+            Card {
+                HStack {
+                    ImageLabel("rectangle.grid.2x2")
+                    Footnote(text: "収入・支出項目", color: .changeableText)
+                    Spacer()
+                    ImageLabel("chevron.right")
+                }.padding(.horizontal, 10)
+            }.frame(height: 50)
+        }
+    }
+    
+    @ViewBuilder
+    func EditBalance() -> some View {
+        
+    }
+    
+    @ViewBuilder
+    func EditStartMonth() -> some View {
+        
+    }
+    
+    @ViewBuilder
+    func ImageLabel(_ systemName: String) -> some View {
+        Image(systemName: systemName)
+            .font(.footnote)
+            .foregroundStyle(.changeableText)
     }
 }
 

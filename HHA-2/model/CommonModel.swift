@@ -24,6 +24,15 @@ struct CommonModel {
         "CBF0FF","D3E2FF","D9C9FE","EFC9FF","F9D3E0","FFDBD7","FFE2D6","FFECD4","FFF2D5","FEFCDD","F7FADB","DFEED4"
     ]
     
+    static let imageNames = [
+        "fork.knife","tram.fill","car.rear.fill","text.book.closed.fill","tshirt.fill","shoe.fill",
+        "scissors","house.fill","spigot.fill","flame.fill","lightbulb.max.fill","bandage.fill",
+        "waterbottle.fill","antenna.radiowaves.left.and.right","book","cross.case.fill",
+        "party.popper.fill","gift.fill","figure.2","dog.fill","cat.fill","suitcase.rolling.fill",
+        "cup.and.saucer.fill","gamecontroller.fill","dumbbell.fill","cart.fill","trophy.fill",
+        "creditcard.fill","banknote.fill","yensign","questionmark","exclamationmark","ellipsis"
+    ]
+    
 }
 
 

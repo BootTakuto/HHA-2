@@ -28,7 +28,7 @@ class InputPageVeiwModel: CommonViewModel {
     func getLinkBalArray() -> [LinkBalanaceData] {
         var linkBalArray = [LinkBalanaceData]()
         realm.objects(BalanceModel.self).forEach { balModel in
-            linkBalArray.append(LinkBalanaceData(isSelected: false, balModel: balModel))
+            linkBalArray.append(LinkBalanaceData(balModel: balModel))
         }
         return linkBalArray
     }
@@ -42,15 +42,12 @@ class InputPageVeiwModel: CommonViewModel {
  残高連携入力用表示モデル
  */
 struct LinkBalanaceData {
-    // 残高の連携有無
-    var isSelected: Bool
-    // 金額入力
+    // 入力金額
     var inputAmt: String = "0"
     // 連携残高情報
     var balModel: BalanceModel
     // オーバーライド
-    init(isSelected: Bool, balModel: BalanceModel) {
-        self.isSelected = isSelected
+    init(balModel: BalanceModel) {
         self.balModel = balModel
     }
 }

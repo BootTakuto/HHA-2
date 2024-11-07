@@ -28,7 +28,7 @@ struct InputNumWithCalc: View {
                             .stroke(lineWidth: 0.5)
                             .fill(.changeableStroke)
                     }
-                }.shadow(color: isDispShadow ? .changeableShadow.opacity(0.5) : .clear, radius: 10)
+                }.shadow(color: isDispShadow ? .changeableShadow.opacity(0.5) : .clear, radius: 5)
                 .onTapGesture {
                     self.isSheetShow.toggle()
                 }
