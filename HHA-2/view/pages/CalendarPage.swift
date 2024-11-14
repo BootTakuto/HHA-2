@@ -102,7 +102,7 @@ struct CalendarPage: View {
                 }.frame(width: size.width / 3 - 20)
             }
         }.frame(height: 60)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 15)
     }
     
     @ViewBuilder

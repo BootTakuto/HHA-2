@@ -26,16 +26,14 @@ struct IncConsSecListPage: View {
             GeometryReader { proxy in
                 let size = proxy.size
                 VStack(spacing: 0) {
-                    NavigationHeader(title: "収入・支出項目", isPresented: $isPresetntedIncConsSec,
-                                     proxy: proxy, isLastPage: false)
+                    IncConsSelectHeader(proxy: proxy)
                         .zIndex(1000)
-                    IncConsSelectHeader()
                     IncConsSecList()
                 }.ignoresSafeArea()
                 .floatingSheet(isPresented: $isSheetShow) {
                     InputSectionPopUp(size: size)
                         .presentationDetents([.fraction(0.999)])
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 20)
                 }
             }.onChange(of: selectedIndex) {
                 withAnimation {
@@ -50,10 +48,15 @@ struct IncConsSecListPage: View {
     }
     
     @ViewBuilder
-    func IncConsSelectHeader() -> some View {
-        InnerHeader(isShow: $isShowHeader, isAbleShrink: false, hiddenOffset: 0, height: 50) {
-            SegmentedSelector(selectedIndex: $selectedIndex, texts: ["収入", "支出"])
-                .frame(width: 200)
+    func IncConsSelectHeader(proxy: GeometryProxy) -> some View {
+        VStack(spacing: 0) {
+            NavigationHeader(title: "収入・支出項目", isPresented: $isPresetntedIncConsSec,
+                             proxy: proxy, isLastPage: false)
+                    .zIndex(100)
+            InnerHeader(isShow: $isShowHeader, isAbleShrink: false, hiddenOffset: 0, height: 50) {
+                SegmentedSelector(selectedIndex: $selectedIndex, texts: ["収入", "支出"])
+                    .frame(width: 200)
+            }
         }
     }
     
@@ -92,7 +95,7 @@ struct IncConsSecListPage: View {
                 ImageLabel("chevron.right")
             }.padding(.horizontal, 10)
         }.frame(height: 50)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 15)
             .onTapGesture {
                 self.incConsSecModel = sectionModel
                 self.isPresentedIncConsCatg = true
@@ -117,13 +120,13 @@ struct IncConsSecListPage: View {
                     .padding(.bottom, 5)
                     .padding(.top, 10)
                 Footnote(text: "項目名")
-                    .frame(width: size.width - 40, alignment: .leading)
-                    .padding(.bottom, 10)
+                    .frame(width: size.width - 60, alignment: .leading)
+                    .padding(.bottom, 5)
                 InputText(placeHolder: "20文字以内", text: $inputSecNm, isDispShadow: false)
                     .padding(.bottom, 10)
                 Footnote(text: "項目アイコンカラー")
-                    .frame(width: size.width - 40, alignment: .leading)
-                    .padding(.bottom, 10)
+                    .frame(width: size.width - 60, alignment: .leading)
+                    .padding(.bottom, 5)
                 ScrollView {
                     VStack {
                         Palette(hex: $iconColorHex)
@@ -133,8 +136,8 @@ struct IncConsSecListPage: View {
                     .scrollIndicators(.hidden)
                     .padding(.bottom, 10)
                 Footnote(text: "項目イメージ")
-                    .frame(width: size.width - 40, alignment: .leading)
-                    .padding(.bottom, 10)
+                    .frame(width: size.width - 60, alignment: .leading)
+                    .padding(.bottom, 5)
                 ScrollView {
                     ImageNmList(size: size)
                         .frame(height: 150)
@@ -160,8 +163,8 @@ struct IncConsSecListPage: View {
                     self.isSheetShow = false
                 }.frame(height: 40)
             }.padding(.horizontal, 10)
-                .frame(height: 590, alignment: .top)
-        }.frame(height: 590)
+                .frame(height: 570, alignment: .top)
+        }.frame(height: 570)
     }
     
     @ViewBuilder

@@ -20,16 +20,17 @@ struct MenuPage: View {
             GeometryReader { geom in
                 VStack(spacing: 0) {
                     AccentColor()
+                        .zIndex(1000)
                     ScrollView {
                         VStack {
                             EditIncConsSec()
-                        }.padding(10)
-                            .padding(.vertical, 10)
+                        }.padding(.horizontal, 15)
+                            .padding(.vertical, 20)
                     }
                 }.floatingSheet(isPresented: $isSheetShow) {
                     SelectAccentColorPopUp()
                         .presentationDetents([.fraction(0.999)])
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 20)
                 }
             }
         }.navigationDestination(isPresented: $isPresentedIncConsSec) {
@@ -137,10 +138,12 @@ struct MenuPage: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
-
 //#Preview {
-//    MenuPage()
+//    ContentView()
 //}
+
+#Preview {
+    @Previewable @State var color: Color = .red
+    @Previewable @State var tcolor: Color = .red
+    MenuPage(accentColor: $color, accentTextColor: $tcolor)
+}

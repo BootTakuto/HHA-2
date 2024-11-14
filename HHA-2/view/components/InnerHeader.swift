@@ -17,7 +17,6 @@ struct InnerHeader<Content: View>: View {
         ZStack {
             UnevenRoundedRectangle(bottomLeadingRadius: 20, bottomTrailingRadius: 20)
                 .fill(.changeable)
-                .shadow(color: .changeableShadow, radius: 5)
             VStack {
                 VStack(spacing: 0) {
                     content
@@ -29,7 +28,8 @@ struct InnerHeader<Content: View>: View {
                     }
                 }
             }
-        }.frame(height: height)
+        }.shadow(color: .changeableShadow, radius: 5)
+        .frame(height: height)
             .onTapGesture {
                 if isAbleShrink {
                     withAnimation {
@@ -38,4 +38,8 @@ struct InnerHeader<Content: View>: View {
                 }
             }.offset(y: isShow ? 0 : hiddenOffset)
     }
+}
+
+#Preview {
+    ContentView()
 }

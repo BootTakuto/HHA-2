@@ -14,14 +14,16 @@ struct NavigationHeader: View {
     var isLastPage = true
     var accentColor = CommonViewModel.getAccentColor()
     var accentTextColor = CommonViewModel.getTextColor()
+    var isShowInnerHeader = true
     var body: some View {
         let size = proxy.size
         let safeAreaInsets = proxy.safeAreaInsets
         ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: 0)
+            RoundedRectangle(cornerRadius: isShowInnerHeader ? 0 : 20)
                 .fill(.changeable)
             UnevenRoundedRectangle(bottomTrailingRadius: isLastPage ? 20 : 0)
                 .fill(accentColor)
+                .shadow(color: isShowInnerHeader ? .clear : .changeableShadow, radius: 5)
             VStack {
                 Spacer()
                     .frame(height: safeAreaInsets.top - 5)

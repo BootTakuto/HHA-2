@@ -34,7 +34,7 @@ struct BalanceListPage: View {
             }.floatingSheet(isPresented: $isSheetShow) {
                 RegistBalancePopUp(size: size)
                     .presentationDetents([.fraction(0.999)])
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 20)
             }
         }
     }
@@ -50,12 +50,6 @@ struct BalanceListPage: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .frame(width: size.width / 2 - 50, alignment: .trailing)
-//                RoundedButton(radius: .infinity, color: accentColor, imageNm: "plus", textColor: accentTextColor) {
-//                    withAnimation {
-//                        self.isSheetShow.toggle()
-//                    }
-//                }.frame(width: 25, height: 25)
-//                    .padding(.leading, 5)
                 CircleButton(imageNm: "plus") {
                     withAnimation {
                         self.isSheetShow.toggle()
@@ -102,7 +96,7 @@ struct BalanceListPage: View {
                     ForEach(balanceList, id: \.self) { balModel in
                         BalDetaiCard(size: size, balanceModel: balModel)
                             .padding(.bottom, 15)
-                            .padding(.horizontal, 10)
+                            .padding(.horizontal, 15)
                     }
                 }.padding(.top, 20)
                     .padding(.bottom, isTotalShow ? 140 : 90)
@@ -127,8 +121,8 @@ struct BalanceListPage: View {
                     .padding(.bottom, 5)
                     .padding(.top, 10)
                 Footnote(text: "残高")
-                    .frame(width: size.width - 40, alignment: .leading)
-                    .padding(.bottom, 10)
+                    .frame(width: size.width - 60, alignment: .leading)
+                    .padding(.bottom, 5)
                 InputText(placeHolder: "20文字以内", text: $inputBalNm, isDispShadow: false)
                     .padding(.bottom, 10)
                 HStack {
@@ -139,7 +133,7 @@ struct BalanceListPage: View {
                         .frame(width: 25, height: 25)
                         .shadow(color: .changeableShadow, radius: 3)
                         .padding(.trailing, 5)
-                }.padding(.bottom, 10)
+                }.padding(.bottom, 5)
                 ScrollView {
                     VStack {
                         Palette(hex: $selectBalColorHex)
@@ -161,8 +155,8 @@ struct BalanceListPage: View {
                     self.isSheetShow.toggle()
                 }.frame(height: 40)
             }.padding(.horizontal, 10)
-                .frame(height: 420, alignment: .top)
-        }.frame(height: 420)
+                .frame(height: 400, alignment: .top)
+        }.frame(height: 400)
     }
 }
 

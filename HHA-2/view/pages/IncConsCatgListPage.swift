@@ -22,14 +22,14 @@ struct IncConsCatgListPage: View {
             GeometryReader { proxy in
                 let size = proxy.size
                 VStack(spacing: 0) {
-                    NavigationHeader(title: headerTitle, isPresented: $isPesentedIncConsCatg, proxy: proxy)
+                    NavigationHeader(title: headerTitle, isPresented: $isPesentedIncConsCatg, proxy: proxy, isShowInnerHeader: false)
                         .zIndex(1000)
                     IncConsCatgList()
                 }.ignoresSafeArea()
                     .floatingSheet(isPresented: $isSheetShow) {
                         InputCategoryPopUp(size: size)
                             .presentationDetents([.fraction(0.999)])
-                            .padding(.horizontal, 10)
+                            .padding(.horizontal, 20)
                     }
             }
         }.navigationBarBackButtonHidden()
@@ -48,7 +48,8 @@ struct IncConsCatgListPage: View {
                         CategoryCard(categoryModel: categoryModel)
                     }
                 }.padding(.vertical, 20)
-            }
+                    .padding(.bottom, 100)
+            }.scrollIndicators(.hidden)
             AddButton()
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                 .padding(.horizontal, 20)
@@ -67,20 +68,20 @@ struct IncConsCatgListPage: View {
                 Footnote(text: categoryModel.catgNm, color: .changeableText)
             }.padding(.horizontal, 10)
         }.frame(height: 50)
-            .padding(.horizontal, 10)
+            .padding(.horizontal, 15)
     }
     
     @ViewBuilder
     func InputCategoryPopUp(size: CGSize) -> some View {
         Card {
-            VStack {
+            VStack(spacing: 0) {
                 Text("カテゴリーの追加")
                     .foregroundStyle(.changeableText)
                     .padding(.bottom, 5)
                     .padding(.top, 10)
                 Footnote(text: "カテゴリー名")
-                    .frame(width: size.width - 40, alignment: .leading)
-                    .padding(.bottom, 10)
+                    .frame(width: size.width - 60, alignment: .leading)
+                    .padding(.bottom, 5)
                 InputText(placeHolder: "20文字以内", text: $inputCatgNm, isDispShadow: false)
                     .padding(.bottom, 10)
                 RegistButton(text: "登録") {
@@ -95,8 +96,8 @@ struct IncConsCatgListPage: View {
                     self.isSheetShow = false
                 }.frame(height: 40)
             }.padding(.horizontal, 10)
-                .frame(height: 250, alignment: .top)
-        }.frame(height: 250)
+                .frame(height: 220, alignment: .top)
+        }.frame(height: 220)
     }
     
     @ViewBuilder
