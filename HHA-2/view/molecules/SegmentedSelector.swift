@@ -22,6 +22,7 @@ struct SegmentedSelector: View {
                     .fill(Color(uiColor: .systemGray5))
                 RoundedRectangle(cornerRadius: 5)
                     .fill(accentColor)
+                    .shadow(color: .changeableShadow, radius: 2)
                     .frame(width: elementWidth - 10, height: 20)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .offset(x: elementRectOffset)

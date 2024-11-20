@@ -144,7 +144,7 @@ struct IncConsSecListPage: View {
                 }.frame(height: 150)
                     .scrollIndicators(.hidden)
                     .padding(.bottom, 10)
-                RegistButton(text: "登録") {
+                RegistButton(text: "登録", isDisabled: inputSecNm.isEmpty) {
                     let secKey = UUID().uuidString
                     let categoryArray = [IncConsCategoryModel(catgKey: UUID().uuidString,
                                                               secKey: secKey,
@@ -155,6 +155,7 @@ struct IncConsSecListPage: View {
                                                           iconColorHex: iconColorHex,
                                                           iconImageNm: iconImageNm,
                                                           catgList: categoryArray)
+                    self.incConsSecList = viewModel.getIncOrConsSection(isIncome: selectedIndex == 0)
                     viewModel.registIncConsSec(sectionModel: sectionModel)
                     self.isSheetShow = false
                 }.frame(height: 40)

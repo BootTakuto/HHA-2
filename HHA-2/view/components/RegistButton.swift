@@ -11,11 +11,15 @@ struct RegistButton: View {
     let accentColor = CommonViewModel.getAccentColor()
     let textColor = CommonViewModel.getTextColor()
     var text: String = ""
+    var isDisabled: Bool
     var action: () -> ()
     var body: some View {
-        RoundedButton(radius: 10, color: accentColor, text: text, textColor: textColor) {
+        RoundedButton(radius: 10,
+                      color: isDisabled ? Color(uiColor: .systemGray6) : accentColor,
+                      text: text,
+                      textColor: isDisabled ? .gray : textColor) {
             action()
-        }
+        }.disabled(isDisabled)
     }
 }
 

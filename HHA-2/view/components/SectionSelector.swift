@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct SectionSelector: View {
+    
     @Binding var selectIndex: Int
+    @Binding var catgModel: IncConsCategoryModel
+    /* ▼表示データ */
     @State var isIncome = true
     @State var isShowSheet = false
     @State var incConsSecList = IncConsSectionViewModel().getIncOrConsSection(isIncome: true)
@@ -121,9 +124,12 @@ struct SectionSelector: View {
                                           indivisualKey: categoryModel.catgKey,
                                           accentColor: selectViewModel.iconColor,
                                           text: categoryModel.catgNm) {
+                                        // ビュー表示用データの作成
                                         self.selectViewModel.secKey = categoryModel.secKey
                                         self.selectViewModel.catgKey = categoryModel.catgKey
                                         self.selectViewModel.catgNm = categoryModel.catgNm
+                                        // 収入・支出の登録用カテゴリーデータを作成
+                                        self.catgModel = categoryModel
                                     }.padding(.bottom, 10)
                                 } else {
                                     RoundedRectangle(cornerRadius: 5)
@@ -176,5 +182,6 @@ extension SelectSecCatgViewModel {
 
 #Preview {
     @Previewable @State var selectIndex = 0
-    SectionSelector(selectIndex: $selectIndex)
+    @Previewable @State var catgModel = IncConsCategoryModel()
+    SectionSelector(selectIndex: $selectIndex, catgModel: $catgModel)
 }

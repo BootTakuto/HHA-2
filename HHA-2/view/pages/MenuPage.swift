@@ -83,7 +83,7 @@ struct MenuPage: View {
                 }.padding(.bottom, 10)
                 Palette(hex: $selectAccentColorHex)
                     .padding(.bottom, 10)
-                RegistButton(text: "登録") {
+                RegistButton(text: "登録", isDisabled: false) {
                     withAnimation {
                         self.accentColorHex = selectAccentColorHex
                         self.accentColor = CommonViewModel.getAccentColor()

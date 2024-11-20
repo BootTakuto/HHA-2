@@ -36,6 +36,21 @@ class InputPageVeiwModel: CommonViewModel {
     func getBalModelByKey(balKey: String) -> BalanceModel {
         return realm.object(ofType: BalanceModel.self, forPrimaryKey: balKey) ?? BalanceModel()
     }
+    
+    /*
+     収入・支出を登録します
+     -param 収入・支出モデル
+     */
+    func registIncCons(incConsModel: IncConsModel) -> Bool {
+        do {
+            try realm.write() {
+                realm.add(incConsModel)
+            }
+            return true
+        } catch {
+            return false
+        }
+    }
 }
 
 /*

@@ -28,7 +28,8 @@ struct InnerHeader<Content: View>: View {
                     }
                 }
             }
-        }.shadow(color: .changeableShadow, radius: 5)
+        }.compositingGroup()
+        .shadow(color: .changeableShadow, radius: 5)
         .frame(height: height)
             .onTapGesture {
                 if isAbleShrink {

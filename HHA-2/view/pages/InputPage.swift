@@ -6,26 +6,30 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct InputPage: View {
     // 共通プロパティ
     var accentColor: Color = CommonViewModel.getAccentColor()
     var accentTextColor: Color = CommonViewModel.getTextColor()
     @Binding var isPresented: Bool
-    @State var selectedIndex = 0
     @State var isLinkBal = false
-    @State var date = Date()
-    @State var memo = ""
-    // モーダル表示フラグ
-    @State var isSheetShow = false
+    /* ▼登録情報 */
     // 残高未連携　入力情報
     @State var unLinkInputAmt = "0"
     // 残高連携　入力情報
     @State var linkBalArray = [LinkBalanaceData]() // 表示用
     @State var selectBalArray = [LinkBalanaceData]() // 登録用
-    @State var dic:[Int: String] = [0: "0", 1: "1", 2: "2"]
+    @State var catgModel = IncConsCategoryModel() // 収入・支出項目カテゴリー
+    @State var date = Date()
+    @State var memo = ""
+    @State var isSucceed = true // 登録成功の当否
     // 画面表示設定
+    @State var selectedIndex = 0
     @State var isShowInnerHeader = true
+    @State var isSheetShow = false // モーダル表示フラグ
+    @State var isRegistedPopUpShow = false
+    @State var isDisabled = false
     @State var hiddenOffset: CGFloat = -90
     // ビューモデル
     var viewModel = InputPageVeiwModel()
@@ -43,8 +47,34 @@ struct InputPage: View {
                     Sections(size: size, isSelectedIncome: isSelectIncome)
                     SelectDate(size: size)
                     Memo(size: size)
-                    RegistButton(text: "登録") {
-                        
+                    RegistButton(text: "登録", isDisabled: isDisabled) {
+                        // 登録用モデルの作成
+                        var linkBalList = RealmSwift.List<IncConsLinkBalModel>()
+                        var incConsAmt = Int(unLinkInputAmt) ?? 0
+                        if isLinkBal {
+                            incConsAmt = 0
+                            selectBalArray.forEach { data in
+                                let linkBalModel = IncConsLinkBalModel(balKey: data.balModel.balKey, incConsAmt: data.inputAmt)
+                                linkBalList.append(linkBalModel)
+                                incConsAmt += Int(data.inputAmt) ?? 0
+                            }
+                        }
+                        let incConsModel = IncConsModel(incConsKey: UUID().uuidString,
+                                                        incConsFlg: selectedIndex,
+                                                        incConsCatgKey: catgModel.catgKey,
+                                                        isLinkBal: isLinkBal,
+                                                        linkBalList: linkBalList,
+                                                        incConsAmt: String(incConsAmt),
+                                                        incConsDate: viewModel.getFormatDate(format: "yyyyMMdd", date: date),
+                                                        incConsMemo: memo)
+                        // 登録処理
+                        self.isSucceed = viewModel.registIncCons(incConsModel: incConsModel)
+                        // ポップアップ表示
+                        self.isRegistedPopUpShow = true
+                        // 3秒ごにポップアップ非表示
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                            isRegistedPopUpShow = false
+                        }
                     }.frame(height: 40)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 20)
@@ -56,6 +86,10 @@ struct InputPage: View {
                     SelectBalCheckList(size: size)
                         .presentationDetents([.height(300)])
                         .presentationBackgroundInteraction(.enabled(upThrough: .height(300)))
+                }.floatingSheet(isPresented: $isRegistedPopUpShow) {
+                    RegistedPopUp(isSucceed: isSucceed)
+                        .presentationDetents([.fraction(0.999)])
+                        .padding(.horizontal, 20)
                 }
         }
     }
@@ -239,7 +273,6 @@ struct InputPage: View {
                     .scrollIndicators(.hidden)
             }
         }.ignoresSafeArea()
-            
     }
     
     @ViewBuilder
@@ -248,7 +281,7 @@ struct InputPage: View {
         VStack {
             Footnote(text: isSelectedIncome ? "収入カテゴリー" : "支出カテゴリー")
                 .frame(width: size.width - 40, alignment: .leading)
-            SectionSelector(selectIndex: $selectedIndex, isDispShadow: false)
+            SectionSelector(selectIndex: $selectedIndex, catgModel: $catgModel, isDispShadow: false)
         }.padding(.horizontal, 20)
             .padding(.vertical, 5)
     }
@@ -271,6 +304,34 @@ struct InputPage: View {
             InputText(placeHolder: "50文字以内", text: $memo, isDispShadow: false)
         }.padding(.horizontal, 20)
             .padding(.vertical, 5)
+    }
+    
+    @ViewBuilder
+    func RegistedPopUp(isSucceed: Bool) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.changeable)
+            VStack {
+                if isSucceed {
+                    Image(systemName: "checkmark.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundStyle(.green)
+                    Text("登録が完了しました。")
+                        .foregroundStyle(.changeableText)
+                } else {
+                    Image(systemName: "xmark.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundStyle(.red)
+                    Text("登録に失敗しました。")
+                        .foregroundStyle(.changeableText)
+                }
+               
+            }
+        }.frame(width: 200, height: 200)
     }
 }
 

@@ -142,7 +142,7 @@ struct BalanceListPage: View {
                     .frame(height: 150)
                     .scrollIndicators(.hidden)
                     .padding(.bottom, 10)
-                RegistButton(text: "登録") {
+                RegistButton(text: "登録", isDisabled: inputBalNm.isEmpty) {
                     let balanceModel = BalanceModel()
                     balanceModel.balKey = UUID().uuidString
                     balanceModel.balName = inputBalNm

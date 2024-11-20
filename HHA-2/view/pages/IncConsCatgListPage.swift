@@ -84,11 +84,12 @@ struct IncConsCatgListPage: View {
                     .padding(.bottom, 5)
                 InputText(placeHolder: "20文字以内", text: $inputCatgNm, isDispShadow: false)
                     .padding(.bottom, 10)
-                RegistButton(text: "登録") {
+                RegistButton(text: "登録", isDisabled: inputCatgNm.isEmpty) {
                     let categoryModel = IncConsCategoryModel(catgKey: UUID().uuidString,
                                                              secKey: incConsSecModel.secKey,
                                                              catgNm: inputCatgNm)
                     viewModel.registIncConsCatgList(categoryModel: categoryModel)
+                    self.incConsCatgList = viewModel.getIncConsCatgList(secKey: incConsSecModel.secKey)
                     self.isSheetShow = false
                 }.frame(height: 40)
                     .padding(.bottom, 5)
