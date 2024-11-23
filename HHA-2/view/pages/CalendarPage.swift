@@ -82,7 +82,7 @@ struct CalendarPage: View {
                     Text("入金")
                         .font(.caption2)
                 }.frame(width: size.width / 3 - 20)
-                Border()
+                Bar()
                     .frame(height: 20)
                     .padding(.horizontal, 5)
                 VStack {
@@ -91,7 +91,7 @@ struct CalendarPage: View {
                     Text("出金")
                         .font(.caption2)
                 }.frame(width: size.width / 3 - 20)
-                Border()
+                Bar()
                     .frame(height: 20)
                     .padding(.horizontal, 5)
                 VStack {

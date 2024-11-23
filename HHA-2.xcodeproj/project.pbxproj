@@ -25,6 +25,8 @@
 		2C4D49A22C930F0B00CAA89F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4D49A12C930F0B00CAA89F /* ContentView.swift */; };
 		2C4D49A42C930F0C00CAA89F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4D49A32C930F0C00CAA89F /* Assets.xcassets */; };
 		2C4D49A72C930F0C00CAA89F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C4D49A62C930F0C00CAA89F /* Preview Assets.xcassets */; };
+		2C5481D92CF1EACB006FF4FC /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5481D82CF1EACB006FF4FC /* ArrayExtension.swift */; };
+		2C5481DB2CF20669006FF4FC /* Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5481DA2CF20669006FF4FC /* Border.swift */; };
 		2C65458B2CB72665002EA834 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65458A2CB72665002EA834 /* CheckBox.swift */; };
 		2C65458D2CB7341D002EA834 /* BalanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65458C2CB7341D002EA834 /* BalanceModel.swift */; };
 		2C65458F2CB736FF002EA834 /* InputPageVeiwModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65458E2CB736FF002EA834 /* InputPageVeiwModel.swift */; };
@@ -36,6 +38,7 @@
 		2C97A1992C9B7CE900E4EB2D /* InputPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97A1982C9B7CE900E4EB2D /* InputPage.swift */; };
 		2C97A19B2C9B835700E4EB2D /* SegmentedSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97A19A2C9B835700E4EB2D /* SegmentedSelector.swift */; };
 		2C9AC8352C9E7B0400C57CDD /* InputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AC8342C9E7B0400C57CDD /* InputText.swift */; };
+		2CA63C392CEE9020001E69D0 /* IncomeConsumeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA63C382CEE9020001E69D0 /* IncomeConsumeViewModel.swift */; };
 		2CB19EE52C931A8E008D1600 /* BalanceListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EE42C931A8E008D1600 /* BalanceListPage.swift */; };
 		2CB19EEA2C931ADC008D1600 /* IncomeConsumePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EE92C931ADC008D1600 /* IncomeConsumePage.swift */; };
 		2CB19EEC2C931AED008D1600 /* CalendarPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EEB2C931AED008D1600 /* CalendarPage.swift */; };
@@ -46,7 +49,7 @@
 		2CBF5DE52CCEEF4500A7893A /* IncConsSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBF5DE42CCEEF4500A7893A /* IncConsSectionViewModel.swift */; };
 		2CBFB4552CC4732E00FC7578 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB4542CC4732E00FC7578 /* Palette.swift */; };
 		2CC989142CD0422300905119 /* NavigationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC989132CD0422300905119 /* NavigationHeader.swift */; };
-		2CCC87052C9A31BA00345310 /* Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC87042C9A31BA00345310 /* Border.swift */; };
+		2CCC87052C9A31BA00345310 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC87042C9A31BA00345310 /* Bar.swift */; };
 		2CD68B522CC7072200EEC61D /* RegistButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD68B512CC7072200EEC61D /* RegistButton.swift */; };
 		2CD68B542CC7072D00EEC61D /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD68B532CC7072D00EEC61D /* CancelButton.swift */; };
 		2CE7127E2CCDAE7B00548FFC /* IncConsSecionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7127D2CCDAE7B00548FFC /* IncConsSecionModel.swift */; };
@@ -76,6 +79,8 @@
 		2C4D49A12C930F0B00CAA89F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2C4D49A32C930F0C00CAA89F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C4D49A62C930F0C00CAA89F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2C5481D82CF1EACB006FF4FC /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		2C5481DA2CF20669006FF4FC /* Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
 		2C65458A2CB72665002EA834 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		2C65458C2CB7341D002EA834 /* BalanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceModel.swift; sourceTree = "<group>"; };
 		2C65458E2CB736FF002EA834 /* InputPageVeiwModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPageVeiwModel.swift; sourceTree = "<group>"; };
@@ -87,6 +92,7 @@
 		2C97A1982C9B7CE900E4EB2D /* InputPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPage.swift; sourceTree = "<group>"; };
 		2C97A19A2C9B835700E4EB2D /* SegmentedSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedSelector.swift; sourceTree = "<group>"; };
 		2C9AC8342C9E7B0400C57CDD /* InputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputText.swift; sourceTree = "<group>"; };
+		2CA63C382CEE9020001E69D0 /* IncomeConsumeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeConsumeViewModel.swift; sourceTree = "<group>"; };
 		2CB19EE42C931A8E008D1600 /* BalanceListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceListPage.swift; sourceTree = "<group>"; };
 		2CB19EE92C931ADC008D1600 /* IncomeConsumePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeConsumePage.swift; sourceTree = "<group>"; };
 		2CB19EEB2C931AED008D1600 /* CalendarPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPage.swift; sourceTree = "<group>"; };
@@ -97,7 +103,7 @@
 		2CBF5DE42CCEEF4500A7893A /* IncConsSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsSectionViewModel.swift; sourceTree = "<group>"; };
 		2CBFB4542CC4732E00FC7578 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		2CC989132CD0422300905119 /* NavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHeader.swift; sourceTree = "<group>"; };
-		2CCC87042C9A31BA00345310 /* Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Border.swift; sourceTree = "<group>"; };
+		2CCC87042C9A31BA00345310 /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
 		2CD68B512CC7072200EEC61D /* RegistButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistButton.swift; sourceTree = "<group>"; };
 		2CD68B532CC7072D00EEC61D /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		2CE7127D2CCDAE7B00548FFC /* IncConsSecionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsSecionModel.swift; sourceTree = "<group>"; };
@@ -137,6 +143,7 @@
 				2C65458E2CB736FF002EA834 /* InputPageVeiwModel.swift */,
 				2CBF5DE42CCEEF4500A7893A /* IncConsSectionViewModel.swift */,
 				2C1B250D2CD18BE0009E7C49 /* IncConsCategoryViewModel.swift */,
+				2CA63C382CEE9020001E69D0 /* IncomeConsumeViewModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -146,7 +153,7 @@
 			children = (
 				2C31998B2C9396C4007EDC3C /* Card.swift */,
 				2C31998D2C9397E0007EDC3C /* RoundedButton.swift */,
-				2CCC87042C9A31BA00345310 /* Border.swift */,
+				2CCC87042C9A31BA00345310 /* Bar.swift */,
 				2C97A19A2C9B835700E4EB2D /* SegmentedSelector.swift */,
 				2C4CC8242C9CC8540022B791 /* CustomToggle.swift */,
 				2C4CC8262C9CD61F0022B791 /* Footnote.swift */,
@@ -154,6 +161,7 @@
 				2C9AC8342C9E7B0400C57CDD /* InputText.swift */,
 				2C65458A2CB72665002EA834 /* CheckBox.swift */,
 				2C3B7C802CD7295E007D305F /* Radio.swift */,
+				2C5481DA2CF20669006FF4FC /* Border.swift */,
 			);
 			path = molecules;
 			sourceTree = "<group>";
@@ -260,6 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */,
+				2C5481D82CF1EACB006FF4FC /* ArrayExtension.swift */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -303,7 +312,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					2C4D499B2C930F0B00CAA89F = {
 						CreatedOnToolsVersion = 15.4;
@@ -394,10 +403,12 @@
 				2C2A6D7B2CCC7C19004675EB /* CircleButton.swift in Sources */,
 				2C15264E2C963F7100D20E35 /* CompareChart.swift in Sources */,
 				2C65458D2CB7341D002EA834 /* BalanceModel.swift in Sources */,
+				2CA63C392CEE9020001E69D0 /* IncomeConsumeViewModel.swift in Sources */,
+				2C5481DB2CF20669006FF4FC /* Border.swift in Sources */,
 				2C1FBE332CED390600526C03 /* IncConsLinkBalModel.swift in Sources */,
 				2CD68B542CC7072D00EEC61D /* CancelButton.swift in Sources */,
 				2C8A0B132C9EDA12003D7647 /* ViewExtension.swift in Sources */,
-				2CCC87052C9A31BA00345310 /* Border.swift in Sources */,
+				2CCC87052C9A31BA00345310 /* Bar.swift in Sources */,
 				2C4D49A22C930F0B00CAA89F /* ContentView.swift in Sources */,
 				2C4CC8272C9CD61F0022B791 /* Footnote.swift in Sources */,
 				2C65458F2CB736FF002EA834 /* InputPageVeiwModel.swift in Sources */,
@@ -419,6 +430,7 @@
 				2CD68B522CC7072200EEC61D /* RegistButton.swift in Sources */,
 				2C1FBE312CED354B00526C03 /* IncConsModel.swift in Sources */,
 				2CFBCC952CA60BC800E8A72A /* RoundedIcon.swift in Sources */,
+				2C5481D92CF1EACB006FF4FC /* ArrayExtension.swift in Sources */,
 				2C1C670E2CAC2D2800E96552 /* CommonViewModel.swift in Sources */,
 				2CBFB4552CC4732E00FC7578 /* Palette.swift in Sources */,
 				2CE712802CCDB0AA00548FFC /* IncConsCategoryModel.swift in Sources */,

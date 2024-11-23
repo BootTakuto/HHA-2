@@ -38,6 +38,21 @@ class InputPageVeiwModel: CommonViewModel {
     }
     
     /*
+     収入・支出カテゴリーの初期データ取得
+     */
+    func getIncConsCatgInitData(incConsFlg: Int) -> IncConsCategoryModel {
+        let isIncome = incConsFlg == 0
+        var catgModel = IncConsCategoryModel()
+        @ObservedResults(IncConsSecionModel.self, where: {$0.isIncome == isIncome}) var secResults
+        if !secResults.isEmpty {
+            let sectionModel = secResults[0]
+            @ObservedResults(IncConsCategoryModel.self, where: {$0.secKey == sectionModel.secKey}) var catgResults
+            catgModel = catgResults[0]
+        }
+        return catgModel
+    }
+    
+    /*
      収入・支出を登録します
      -param 収入・支出モデル
      */

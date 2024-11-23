@@ -42,7 +42,7 @@ struct CompareChart: View {
 //                width: .fixed(width)
 //            )
             BarMark(
-                x: .value("category", "入金額計"),
+                x: .value("category", "収入合計"),
                 y: .value("amount", target),
                 width: .fixed(width)
             ).foregroundStyle(.blue)
@@ -53,7 +53,7 @@ struct CompareChart: View {
                     .foregroundStyle(target > 0 ? .blue : .red)
             }
             BarMark(
-                x: .value("category", "出金額計"),
+                x: .value("category", "支出合計"),
                 y: .value("amount", comparison),
                 width: .fixed(width)
             ).foregroundStyle(.red)
@@ -64,7 +64,7 @@ struct CompareChart: View {
                     .foregroundStyle(comparison > 0 ? .red : .blue)
             }
             BarMark(
-                x: .value("category", "入出金差額"),
+                x: .value("category", "収支合計"),
                 y: .value("amount", gap),
                 width: .fixed(width)
             ).foregroundStyle(gap > 0 ? .blue : .red)

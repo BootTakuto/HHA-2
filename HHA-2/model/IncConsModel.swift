@@ -8,11 +8,13 @@
 import Foundation
 import RealmSwift
 
-class IncConsModel: Object {
+class IncConsModel: Object, Identifiable {
     // 主キー
     @Persisted(primaryKey: true) var incConsKey: String
     // 収入・支出フラグ
     @Persisted var incConsFlg: Int
+    // 収入・支出項目キー
+    @Persisted var incConsSecKey: String
     // 収入・支出カテゴリーキー
     @Persisted var incConsCatgKey: String
     // 収入・支出残高連携フラグ
@@ -20,16 +22,25 @@ class IncConsModel: Object {
     // リンク残高と各残高の金額
     @Persisted var linkBalList :RealmSwift.List<IncConsLinkBalModel>
     // 収入・支出金額
-    @Persisted var incConsAmt: String
+    @Persisted var incConsAmt: Int
     // 日付
     @Persisted var incConsDate: String
     // メモ
     @Persisted var incConsMemo: String
     
-    convenience init(incConsKey: String, incConsFlg: Int, incConsCatgKey: String, isLinkBal: Bool, linkBalList: RealmSwift.List<IncConsLinkBalModel>, incConsAmt: String, incConsDate: String, incConsMemo: String) {
+    convenience init(incConsKey: String,
+                     incConsFlg: Int,
+                     incConsSecKey: String,
+                     incConsCatgKey: String,
+                     isLinkBal: Bool,
+                     linkBalList: RealmSwift.List<IncConsLinkBalModel>,
+                     incConsAmt: Int,
+                     incConsDate: String,
+                     incConsMemo: String) {
         self.init()
         self.incConsKey = incConsKey
         self.incConsFlg = incConsFlg
+        self.incConsSecKey = incConsSecKey
         self.incConsCatgKey = incConsCatgKey
         self.isLinkBal = isLinkBal
         if isLinkBal {

@@ -11,19 +11,37 @@ struct IncomeConsumePage: View {
     @Binding var isTotalShow: Bool
     @State var hiddenOffset: CGFloat = -190
     @State var selectDate = Date()
+    
+    /* 収入・支出表示データ */
+    @State var incTotal = IncomeConsumeViewModel().getIncOrConsMonthlyTotal(selectedDate: Date(), incConsFlg: 0)      // 月間収入合計金額
+    @State var consTotal = IncomeConsumeViewModel().getIncOrConsMonthlyTotal(selectedDate: Date(), incConsFlg: 1)     // 月間支出合計金額
+    @State var incConsDic = IncomeConsumeViewModel().getIncConsDic(selectedDate: Date())                              // リスト表示用辞書
+    @State var incPieDataArray = IncomeConsumeViewModel().getIncConsPieDataArray(incConsFlg: 0, selectedDate: Date()) // 収入円チャート用データ
+    @State var consPieDataArray = IncomeConsumeViewModel().getIncConsPieDataArray(incConsFlg: 1, selectedDate: Date())// 支出円チャート用データ
+    let viewModel = IncomeConsumeViewModel()
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                DepoDrawsTotalHeader(size: geometry.size)
-                DepoDrawsList()
+            VStack(spacing: 0) {
+                IncConsTotalHeader(size: geometry.size)
+                    .zIndex(1000)
+                IncConsList(size: geometry.size)
                     .offset(y: isTotalShow ? 0 : hiddenOffset)
                     .frame(height: geometry.size.height)
             }
+        }.onChange(of: selectDate) {
+            // 収入・支出合計金額を取得
+            self.incTotal = viewModel.getIncOrConsMonthlyTotal(selectedDate: selectDate, incConsFlg: 0)
+            self.consTotal = viewModel.getIncOrConsMonthlyTotal(selectedDate: selectDate, incConsFlg: 1)
+            // 収入・支出表示用辞書の取得
+            self.incConsDic = viewModel.getIncConsDic(selectedDate: selectDate)
+            // 収入・支出チャートの作成
+            self.incPieDataArray = viewModel.getIncConsPieDataArray(incConsFlg: 0, selectedDate: selectDate)
+            self.consPieDataArray = viewModel.getIncConsPieDataArray(incConsFlg: 1, selectedDate: selectDate)
         }
     }
     
     @ViewBuilder
-    func DepoDrawsTotalHeader(size: CGSize) -> some View {
+    func IncConsTotalHeader(size: CGSize) -> some View {
         InnerHeader(isShow: $isTotalShow, hiddenOffset: hiddenOffset, height: CGFloat(220)) {
             VStack(spacing: 0) {
                 YearMonthSelector(targetDate: $selectDate)
@@ -34,13 +52,13 @@ struct IncomeConsumePage: View {
                             HStack {
                                 switch index {
                                 case 0:
-                                    CompareChart(target: 200000000000, comparison: 300000000000, width: 20)
+                                    CompareChart(target: incTotal, comparison: consTotal, width: 20)
                                 case 1:
-                                    PieChartDepoDraw(size: size, chartTitle: "入金項目")
+                                    PieChartIncCons(size: size, chartTitle: "収入構成", incConsFlg: 0)
                                 case 2:
-                                    PieChartDepoDraw(size: size, chartTitle: "出金項目")
+                                    PieChartIncCons(size: size, chartTitle: "支出構成", incConsFlg: 1)
                                 default:
-                                    CompareChart(target: 200000000000, comparison: 300000000000, width: 20)
+                                    CompareChart(target: incTotal, comparison: consTotal, width: 20)
                                 }
                             }.padding(.horizontal, 20)
                                 .frame(height: 140)
@@ -55,17 +73,29 @@ struct IncomeConsumePage: View {
     }
     
     @ViewBuilder
-    func PieChartDepoDraw(size: CGSize, chartTitle: String) -> some View {
+    func PieChartIncCons(size: CGSize, chartTitle: String, incConsFlg: Int) -> some View {
+        let pieDataArray = incConsFlg == 0 ? incPieDataArray : consPieDataArray
         HStack(spacing: 0) {
-            PieChart(chartTitle: chartTitle)
+            PieChart(chartTitle: chartTitle,
+                     dataArray: pieDataArray,
+                     emptyColor: incConsFlg == 0 ? .blue.opacity(0.25) : .red.opacity(0.25))
                 .frame(width: (size.width - 20) / 2)
             ScrollView {
                 VStack(spacing: 5) {
-                    ForEach(0 ..< 1, id: \.self) { index in
+                    ForEach(pieDataArray.indices, id: \.self) { index in
+                        let data = pieDataArray[index]
                         HStack(alignment: .center) {
-                            Circle().fill(.blue).frame(width: 10)
-                            Text("テスト(\(0.2)%)")
-                                .font(.caption2)
+                            Circle().fill(data.bgColor).frame(width: 15)
+                            HStack(spacing: 0) {
+                                Text(data.valNm)
+                                    .font(.caption2)
+                                    .frame(width: 60, alignment: .leading)
+                                    .lineLimit(1)
+                                Text("\(data.ratio)%")
+                                    .font(.caption2)
+                                    .frame(width: 60, alignment: .leading)
+                                    .lineLimit(1)
+                            }
                         }
                     }
                 }
@@ -74,8 +104,55 @@ struct IncomeConsumePage: View {
     }
     
     @ViewBuilder
-    func DepoDrawsList() -> some View {
-        
+    func IncConsStack(size: CGSize, incConsData: IncConsDataBySec) -> some View {
+        let incConsFlg = incConsData.incConsFlg
+        let amtTotal = incConsData.amtTotal
+        let secModel = incConsData.secModel
+        let iconRectColor = CommonViewModel.getColorFromHex(hex: secModel.iconColorHex)
+        let iconTextColor = CommonViewModel.getTextColorFromHex(hex: secModel.iconColorHex)
+        HStack {
+            RoundedIcon(image: secModel.iconImageNm,
+                        rectColor: iconRectColor,
+                        iconColor: iconTextColor)
+            Footnote(text: secModel.secNm, color: .changeableText)
+            Spacer()
+            Text("\(amtTotal)")
+                .foregroundStyle(incConsFlg == 0 ? .blue : incConsFlg == 1 ? .red : .changeableText)
+                .frame(width: size.width / 2, alignment: .trailing)
+        }.padding(.horizontal, 10)
+    }
+    
+    @ViewBuilder
+    func IncConsList(size: CGSize) -> some View {
+        ScrollView {
+            VStack {
+                ForEach(incConsDic.keys.sorted(), id: \.self) { key in
+                    let dataArray = incConsDic[key]?.sorted(by: {$0.amtTotal > $1.amtTotal}) ?? []
+                    VStack {
+                        Footnote(text: key == 0 ? "収入" : "支出")
+                            .frame(width: size.width - 20, alignment: .leading)
+                        HStack {
+                            Bar()
+                                .padding(.trailing, 10)
+                            Card {
+                                VStack {
+                                    ForEach(dataArray.indices, id: \.self) {index in
+                                        let data = dataArray[index]
+                                        IncConsStack(size: size, incConsData: data)
+                                        if (dataArray.count > 1 && index % 2 == 0) {
+                                            Border()
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 5)
+                                        }
+                                    }
+                                }
+                            }.frame(height: 60 * CGFloat(dataArray.count))
+                        }.padding(.horizontal, 10)
+                            .padding(.leading, 10)
+                    }.padding(.top, 10)
+                }
+            }
+        }
     }
 }
 

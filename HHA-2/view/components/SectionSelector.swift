@@ -47,7 +47,7 @@ struct SectionSelector: View {
                     Text(selectViewModel.catgNm + "(" + selectViewModel.secNm + ")")
                         .foregroundStyle(.changeableText)
                 }
-            }.padding(.horizontal, 20)
+            }.padding(.horizontal, 10)
         }.frame(height: height)
             .floatingSheet(isPresented: $isShowSheet) {
                 SectionList()
@@ -71,6 +71,7 @@ struct SectionSelector: View {
                         let categoryModel = selectSecModel.catgList[0]
                         self.selectViewModel = SelectSecCatgViewModel(sectionModel: selectSecModel,
                                                                  categoryMdoel: categoryModel)
+                        self.selectCatgKey = categoryModel.catgKey
                     }
                 }
             }.disabled(incConsSecList.isEmpty)
@@ -106,6 +107,8 @@ struct SectionSelector: View {
                                         self.selectViewModel = SelectSecCatgViewModel(sectionModel: model,
                                                                                       categoryMdoel: model.catgList[0])
                                         self.selectCatgKey = model.catgList[0].catgKey
+                                        // 収入・支出の登録用カテゴリーデータを作成
+                                        self.catgModel = model.catgList[0]
                                     }
                                 }
                         }

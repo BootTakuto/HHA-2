@@ -20,7 +20,7 @@ struct InputPage: View {
     // 残高連携　入力情報
     @State var linkBalArray = [LinkBalanaceData]() // 表示用
     @State var selectBalArray = [LinkBalanaceData]() // 登録用
-    @State var catgModel = IncConsCategoryModel() // 収入・支出項目カテゴリー
+    @State var catgModel = InputPageVeiwModel().getIncConsCatgInitData(incConsFlg: 0) // 収入・支出項目カテゴリー
     @State var date = Date()
     @State var memo = ""
     @State var isSucceed = true // 登録成功の当否
@@ -49,7 +49,7 @@ struct InputPage: View {
                     Memo(size: size)
                     RegistButton(text: "登録", isDisabled: isDisabled) {
                         // 登録用モデルの作成
-                        var linkBalList = RealmSwift.List<IncConsLinkBalModel>()
+                        let linkBalList = RealmSwift.List<IncConsLinkBalModel>()
                         var incConsAmt = Int(unLinkInputAmt) ?? 0
                         if isLinkBal {
                             incConsAmt = 0
@@ -61,10 +61,11 @@ struct InputPage: View {
                         }
                         let incConsModel = IncConsModel(incConsKey: UUID().uuidString,
                                                         incConsFlg: selectedIndex,
+                                                        incConsSecKey: catgModel.secKey,
                                                         incConsCatgKey: catgModel.catgKey,
                                                         isLinkBal: isLinkBal,
                                                         linkBalList: linkBalList,
-                                                        incConsAmt: String(incConsAmt),
+                                                        incConsAmt: incConsAmt,
                                                         incConsDate: viewModel.getFormatDate(format: "yyyyMMdd", date: date),
                                                         incConsMemo: memo)
                         // 登録処理
@@ -82,6 +83,10 @@ struct InputPage: View {
             }.ignoresSafeArea()
                 .onAppear {
                     self.linkBalArray = viewModel.getLinkBalArray()
+                    self.isDisabled = catgModel.catgKey == ""
+                }.onChange(of: selectedIndex) {
+                    self.catgModel = viewModel.getIncConsCatgInitData(incConsFlg: selectedIndex)
+                    self.isDisabled = catgModel.catgKey == ""
                 }.floatingSheet(isPresented: $isSheetShow) {
                     SelectBalCheckList(size: size)
                         .presentationDetents([.height(300)])
@@ -199,7 +204,7 @@ struct InputPage: View {
                                                 .frame(width: width / 2 - 20)
                                                 .lineLimit(1)
                                                 .padding(.horizontal, 2.5)
-                                            Border()
+                                            Bar()
                                                 .frame(height: 20)
                                                 .padding(.horizontal, 5)
                                             Footnote(text: "¥\(balAmt)")
