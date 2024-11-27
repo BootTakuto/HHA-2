@@ -11,29 +11,6 @@ import RealmSwift
 
 class IncomeConsumeViewModel: CommonViewModel {
     
-    let monthFormat = "yyyyMM"
-    
-    /*
-     選択月の取得
-     -param 画面で選択された日付
-     -return 選択月
-     */
-    func getSelectedMonth(selectedDate: Date) -> String {
-        return getFormatDate(format: monthFormat, date: selectedDate)
-    }
-    
-    /*
-     登録済みの収入・支出情報を取得
-     -param month 選択月
-     -return
-     */
-    func getIncConsListByMonth(selectedDate: Date) -> Results<IncConsModel> {
-        let month = getSelectedMonth(selectedDate: selectedDate)
-        let filterPredicate = NSPredicate(format: "incConsDate LIKE %@", "*\(month)*")
-        @ObservedResults(IncConsModel.self, filter: filterPredicate) var results
-        return results
-    }
-    
     /*
      収入・支出の各項目別合計金額と項目データを取得
      -param selectedDate 選択されている日付

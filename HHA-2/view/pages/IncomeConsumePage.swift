@@ -112,9 +112,11 @@ struct IncomeConsumePage: View {
         let iconTextColor = CommonViewModel.getTextColorFromHex(hex: secModel.iconColorHex)
         HStack {
             RoundedIcon(image: secModel.iconImageNm,
+                        text: secModel.secNm,
                         rectColor: iconRectColor,
-                        iconColor: iconTextColor)
-            Footnote(text: secModel.secNm, color: .changeableText)
+                        iconColor: iconTextColor,
+                        rectSize: 40)
+//            Footnote(text: secModel.secNm, color: .changeableText)
             Spacer()
             Text("\(amtTotal)")
                 .foregroundStyle(incConsFlg == 0 ? .blue : incConsFlg == 1 ? .red : .changeableText)
@@ -128,6 +130,8 @@ struct IncomeConsumePage: View {
             VStack {
                 ForEach(incConsDic.keys.sorted(), id: \.self) { key in
                     let dataArray = incConsDic[key]?.sorted(by: {$0.amtTotal > $1.amtTotal}) ?? []
+                    let arrayCnt = dataArray.count
+                    let cardHeigt: CGFloat = 60 * CGFloat(arrayCnt) + CGFloat(arrayCnt + 1)
                     VStack {
                         Footnote(text: key == 0 ? "収入" : "支出")
                             .frame(width: size.width - 20, alignment: .leading)
@@ -135,18 +139,19 @@ struct IncomeConsumePage: View {
                             Bar()
                                 .padding(.trailing, 10)
                             Card {
-                                VStack {
+                                VStack(spacing: 0) {
                                     ForEach(dataArray.indices, id: \.self) {index in
                                         let data = dataArray[index]
                                         IncConsStack(size: size, incConsData: data)
-                                        if (dataArray.count > 1 && index % 2 == 0) {
+                                            .frame(height: 50)
+                                        if (dataArray.count > 1 && index < dataArray.count - 1) {
                                             Border()
                                                 .padding(.horizontal, 10)
                                                 .padding(.vertical, 5)
                                         }
                                     }
                                 }
-                            }.frame(height: 60 * CGFloat(dataArray.count))
+                            }.frame(height: cardHeigt)
                         }.padding(.horizontal, 10)
                             .padding(.leading, 10)
                     }.padding(.top, 10)

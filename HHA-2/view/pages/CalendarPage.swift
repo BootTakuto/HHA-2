@@ -9,14 +9,22 @@ import SwiftUI
 
 struct CalendarPage: View {
     @Binding var isCalendarShow: Bool
+    var accentColor: Color
+    var accentTextColor: Color
     @State var hiddenOffset: CGFloat = -270
     @State var selectDate = Date()
+    @State var caledarDataArray = CalendarViewModel().getCalendarDays(selectedDate: Date())
+    @State var currnetDate = CalendarViewModel().getFormatDate(format: "yyyyMMdd", date: Date())
+    @State var incTotal = CalendarViewModel().getIncOrConsMonthlyTotal(incConsFlg: 0, selectedDate: Date())
+    @State var consTotal = CalendarViewModel().getIncOrConsMonthlyTotal(incConsFlg: 1, selectedDate: Date())
+    @State var incConsDic = CalendarViewModel().getIncConsDicByDay(selectedDate: Date())
+    let viewModel = CalendarViewModel()
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 CalendarHeader(size: geometry.size)
                     .zIndex(1000)
-                DepoDrawListByDay(size: geometry.size)
+                IncConsListByDay(size: geometry.size)
                     .offset(y: isCalendarShow ? 0 : hiddenOffset)
                     .frame(height: geometry.size.height)
             }
@@ -42,22 +50,30 @@ struct CalendarPage: View {
                         HStack(spacing: 0) {
                             ForEach(0 ..< 7, id: \.self) { col in
                                 let index = col + (row * 7)
+                                let calendarData = caledarDataArray[index]
+                                let isCurrent = currnetDate == calendarData.yyyyMMdd
                                 Rectangle()
                                     .fill(.clear)
                                     .frame(width: size.width / 7 - 2, height: 230 / 6)
                                     .overlay {
                                         VStack {
-                                            Text("\(index)")
-                                            Group {
-                                                if index == 5 || index == 15 || index == 16 || index == 38 {
-                                                    Text("¥\(150000)")
-                                                        .lineLimit(1)
-                                                    Text("¥\(1000)")
-                                                        .lineLimit(1)
-                                                } else {
-                                                    Spacer()
+                                            Text(calendarData.day)
+                                                .foregroundStyle(!calendarData.isOtherMonth ? .gray :
+                                                                    isCurrent  ? accentTextColor : .changeableText)
+                                                .background {
+                                                    Circle()
+                                                        .fill(isCurrent ? accentColor : .clear)
+                                                        .frame(width: 15, height: 15)
                                                 }
-                                            }.frame(maxWidth: size.width / 7 - 2, alignment: .leading)
+                                            Group {
+                                                Text(calendarData.incConsExsistFlg == 0 || calendarData.incConsExsistFlg == 2 ?
+                                                     "¥\(calendarData.dayIncTotal)" : "")
+                                                    .lineLimit(1)
+                                                    .foregroundStyle(.blue)
+                                                Text(calendarData.incConsExsistFlg == 1 || calendarData.incConsExsistFlg == 2 ? "¥\(calendarData.dayConsTotal)" : "")
+                                                    .lineLimit(1)
+                                                    .foregroundStyle(.red)
+                                            }.frame(width: size.width / 7 - 2)
                                         }.font(.system(size: 10))
                                     }
                             }
@@ -70,25 +86,25 @@ struct CalendarPage: View {
     }
     
     @ViewBuilder
-    func DepoDrawTotalCard(size: CGSize) -> some View {
-        let depo = 450000
-        let draw = 40000
-        let total = depo - draw
+    func IncConsTotalCard(size: CGSize) -> some View {
+        let total = incTotal - consTotal
         Card() {
             HStack(spacing: 0) {
                 VStack {
-                    Text("¥\(depo)")
+                    Text("¥\(incTotal)")
                         .font(.caption)
-                    Text("入金")
+                        .foregroundStyle(.blue)
+                    Text("収入")
                         .font(.caption2)
                 }.frame(width: size.width / 3 - 20)
                 Bar()
                     .frame(height: 20)
                     .padding(.horizontal, 5)
                 VStack {
-                    Text("¥\(draw)")
+                    Text("¥\(consTotal)")
                         .font(.caption)
-                    Text("出金")
+                        .foregroundStyle(.red)
+                    Text("支出")
                         .font(.caption2)
                 }.frame(width: size.width / 3 - 20)
                 Bar()
@@ -97,21 +113,73 @@ struct CalendarPage: View {
                 VStack {
                     Text("¥\(total)")
                         .font(.caption)
-                    Text("合計")
+                        .foregroundStyle(total <= 0 ? .red : .blue)
+                    Text("収支合計")
                         .font(.caption2)
                 }.frame(width: size.width / 3 - 20)
             }
         }.frame(height: 60)
-            .padding(.horizontal, 15)
+            .padding(.horizontal, 10)
     }
     
     @ViewBuilder
-    func DepoDrawListByDay(size: CGSize) -> some View {
+    func IncConsStack(size: CGSize, incConsData: IncConsDataByDay) -> some View {
+        let incConsFlg = incConsData.incConsFlg
+        let secModel = incConsData.secModel
+        let catgModel = incConsData.catgModel
+        let amount = incConsData.amount
+        let rectColor = CommonViewModel.getColorFromHex(hex: secModel.iconColorHex)
+        let iconColor = CommonViewModel.getTextColorFromHex(hex: secModel.iconColorHex)
+        HStack {
+            RoundedIcon(image: secModel.iconImageNm,
+                        text: secModel.secNm,
+                        rectColor: rectColor,
+                        iconColor: iconColor,
+                        rectSize: 40)
+            Footnote(text: catgModel.catgNm, color: .changeableText)
+            Spacer()
+            Text("\(amount)")
+                .foregroundStyle(incConsFlg == 0 ? .blue : incConsFlg == 1 ? .red : .changeableText)
+                .frame(width: size.width / 2, alignment: .trailing)
+        }.padding(.horizontal, 10)
+    }
+    
+    @ViewBuilder
+    func IncConsListByDay(size: CGSize) -> some View {
         ScrollView {
-            VStack {
-                DepoDrawTotalCard(size: size)
+            VStack() {
+                IncConsTotalCard(size: size)
+                    .padding(.top, 10)
+                ForEach(incConsDic.keys.sorted(), id: \.self) { date in
+                    let incConsDataArray = incConsDic[date] ?? []
+                    let arrayCount = incConsDataArray.count
+                    let cardHeigt: CGFloat = 60 * CGFloat(arrayCount) + CGFloat(arrayCount - 1) // 基本サイズ60 * データ数 +
+                    Footnote(text: date)
+                        .frame(width: size.width - 20, alignment: .leading)
+                        .padding(.vertical, 5)
+                    HStack {
+                        Bar()
+                            .padding(.trailing, 10)
+                        Card {
+                            VStack(spacing: 0) {
+                                ForEach(incConsDataArray.indices, id: \.self) { index in
+                                    let data = incConsDataArray[index]
+                                    IncConsStack(size: size, incConsData: data)
+                                        .frame(height: 50)
+                                    if (incConsDataArray.count > 1 && index < incConsDataArray.count - 1) {
+                                        Border()
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 5)
+                                    }
+                                }
+                            }
+                        }.frame(height: cardHeigt)
+                    }.padding(.horizontal, 10)
+                        .padding(.leading, 10)
+                }
             }.padding(.top, 10)
-        }
+                .padding(.bottom, isCalendarShow ? 320 : 40)
+        }.scrollIndicators(.hidden)
     }
 }
 

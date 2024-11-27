@@ -28,7 +28,9 @@ struct ContentView: View {
                         case 1:
                             IncomeConsumePage(isTotalShow: $isHeaderShow)
                         case 2:
-                            CalendarPage(isCalendarShow: $isHeaderShow)
+                            CalendarPage(isCalendarShow: $isHeaderShow,
+                                         accentColor: accentColor,
+                                         accentTextColor: accentTextColor)
                         case 3:
                             MenuPage(accentColor: $accentColor,
                                      accentTextColor: $accentTextColor)

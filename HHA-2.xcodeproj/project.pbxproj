@@ -16,6 +16,7 @@
 		2C1FBE332CED390600526C03 /* IncConsLinkBalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1FBE322CED390600526C03 /* IncConsLinkBalModel.swift */; };
 		2C2A6D792CCBD005004675EB /* IncConsSecListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2A6D782CCBD005004675EB /* IncConsSecListPage.swift */; };
 		2C2A6D7B2CCC7C19004675EB /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2A6D7A2CCC7C19004675EB /* CircleButton.swift */; };
+		2C2B5D5D2CF2B5B10070AF84 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B5D5C2CF2B5B10070AF84 /* CalendarViewModel.swift */; };
 		2C31998C2C9396C4007EDC3C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C31998B2C9396C4007EDC3C /* Card.swift */; };
 		2C31998E2C9397E0007EDC3C /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C31998D2C9397E0007EDC3C /* RoundedButton.swift */; };
 		2C3B7C812CD7295E007D305F /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3B7C802CD7295E007D305F /* Radio.swift */; };
@@ -69,6 +70,7 @@
 		2C1FBE322CED390600526C03 /* IncConsLinkBalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsLinkBalModel.swift; sourceTree = "<group>"; };
 		2C2A6D782CCBD005004675EB /* IncConsSecListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsSecListPage.swift; sourceTree = "<group>"; };
 		2C2A6D7A2CCC7C19004675EB /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
+		2C2B5D5C2CF2B5B10070AF84 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		2C31998B2C9396C4007EDC3C /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		2C31998D2C9397E0007EDC3C /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		2C3B7C802CD7295E007D305F /* Radio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				2CBF5DE42CCEEF4500A7893A /* IncConsSectionViewModel.swift */,
 				2C1B250D2CD18BE0009E7C49 /* IncConsCategoryViewModel.swift */,
 				2CA63C382CEE9020001E69D0 /* IncomeConsumeViewModel.swift */,
+				2C2B5D5C2CF2B5B10070AF84 /* CalendarViewModel.swift */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				2C65458B2CB72665002EA834 /* CheckBox.swift in Sources */,
 				2CBF5DE52CCEEF4500A7893A /* IncConsSectionViewModel.swift in Sources */,
 				2C4D49A02C930F0B00CAA89F /* HHA_2App.swift in Sources */,
+				2C2B5D5D2CF2B5B10070AF84 /* CalendarViewModel.swift in Sources */,
 				2CF193032C9689A600D4843B /* PieChart.swift in Sources */,
 				2C1B250E2CD18BE0009E7C49 /* IncConsCategoryViewModel.swift in Sources */,
 				2CB19EF22C931BA3008D1600 /* CustomTab.swift in Sources */,

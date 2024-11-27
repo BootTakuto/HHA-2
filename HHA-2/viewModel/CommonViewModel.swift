@@ -13,6 +13,10 @@ class CommonViewModel {
     
     let realm = try! Realm()
     
+    let monthFormat = "yyyyMM"
+    
+    let dateFromat = "yyyyMMdd"
+    
      /*
       日付を任意のフォーマットに変換
       -param date 日付
@@ -141,4 +145,24 @@ class CommonViewModel {
         return textColor
     }
     
+    /*
+     選択月の取得
+     -param 画面で選択された日付
+     -return 選択月
+     */
+    func getSelectedMonth(selectedDate: Date) -> String {
+        return getFormatDate(format: monthFormat, date: selectedDate)
+    }
+    
+    /*
+     登録済みの収入・支出情報を取得
+     -param month 選択月
+     -return
+     */
+    func getIncConsListByMonth(selectedDate: Date) -> Results<IncConsModel> {
+        let month = getSelectedMonth(selectedDate: selectedDate)
+        let filterPredicate = NSPredicate(format: "incConsDate LIKE %@", "*\(month)*")
+        @ObservedResults(IncConsModel.self, filter: filterPredicate) var results
+        return results
+    }
 }
