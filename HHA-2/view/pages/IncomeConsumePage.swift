@@ -29,14 +29,16 @@ struct IncomeConsumePage: View {
                     .frame(height: geometry.size.height)
             }
         }.onChange(of: selectDate) {
-            // 収入・支出合計金額を取得
-            self.incTotal = viewModel.getIncOrConsMonthlyTotal(selectedDate: selectDate, incConsFlg: 0)
-            self.consTotal = viewModel.getIncOrConsMonthlyTotal(selectedDate: selectDate, incConsFlg: 1)
-            // 収入・支出表示用辞書の取得
-            self.incConsDic = viewModel.getIncConsDic(selectedDate: selectDate)
-            // 収入・支出チャートの作成
-            self.incPieDataArray = viewModel.getIncConsPieDataArray(incConsFlg: 0, selectedDate: selectDate)
-            self.consPieDataArray = viewModel.getIncConsPieDataArray(incConsFlg: 1, selectedDate: selectDate)
+            withAnimation {
+                // 収入・支出合計金額を取得
+                self.incTotal = viewModel.getIncOrConsMonthlyTotal(selectedDate: selectDate, incConsFlg: 0)
+                self.consTotal = viewModel.getIncOrConsMonthlyTotal(selectedDate: selectDate, incConsFlg: 1)
+                // 収入・支出表示用辞書の取得
+                self.incConsDic = viewModel.getIncConsDic(selectedDate: selectDate)
+                // 収入・支出チャートの作成
+                self.incPieDataArray = viewModel.getIncConsPieDataArray(incConsFlg: 0, selectedDate: selectDate)
+                self.consPieDataArray = viewModel.getIncConsPieDataArray(incConsFlg: 1, selectedDate: selectDate)
+            }
         }
     }
     
@@ -74,16 +76,15 @@ struct IncomeConsumePage: View {
     
     @ViewBuilder
     func PieChartIncCons(size: CGSize, chartTitle: String, incConsFlg: Int) -> some View {
-        let pieDataArray = incConsFlg == 0 ? incPieDataArray : consPieDataArray
         HStack(spacing: 0) {
             PieChart(chartTitle: chartTitle,
-                     dataArray: pieDataArray,
+                     dataArray: incConsFlg == 0 ? $incPieDataArray : $consPieDataArray,
                      emptyColor: incConsFlg == 0 ? .blue.opacity(0.25) : .red.opacity(0.25))
                 .frame(width: (size.width - 20) / 2)
             ScrollView {
                 VStack(spacing: 5) {
-                    ForEach(pieDataArray.indices, id: \.self) { index in
-                        let data = pieDataArray[index]
+                    ForEach(incConsFlg == 0 ? incPieDataArray.indices : consPieDataArray.indices, id: \.self) { index in
+                        let data = incConsFlg == 0 ? incPieDataArray[index] : consPieDataArray[index]
                         HStack(alignment: .center) {
                             Circle().fill(data.bgColor).frame(width: 15)
                             HStack(spacing: 0) {
@@ -138,20 +139,26 @@ struct IncomeConsumePage: View {
                         HStack {
                             Bar()
                                 .padding(.trailing, 10)
-                            Card {
-                                VStack(spacing: 0) {
-                                    ForEach(dataArray.indices, id: \.self) {index in
-                                        let data = dataArray[index]
-                                        IncConsStack(size: size, incConsData: data)
-                                            .frame(height: 50)
-                                        if (dataArray.count > 1 && index < dataArray.count - 1) {
-                                            Border()
-                                                .padding(.horizontal, 10)
-                                                .padding(.vertical, 5)
+                            if dataArray.isEmpty {
+                                Footnote(text: key == 0 ? "当月の収入は存在しません。" : "当月の支出は存在しません。")
+                                    .padding(.vertical, 10)
+                                    .frame(maxWidth: .infinity)
+                            } else {
+                                Card {
+                                    VStack(spacing: 0) {
+                                        ForEach(dataArray.indices, id: \.self) {index in
+                                            let data = dataArray[index]
+                                            IncConsStack(size: size, incConsData: data)
+                                                .frame(height: 50)
+                                            if (dataArray.count > 1 && index < dataArray.count - 1) {
+                                                Border()
+                                                    .padding(.horizontal, 10)
+                                                    .padding(.vertical, 5)
+                                            }
                                         }
                                     }
-                                }
-                            }.frame(height: cardHeigt)
+                                }.frame(height: cardHeigt)
+                            }
                         }.padding(.horizontal, 10)
                             .padding(.leading, 10)
                     }.padding(.top, 10)

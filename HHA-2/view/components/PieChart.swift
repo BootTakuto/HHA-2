@@ -10,7 +10,7 @@ import Charts
 
 struct PieChart: View {
     var chartTitle: String
-    @State var dataArray: [PieData]
+    @Binding var dataArray: [PieData]
     @State var sortedArray = [PieData]()
     var emptyColor = Color.blue.opacity(0.25)
     var body: some View {
@@ -54,5 +54,5 @@ struct PieChart: View {
         PieData(id: "3", valNm: "d", value: 3, ratio: 3, bgColor: .pink),
         PieData(id: "4", valNm: "e", value: 4, ratio: 4, bgColor: .purple)
     ]
-    PieChart(chartTitle: "テスト", dataArray: data)
+    PieChart(chartTitle: "テスト", dataArray: $data)
 }

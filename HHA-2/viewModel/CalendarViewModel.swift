@@ -10,8 +10,6 @@ import SwiftUI
 import RealmSwift
 
 class CalendarViewModel: CommonViewModel {
-    // 西暦を指定
-    let calendar = Calendar.current
     
     let dateFromatter = DateFormatter()
     
@@ -70,7 +68,7 @@ class CalendarViewModel: CommonViewModel {
             let calendarData = CalendarData(date: date,
                                             day: getFormatDate(format: "d", date: date),
                                             yyyyMMdd: yyyyMMdd,
-                                            isOtherMonth: currentMonth == targetMonth,
+                                            isOtherMonth: currentMonth != targetMonth,
                                             incConsExsistFlg: exsistFlg,
                                             dayIncTotal: incTotal,
                                             dayConsTotal: consTotal)
@@ -116,12 +114,12 @@ class CalendarViewModel: CommonViewModel {
      -param selectedDate 選択日付
      -return 日毎収入・支出レコード辞書
      */
-    func getIncConsDicByDay(selectedDate: Date) -> [String: [IncConsDataByDay]] {
-        var dic = [String: [IncConsDataByDay]]()
+    func getIncConsDicByDay(selectedDate: Date) -> [Date: [IncConsDataByDay]] {
+        var dic = [Date: [IncConsDataByDay]]()
         let results = getIncConsListByMonth(selectedDate: selectedDate)
         results.sorted(by: {$0.incConsDate < $1.incConsDate}).forEach { obj in
             let date = getStringToDate(dateStr: obj.incConsDate)
-            let dateStr = getFormatDate(format: "yyyy年M月d日", date: date)
+//            let dateStr = getFormatDate(format: "yyyy年M月d日", date: date)
             // 連携残高の配列
             var linkBalArray = [IncConsLinkBalModel]()
             if !linkBalArray.isEmpty {
@@ -137,10 +135,10 @@ class CalendarViewModel: CommonViewModel {
                                                     secModel: realm.object(ofType: IncConsSecionModel.self, forPrimaryKey: obj.incConsSecKey)!,
                                                     catgModel: realm.object(ofType: IncConsCategoryModel.self, forPrimaryKey: obj.incConsCatgKey)!,
                                                     linkBalArray: linkBalArray)
-            if dic[dateStr] == nil {
-                dic[dateStr] = [incConsDataByDay]
+            if dic[date] == nil {
+                dic[date] = [incConsDataByDay]
             } else {
-                dic[dateStr]!.append(incConsDataByDay)
+                dic[date]!.append(incConsDataByDay)
             }
         }
         return dic

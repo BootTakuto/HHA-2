@@ -19,7 +19,7 @@ struct YearMonthSelector: View {
             .overlay {
                 HStack {
                     Button(action: {
-                        
+                        self.targetDate = commonVm.getAddingDate(targetDate: targetDate, adding: -1)
                     }) {
                         Image(systemName: "chevron.left")
                     }
@@ -29,7 +29,7 @@ struct YearMonthSelector: View {
                             self.isSheetPresented.toggle()
                         }
                     Button(action: {
-                        
+                        self.targetDate = commonVm.getAddingDate(targetDate: targetDate, adding: 1)
                     }) {
                         Image(systemName: "chevron.right")
                     }

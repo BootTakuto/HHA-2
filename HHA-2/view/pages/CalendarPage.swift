@@ -28,6 +28,16 @@ struct CalendarPage: View {
                     .offset(y: isCalendarShow ? 0 : hiddenOffset)
                     .frame(height: geometry.size.height)
             }
+        }.onChange(of: selectDate) {
+            withAnimation {
+                // カレンダー日付配列
+                caledarDataArray = viewModel.getCalendarDays(selectedDate: selectDate)
+                // 収入・支出合計金額
+                incTotal = viewModel.getIncOrConsMonthlyTotal(incConsFlg: 0, selectedDate: selectDate)
+                consTotal = viewModel.getIncOrConsMonthlyTotal(incConsFlg: 1, selectedDate: selectDate)
+                // 収入・支出データ
+                incConsDic = viewModel.getIncConsDicByDay(selectedDate: selectDate)
+            }
         }
     }
     
@@ -58,11 +68,11 @@ struct CalendarPage: View {
                                     .overlay {
                                         VStack {
                                             Text(calendarData.day)
-                                                .foregroundStyle(!calendarData.isOtherMonth ? .gray :
+                                                .foregroundStyle(calendarData.isOtherMonth ? isCurrent ? .white : .gray :
                                                                     isCurrent  ? accentTextColor : .changeableText)
                                                 .background {
                                                     Circle()
-                                                        .fill(isCurrent ? accentColor : .clear)
+                                                        .fill(isCurrent ? calendarData.isOtherMonth ? .gray : accentColor : .clear)
                                                         .frame(width: 15, height: 15)
                                                 }
                                             Group {
@@ -150,32 +160,38 @@ struct CalendarPage: View {
             VStack() {
                 IncConsTotalCard(size: size)
                     .padding(.top, 10)
-                ForEach(incConsDic.keys.sorted(), id: \.self) { date in
-                    let incConsDataArray = incConsDic[date] ?? []
-                    let arrayCount = incConsDataArray.count
-                    let cardHeigt: CGFloat = 60 * CGFloat(arrayCount) + CGFloat(arrayCount - 1) // 基本サイズ60 * データ数 +
-                    Footnote(text: date)
-                        .frame(width: size.width - 20, alignment: .leading)
-                        .padding(.vertical, 5)
-                    HStack {
-                        Bar()
-                            .padding(.trailing, 10)
-                        Card {
-                            VStack(spacing: 0) {
-                                ForEach(incConsDataArray.indices, id: \.self) { index in
-                                    let data = incConsDataArray[index]
-                                    IncConsStack(size: size, incConsData: data)
-                                        .frame(height: 50)
-                                    if (incConsDataArray.count > 1 && index < incConsDataArray.count - 1) {
-                                        Border()
-                                            .padding(.horizontal, 10)
-                                            .padding(.vertical, 5)
+                if incConsDic.isEmpty {
+                    Footnote(text: "当月の収入・支出情報はありません。")
+                        .padding(.top, 50)
+                } else {
+                    ForEach(Array(incConsDic.keys).sorted(by: >), id: \.self) { date in
+                        let dateStr = viewModel.getFormatDate(format: "yyyy年M月d日", date: date)
+                        let incConsDataArray = incConsDic[date] ?? []
+                        let arrayCount = incConsDataArray.count
+                        let cardHeigt: CGFloat = 60 * CGFloat(arrayCount) + CGFloat(arrayCount - 1) // 基本サイズ60 * データ数 +
+                        Footnote(text: dateStr)
+                            .frame(width: size.width - 20, alignment: .leading)
+                            .padding(.vertical, 5)
+                        HStack {
+                            Bar()
+                                .padding(.trailing, 10)
+                            Card {
+                                VStack(spacing: 0) {
+                                    ForEach(incConsDataArray.indices, id: \.self) { index in
+                                        let data = incConsDataArray[index]
+                                        IncConsStack(size: size, incConsData: data)
+                                            .frame(height: 50)
+                                        if (incConsDataArray.count > 1 && index < incConsDataArray.count - 1) {
+                                            Border()
+                                                .padding(.horizontal, 10)
+                                                .padding(.vertical, 5)
+                                        }
                                     }
                                 }
-                            }
-                        }.frame(height: cardHeigt)
-                    }.padding(.horizontal, 10)
-                        .padding(.leading, 10)
+                            }.frame(height: cardHeigt)
+                        }.padding(.horizontal, 10)
+                            .padding(.leading, 10)
+                    }
                 }
             }.padding(.top, 10)
                 .padding(.bottom, isCalendarShow ? 320 : 40)

@@ -10,6 +10,8 @@ import RealmSwift
 import SwiftUI
 
 class CommonViewModel {
+    // 西暦を指定
+    let calendar = Calendar.current
     
     let realm = try! Realm()
     
@@ -164,5 +166,15 @@ class CommonViewModel {
         let filterPredicate = NSPredicate(format: "incConsDate LIKE %@", "*\(month)*")
         @ObservedResults(IncConsModel.self, filter: filterPredicate) var results
         return results
+    }
+    
+    /*
+     加算した日付を取得
+     -param targetDate 基準日
+     -param adding 加算分
+     -return 加算した日付
+     */
+    func getAddingDate(targetDate: Date, adding: Int) -> Date {
+        return calendar.date(byAdding: .month, value: adding,  to: targetDate) ?? Date()
     }
 }
