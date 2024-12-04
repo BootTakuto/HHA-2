@@ -21,8 +21,11 @@ struct RoundedIcon: View {
             if text != "" {
                 VStack(spacing: 0) {
                     Image(systemName: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: rectSize / 2, height: rectSize / 2)
                     Text(text)
-                        .font(.system(size: 10, weight: .medium))
+                        .font(.system(size: 8, weight: .medium))
                         .lineLimit(1)
                         .padding(1)
                 }.foregroundStyle(iconColor)

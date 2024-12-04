@@ -14,6 +14,7 @@ struct BalanceListPage: View {
     @Binding var isTotalShow: Bool
 //    @State var balanceList = BalanceViewModel().getBalnaceResults()
     @ObservedResults(BalanceModel.self) var balanceList
+    @State var balTotal = BalanceViewModel().getBalTotal()
     // 残高入力関連
     @State var isSheetShow = false
     @State var inputBalNm = ""
@@ -46,10 +47,11 @@ struct BalanceListPage: View {
                 Text("合計")
                     .frame(width: size.width / 2 - 10, alignment: .leading)
                     .padding(.leading, 10)
-                Text("¥\(0)")
+                Text("¥\(balTotal)")
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                     .frame(width: size.width / 2 - 50, alignment: .trailing)
+                    .foregroundStyle(balTotal < 0 ? .red : .changeableText)
                 CircleButton(imageNm: "plus") {
                     withAnimation {
                         self.isSheetShow.toggle()
@@ -80,6 +82,7 @@ struct BalanceListPage: View {
                         Text("¥\(balanceModel.balAmount)")
                             .padding(.trailing, 10)
                             .lineLimit(1)
+                            .foregroundStyle(balanceModel.balAmount < 0 ? .red : .changeableText)
                     }
                 }.font(.subheadline)
                 Image(systemName: "chevron.compact.right")

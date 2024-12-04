@@ -57,9 +57,23 @@ class InputPageVeiwModel: CommonViewModel {
      -param 収入・支出モデル
      */
     func registIncCons(incConsModel: IncConsModel) -> Bool {
+        let isIncome = incConsModel.incConsFlg == 0
+        let isLinkBal = incConsModel.isLinkBal
+        let linkBalList = incConsModel.linkBalList
         do {
             try realm.write() {
                 realm.add(incConsModel)
+                if isLinkBal {
+                    linkBalList.indices.forEach { index in
+                        let linkBalData = linkBalList[index]
+                        let balObj = realm.object(ofType: BalanceModel.self, forPrimaryKey: linkBalData.balKey)!
+                        if isIncome {
+                            balObj.balAmount += incConsModel.incConsAmt
+                        } else {
+                            balObj.balAmount -= incConsModel.incConsAmt
+                        }
+                    }
+                }
             }
             return true
         } catch {

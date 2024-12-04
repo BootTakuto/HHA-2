@@ -72,7 +72,7 @@ struct ContentView: View {
                 .fill(accentColor)
             VStack {
                 Spacer()
-                    .frame(height: safeAreaInsets.top - 5)
+                    .frame(height: max(safeAreaInsets.top - 5, 0))
                 HStack {
                     Text(pageNames[pageIndex])
                         .font(isHeaderShow ? .title3 : .subheadline)
@@ -84,7 +84,8 @@ struct ContentView: View {
                             Image(systemName: "questionmark.circle")
                         }
                     }
-                }.padding(.horizontal, 30)
+                }
+                .padding(.horizontal, 30)
                     .foregroundStyle(accentTextColor)
             }
         }.frame(height:  isHeaderShow ?  safeAreaInsets.top + 50 : safeAreaInsets.top)

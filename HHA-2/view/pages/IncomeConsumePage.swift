@@ -112,11 +112,11 @@ struct IncomeConsumePage: View {
         let iconRectColor = CommonViewModel.getColorFromHex(hex: secModel.iconColorHex)
         let iconTextColor = CommonViewModel.getTextColorFromHex(hex: secModel.iconColorHex)
         HStack {
-            RoundedIcon(image: secModel.iconImageNm,
+            RoundedIcon(radius: 6,
+                        image: secModel.iconImageNm,
                         text: secModel.secNm,
                         rectColor: iconRectColor,
-                        iconColor: iconTextColor,
-                        rectSize: 40)
+                        iconColor: iconTextColor)
 //            Footnote(text: secModel.secNm, color: .changeableText)
             Spacer()
             Text("\(amtTotal)")
@@ -132,7 +132,7 @@ struct IncomeConsumePage: View {
                 ForEach(incConsDic.keys.sorted(), id: \.self) { key in
                     let dataArray = incConsDic[key]?.sorted(by: {$0.amtTotal > $1.amtTotal}) ?? []
                     let arrayCnt = dataArray.count
-                    let cardHeigt: CGFloat = 60 * CGFloat(arrayCnt) + CGFloat(arrayCnt + 1)
+                    let cardHeigt: CGFloat = 50 * CGFloat(arrayCnt) + CGFloat(arrayCnt + 1)
                     VStack {
                         Footnote(text: key == 0 ? "収入" : "支出")
                             .frame(width: size.width - 20, alignment: .leading)
@@ -149,7 +149,7 @@ struct IncomeConsumePage: View {
                                         ForEach(dataArray.indices, id: \.self) {index in
                                             let data = dataArray[index]
                                             IncConsStack(size: size, incConsData: data)
-                                                .frame(height: 50)
+                                                .frame(height: 40)
                                             if (dataArray.count > 1 && index < dataArray.count - 1) {
                                                 Border()
                                                     .padding(.horizontal, 10)

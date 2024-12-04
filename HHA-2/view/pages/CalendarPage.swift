@@ -11,7 +11,7 @@ struct CalendarPage: View {
     @Binding var isCalendarShow: Bool
     var accentColor: Color
     var accentTextColor: Color
-    @State var hiddenOffset: CGFloat = -270
+    @State var hiddenOffset: CGFloat = -290
     @State var selectDate = Date()
     @State var caledarDataArray = CalendarViewModel().getCalendarDays(selectedDate: Date())
     @State var currnetDate = CalendarViewModel().getFormatDate(format: "yyyyMMdd", date: Date())
@@ -44,11 +44,11 @@ struct CalendarPage: View {
     @ViewBuilder
     func CalendarHeader(size: CGSize) -> some View {
         let dayLabels = ["月", "火", "水", "木", "金", "土", "日"]
-        InnerHeader(isShow: $isCalendarShow, hiddenOffset: hiddenOffset, height: CGFloat(300)) {
+        InnerHeader(isShow: $isCalendarShow, hiddenOffset: hiddenOffset, height: CGFloat(320)) {
             VStack(spacing: 0) {
                 YearMonthSelector(targetDate: $selectDate)
                     .padding(.vertical, 5)
-                VStack(spacing: 0) {
+                VStack(spacing: 3) {
                     HStack(spacing: 0) {
                         ForEach(0 ..< 7, id: \.self) { index in
                             Text(dayLabels[index])
@@ -89,7 +89,7 @@ struct CalendarPage: View {
                             }
                         }
                     }
-                }.frame(height: 240)
+                }.frame(height: 260)
                     .padding(.horizontal, 7)
             }
         }
@@ -141,11 +141,11 @@ struct CalendarPage: View {
         let rectColor = CommonViewModel.getColorFromHex(hex: secModel.iconColorHex)
         let iconColor = CommonViewModel.getTextColorFromHex(hex: secModel.iconColorHex)
         HStack {
-            RoundedIcon(image: secModel.iconImageNm,
+            RoundedIcon(radius: 6,
+                        image: secModel.iconImageNm,
                         text: secModel.secNm,
                         rectColor: rectColor,
-                        iconColor: iconColor,
-                        rectSize: 40)
+                        iconColor: iconColor)
             Footnote(text: catgModel.catgNm, color: .changeableText)
             Spacer()
             Text("\(amount)")
@@ -168,7 +168,7 @@ struct CalendarPage: View {
                         let dateStr = viewModel.getFormatDate(format: "yyyy年M月d日", date: date)
                         let incConsDataArray = incConsDic[date] ?? []
                         let arrayCount = incConsDataArray.count
-                        let cardHeigt: CGFloat = 60 * CGFloat(arrayCount) + CGFloat(arrayCount - 1) // 基本サイズ60 * データ数 +
+                        let cardHeigt: CGFloat = 50 * CGFloat(arrayCount) + CGFloat(arrayCount - 1) // 基本サイズ60 * データ数 +
                         Footnote(text: dateStr)
                             .frame(width: size.width - 20, alignment: .leading)
                             .padding(.vertical, 5)
@@ -180,7 +180,7 @@ struct CalendarPage: View {
                                     ForEach(incConsDataArray.indices, id: \.self) { index in
                                         let data = incConsDataArray[index]
                                         IncConsStack(size: size, incConsData: data)
-                                            .frame(height: 50)
+                                            .frame(height: 40)
                                         if (incConsDataArray.count > 1 && index < incConsDataArray.count - 1) {
                                             Border()
                                                 .padding(.horizontal, 10)

@@ -70,6 +70,11 @@ struct InputPage: View {
                                                         incConsMemo: memo)
                         // 登録処理
                         self.isSucceed = viewModel.registIncCons(incConsModel: incConsModel)
+                        // 入力情報をリセット
+                        self.selectBalArray.indices.forEach { index in
+                            selectBalArray[index].inputAmt = "0"
+                        }
+                        self.memo = ""
                         // ポップアップ表示
                         self.isRegistedPopUpShow = true
                         // 3秒ごにポップアップ非表示
@@ -102,14 +107,14 @@ struct InputPage: View {
     @ViewBuilder
     func Header(size: CGSize, safeAreaInsets: EdgeInsets, isSelectIncome: Bool) -> some View {
         VStack(spacing: 0) {
-            ZStack(alignment: .topLeading) {
+            ZStack(alignment: .leading) {
                 Rectangle()
                     .fill(.changeable)
                 UnevenRoundedRectangle(bottomLeadingRadius: 20)
                     .fill(accentColor)
                 VStack {
                     Spacer()
-                        .frame(height: safeAreaInsets.top - 5)
+                        .frame(height: max(safeAreaInsets.top - 5, 0))
                     HStack {
                         Text("入力")
                             .font(.title3)
@@ -128,7 +133,7 @@ struct InputPage: View {
                     }.padding(.horizontal, 30)
                         .foregroundStyle(accentTextColor)
                 }
-            }.frame(height:  safeAreaInsets.top + 30)
+            }.frame(height:  safeAreaInsets.top + 50)
                 .zIndex(100)
             InnerHeader(isShow: $isShowInnerHeader, isAbleShrink: false, hiddenOffset: 0, height: 50) {
                 SegmentedSelector(selectedIndex: $selectedIndex, texts: ["収入", "支出"])
@@ -217,7 +222,7 @@ struct InputPage: View {
                                             .padding(.horizontal, 10)
                                     }
                                 }
-                            }.frame(width: 310, height: 110)
+                            }.frame(width: size.width - 90, height: 110)
                         }
                     }.scrollTargetLayout()
                         .padding(.horizontal, 15)
