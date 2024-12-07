@@ -31,4 +31,10 @@ class BalanceViewModel: CommonViewModel {
         }
         return total
     }
+    
+    /*
+     残高のやり取りを取得
+     -param
+     -return 
+     */
 }

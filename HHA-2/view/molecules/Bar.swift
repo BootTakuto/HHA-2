@@ -12,7 +12,7 @@ struct Bar: View {
     var body: some View {
         RoundedRectangle(cornerRadius: .infinity)
             .fill(color)
-            .frame(width: 0.5)
+            .frame(width: 1)
     }
 }
 

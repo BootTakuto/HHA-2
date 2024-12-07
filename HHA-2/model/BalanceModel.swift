@@ -12,9 +12,9 @@ class BalanceModel: Object, Identifiable {
     // 主キー
     @Persisted(primaryKey: true) var balKey: String = ""
     // 残高名
-    @Persisted var balName: String = ""
+    @Persisted var balName: String = "不明"
     // 残高タグカラーコード（16進数）
-    @Persisted var balColorHex: String = ""
+    @Persisted var balColorHex: String = "E22400"
     // 残高金額
     @Persisted var balAmount: Int = 0
 }

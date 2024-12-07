@@ -168,7 +168,7 @@ struct CalendarPage: View {
                         let dateStr = viewModel.getFormatDate(format: "yyyy年M月d日", date: date)
                         let incConsDataArray = incConsDic[date] ?? []
                         let arrayCount = incConsDataArray.count
-                        let cardHeigt: CGFloat = 50 * CGFloat(arrayCount) + CGFloat(arrayCount - 1) // 基本サイズ60 * データ数 +
+                        let cardHeigt: CGFloat = 50 * CGFloat(arrayCount) + CGFloat(arrayCount - 1) // 基本サイズ50 * データ数 +
                         Footnote(text: dateStr)
                             .frame(width: size.width - 20, alignment: .leading)
                             .padding(.vertical, 5)

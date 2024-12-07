@@ -21,22 +21,32 @@ struct BalanceListPage: View {
     @State var selectBalColorHex = "FFFFFF"
     // 画面表示設定
     @State var hiddenOffset: CGFloat = -50
+    // 遷移情報
+    @State var isPresentedBalDetail = false
+    @State var balModel = BalanceModel()
     // ビューモデル
     let viewModel = BalanceViewModel()
     var body: some View {
-        GeometryReader {
-            let size = $0.size
-            VStack(spacing: 0) {
-                BalTotalHeader(size: size)
-                    .zIndex(1000)
-                BalTotalList(size: size)
-                    .offset(y: isTotalShow ? 0 : hiddenOffset)
-                    .frame(height: size.height)
-            }.floatingSheet(isPresented: $isSheetShow) {
-                RegistBalancePopUp(size: size)
-                    .presentationDetents([.fraction(0.999)])
-                    .padding(.horizontal, 20)
+        NavigationStack {
+            GeometryReader {
+                let size = $0.size
+                VStack(spacing: 0) {
+                    BalTotalHeader(size: size)
+                        .zIndex(1000)
+                    BalTotalList(size: size)
+                        .offset(y: isTotalShow ? 0 : hiddenOffset)
+                        .frame(height: size.height)
+                }.floatingSheet(isPresented: $isSheetShow) {
+                    RegistBalancePopUp(size: size)
+                        .presentationDetents([.fraction(0.999)])
+                        .padding(.horizontal, 20)
+                }
             }
+        }.navigationDestination(isPresented: $isPresentedBalDetail) {
+            BalanceDetailPage(isPresented: $isPresentedBalDetail,
+                              accentColor: accentColor,
+                              accentTextColor: accentTextColor,
+                              balModel: balModel)
         }
     }
     
@@ -85,10 +95,14 @@ struct BalanceListPage: View {
                             .foregroundStyle(balanceModel.balAmount < 0 ? .red : .changeableText)
                     }
                 }.font(.subheadline)
-                Image(systemName: "chevron.compact.right")
+                Image(systemName: "chevron.right")
                     .foregroundStyle(.gray)
             }.padding(.horizontal, 10)
         }.frame(height: 80)
+            .onTapGesture {
+                self.isPresentedBalDetail = true
+                self.balModel = balanceModel
+            }
     }
     
     @ViewBuilder
