@@ -11,7 +11,7 @@ struct CustomTab: View {
     var accentColor: Color
     var accentTextColor: Color
     @Binding var pageIndex: Int
-    let pageIcons = ["list.bullet", "arrow.up.arrow.down", "calendar", "ellipsis"]
+    let pageIcons: [String]
     let pageNames: [String]
     var body: some View {
         ZStack {
@@ -25,7 +25,7 @@ struct CustomTab: View {
     @ViewBuilder
     func Tabs() -> some View {
         HStack(spacing: 0) {
-            ForEach(0 ..< 4, id: \.self) { index in
+            ForEach(pageIcons.indices, id: \.self) { index in
                 let isSelected = self.pageIndex == index
                 Rectangle()
                     .fill(.clear)

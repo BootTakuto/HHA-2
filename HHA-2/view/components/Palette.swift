@@ -27,6 +27,11 @@ struct Palette: View {
                 }
             }
         }.clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay {
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(lineWidth: 1)
+                    .fill(.changeableStroke)
+            }
     }
 }
 

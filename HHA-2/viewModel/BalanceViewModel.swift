@@ -13,9 +13,14 @@ class BalanceViewModel: CommonViewModel {
      残高の登録を行います
      @param balanceModel 残高登録モデル
      */
-    func reigstBalance(balanceModel: BalanceModel) {
-        try! realm.write() {
-            realm.add(balanceModel)
+    func reigstBalance(balanceModel: BalanceModel) -> Bool {
+        do {
+            try realm.write() {
+                realm.add(balanceModel)
+            }
+            return true
+        } catch {
+            return false
         }
     }
     
@@ -33,8 +38,15 @@ class BalanceViewModel: CommonViewModel {
     }
     
     /*
-     残高のやり取りを取得
-     -param
-     -return 
+     表示用資産・負債残高を取得（key: 資産or負債　文字列, value: 残高リスト）
+     -return 表示用資産・負債残高辞書
      */
+    func getBalanceDic() -> [Int: Results<BalanceModel>] {
+        var dic = [Int: Results<BalanceModel>]()
+        let assetResults = realm.objects(BalanceModel.self).where({$0.assetDebtFlg == 0})
+        dic[0] = assetResults
+        let debtResults = realm.objects(BalanceModel.self).where({$0.assetDebtFlg == 1})
+        dic[1] = debtResults
+        return dic
+    }
 }

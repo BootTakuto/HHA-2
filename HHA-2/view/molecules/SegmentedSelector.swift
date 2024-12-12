@@ -23,7 +23,7 @@ struct SegmentedSelector: View {
                 RoundedRectangle(cornerRadius: 5)
                     .fill(accentColor)
                     .shadow(color: .changeableShadow, radius: 2)
-                    .frame(width: elementWidth - 10, height: 20)
+                    .frame(width: elementWidth - 10, height: 25)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .offset(x: elementRectOffset)
                 HStack(spacing: 0) {
@@ -44,7 +44,7 @@ struct SegmentedSelector: View {
                     }
                 }
             }
-        }.frame(height: 30)
+        }.frame(height: 35)
     }
 }
 
