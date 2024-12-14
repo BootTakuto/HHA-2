@@ -33,7 +33,16 @@ struct InputText: View {
                         }
                     }.shadow(color: isDispShadow ? .changeableShadow.opacity(0.5) : .clear, radius: 10)
             }.multilineTextAlignment(alignment)
-            .onChange(of: focus) {
+            .toolbar{
+                ToolbarItem(placement: .keyboard){
+                    HStack{
+                        Spacer()
+                        Button("完了"){
+                            self.focus = false
+                        }
+                    }
+                }
+            }.onChange(of: focus) {
                 if text != "" && focus {
                     self.text = ""
                 }

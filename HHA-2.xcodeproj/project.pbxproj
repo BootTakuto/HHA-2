@@ -10,6 +10,7 @@
 		14AB7B1ADF510161D9D2A59B /* Pods_HHA_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DE85EC195D106FA4F038CCE /* Pods_HHA_2.framework */; };
 		2C0658452D08EAB500CBAC29 /* RegistPopUpCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0658442D08EAB500CBAC29 /* RegistPopUpCard.swift */; };
 		2C15264E2C963F7100D20E35 /* CompareChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C15264D2C963F7000D20E35 /* CompareChart.swift */; };
+		2C1765162D0CFC60006D113D /* RoundedTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1765152D0CFC60006D113D /* RoundedTab.swift */; };
 		2C1B250C2CD1884A009E7C49 /* IncConsCatgListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B250B2CD1884A009E7C49 /* IncConsCatgListPage.swift */; };
 		2C1B250E2CD18BE0009E7C49 /* IncConsCategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B250D2CD18BE0009E7C49 /* IncConsCategoryViewModel.swift */; };
 		2C1C670E2CAC2D2800E96552 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1C670D2CAC2D2800E96552 /* CommonViewModel.swift */; };
@@ -73,6 +74,7 @@
 		21A9848FB16BF34E08D93E51 /* Pods-HHA-2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HHA-2.release.xcconfig"; path = "Target Support Files/Pods-HHA-2/Pods-HHA-2.release.xcconfig"; sourceTree = "<group>"; };
 		2C0658442D08EAB500CBAC29 /* RegistPopUpCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistPopUpCard.swift; sourceTree = "<group>"; };
 		2C15264D2C963F7000D20E35 /* CompareChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareChart.swift; sourceTree = "<group>"; };
+		2C1765152D0CFC60006D113D /* RoundedTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTab.swift; sourceTree = "<group>"; };
 		2C1B250B2CD1884A009E7C49 /* IncConsCatgListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsCatgListPage.swift; sourceTree = "<group>"; };
 		2C1B250D2CD18BE0009E7C49 /* IncConsCategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsCategoryViewModel.swift; sourceTree = "<group>"; };
 		2C1C670D2CAC2D2800E96552 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				2C862CD02D0516AA0079C0D3 /* ShrinkableTab.swift */,
 				2C862CD42D0798060079C0D3 /* SlideableTab.swift */,
 				2C0658442D08EAB500CBAC29 /* RegistPopUpCard.swift */,
+				2C1765152D0CFC60006D113D /* RoundedTab.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -467,6 +470,7 @@
 				2C862CCD2D04548A0079C0D3 /* BalanceParentView.swift in Sources */,
 				2CD68B522CC7072200EEC61D /* RegistButton.swift in Sources */,
 				2CCC913A2D04291700CF1F15 /* ParentTabShape.swift in Sources */,
+				2C1765162D0CFC60006D113D /* RoundedTab.swift in Sources */,
 				2C1FBE312CED354B00526C03 /* IncConsModel.swift in Sources */,
 				2CFBCC952CA60BC800E8A72A /* RoundedIcon.swift in Sources */,
 				2C5481D92CF1EACB006FF4FC /* ArrayExtension.swift in Sources */,

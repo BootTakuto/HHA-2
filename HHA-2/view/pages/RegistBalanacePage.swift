@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RegistBalanacePage: View {
-    @Binding var isPresented: Bool
     var accentColor: Color
     var accentTextColor: Color
     // 登録データ
@@ -26,100 +25,89 @@ struct RegistBalanacePage: View {
     var body: some View {
         GeometryReader { geom in
             let size = geom.size
-                VStack(spacing: 0) {
-                    HStack(spacing: 0) {
-                        Spacer()
-                        SegmentedSelector(selectedIndex: $selectedIndex, texts: ["資産", "負債"])
-                            .frame(width: size.width * (2 / 3))
-                        Spacer()
-                        Button(action: {
-                            self.isPresented = false
-                        }) {
-                            Image(systemName: "xmark")
-                                .foregroundStyle(.changeableText)
-                        }
-                    }.padding(.horizontal, 20)
-                        .padding(.leading, 15)
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(selectedIndex == 0 ? "資産登録" : "負債登録")
-                                .font(.title2)
-                                .fontWeight(.medium)
-                            Footnote(text: selectedIndex == 0 ?
-                                     "預金、ポイントなどの資産を登録" : "クレジットカード、奨学金などの負債を登録")
-                        }.frame(maxWidth: .infinity, alignment: .leading)
-                    }.padding(20)
-                    // ▼残高名入力領域
-                    VStack {
-                        Footnote(text: selectedIndex == 0 ? "資産残高名" : "負債残高名")
-                            .frame(width: size.width - 40, alignment: .leading)
-                        InputText(placeHolder: "", text: $balName, isDispShadow: false)
-                    }.padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                    
-                    // ▼初期金額設定
-                    VStack {
-                        Footnote(text: "初期金額")
-                            .frame(width: size.width - 40, alignment: .leading)
-                        InputNumWithCalc(accentColor: accentColor, inputNum: $initNum, isDispShadow: false)
-                    }.padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                    
-                    // ▼初期金額設定
-                    VStack {
-                        Footnote(text: "カラー")
-                            .frame(width: size.width - 40, alignment: .leading)
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(lineWidth: 0.5)
+            VStack(spacing: 0) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("残高追加")
+                            .font(.title3)
+                        Footnote(text: "預金・ポイントなどの資産残高\nクレジットカード・ローンなどの負債残高を追加")
+                    }.frame(maxWidth: .infinity, alignment: .leading)
+                }.padding(.horizontal, 20)
+                ShrinkableTab(selectedIndex: $selectedIndex,
+                              titles: [TabData(title: "資産", iconNm: "hand.thumbsup"),
+                                       TabData(title: "負債", iconNm: "hand.thumbsdown")])
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                // ▼残高名入力領域
+                VStack {
+                    Footnote(text: selectedIndex == 0 ? "資産残高名" : "負債残高名")
+                        .frame(width: size.width - 40, alignment: .leading)
+                    InputText(placeHolder: "", text: $balName, isDispShadow: false)
+                }.padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                // ▼初期金額設定
+                VStack {
+                    Footnote(text: "初期金額")
+                        .frame(width: size.width - 40, alignment: .leading)
+                    InputNumWithCalc(accentColor: accentColor, inputNum: $initNum, isDispShadow: false)
+                }.padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                
+                // ▼初期金額設定
+                VStack {
+                    Footnote(text: "カラー")
+                        .frame(width: size.width - 40, alignment: .leading)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(lineWidth: 0.5)
+                            .fill(.changeableStroke)
+                            .frame(height: 50)
+                        HStack {
+                            Text(balColorHex)
+                            Spacer()
+                            Circle()
+                                .stroke(lineWidth: 2)
                                 .fill(.changeableStroke)
-                                .frame(height: 50)
-                            HStack {
-                                Text(balColorHex)
-                                Spacer()
-                                Circle()
-                                    .stroke(lineWidth: 2)
-                                    .fill(.changeableStroke)
-                                    .frame(width: 35, height: 35)
-                                    .overlay {
-                                        Circle()
-                                            .fill(CommonViewModel.getColorFromHex(hex: balColorHex))
-                                            .shadow(color: .changeableShadow, radius: 2)
-                                            .padding(4)
-                                    }
-                            }.padding(.horizontal, 10)
-                        }.onTapGesture {
+                                .frame(width: 35, height: 35)
+                                .overlay {
+                                    Circle()
+                                        .fill(CommonViewModel.getColorFromHex(hex: balColorHex))
+                                        .shadow(color: .changeableShadow, radius: 2)
+                                        .padding(4)
+                                }
+                        }.padding(.horizontal, 10)
+                    }.onTapGesture {
 //                            withAnimation {
-                                self.isColorSheetShow = true
+                            self.isColorSheetShow = true
 //                            }
-                        }
-                    }.padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-                    RoundedButton(color: accentColor.opacity(balName == "" ? 0.5 : 1),
-                                  text: "登 録",
-                                  textColor: accentTextColor.opacity(balName == "" ? 0.5 : 1),
-                                  isDispShadow: balName == "" ? false : true) {
-                        // 登録データの作成
-                        let balanceModel = BalanceModel()
-                        balanceModel.balKey = UUID().uuidString
-                        balanceModel.assetDebtFlg = selectedIndex
-                        balanceModel.balName = balName
-                        balanceModel.balColorHex = balColorHex
-                        balanceModel.balAmount = Int(initNum) ?? 0
-                        // 登録処理　成功・失敗を返す
-                        self.isRegistSucceed = viewModel.reigstBalance(balanceModel: balanceModel)
-                        self.isRegistPopUpShow = true
-                        // 3秒ごにポップアップ非表示
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                            isRegistPopUpShow = false
-                        }
-                    }.disabled(balName == "")
-                        .frame(height: 40)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 20)
-                }
-        }.padding(.top, 10)
-            .sheet(isPresented: $isRegistPopUpShow) {
+                    }
+                }.padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                RoundedButton(color: accentColor.opacity(balName == "" ? 0.5 : 1),
+                              text: "登 録",
+                              textColor: accentTextColor.opacity(balName == "" ? 0.5 : 1),
+                              isDispShadow: balName == "" ? false : true) {
+                    // 登録データの作成
+                    let balanceModel = BalanceModel()
+                    balanceModel.balKey = UUID().uuidString
+                    balanceModel.assetDebtFlg = selectedIndex
+                    balanceModel.balName = balName
+                    balanceModel.balColorHex = balColorHex
+                    balanceModel.balAmount = Int(initNum) ?? 0
+                    // 登録処理　成功・失敗を返す
+                    self.isRegistSucceed = viewModel.reigstBalance(balanceModel: balanceModel)
+                    self.isRegistPopUpShow = true
+                    // 3秒ごにポップアップ非表示
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        isRegistPopUpShow = false
+                    }
+                }.disabled(balName == "")
+                    .frame(height: 40)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 20)
+                Spacer()
+            }
+        }.sheet(isPresented: $isRegistPopUpShow) {
                 RegistPopUpCard(isSucceed: $isRegistSucceed)
                     .presentationDetents([.fraction(0.999)])
                     .padding(.horizontal, 20)
@@ -151,7 +139,9 @@ struct RegistBalanacePage: View {
 
 #Preview {
     @Previewable @State var isPresented = false
-    RegistBalanacePage(isPresented: $isPresented,
-                       accentColor: .yellow,
+//    RegistBalanacePage(isPresented: $isPresented,
+//                       accentColor: .yellow,
+//                       accentTextColor: .black)
+    RegistBalanacePage(accentColor: .yellow,
                        accentTextColor: .black)
 }

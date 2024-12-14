@@ -28,13 +28,18 @@ class BalanceViewModel: CommonViewModel {
      残高の合計金額を取得します。
      -return 残高の合計
      */
-    func getBalTotal() -> Int {
-        var total = 0
+    func getBalTotalDic() -> [Int: Int] {
+        var totalDic: [Int: Int] = [0:0, 1:0, 2:0]
         let results = realm.objects(BalanceModel.self)
         results.forEach { obj in
-            total += obj.balAmount
+            if obj.assetDebtFlg == 0 {
+                totalDic[0]! += obj.balAmount
+            } else {
+                totalDic[1]! += obj.balAmount
+            }
         }
-        return total
+        totalDic[2]! = totalDic[0]! - totalDic[1]!
+        return totalDic
     }
     
     /*
@@ -48,5 +53,16 @@ class BalanceViewModel: CommonViewModel {
         let debtResults = realm.objects(BalanceModel.self).where({$0.assetDebtFlg == 1})
         dic[1] = debtResults
         return dic
+    }
+}
+
+struct BalanceTotalData {
+    var assetsTotal = 0
+    var debtTotal = 0
+    var netTotal = 0
+    init(assetsTotal: Int = 0, debtTotal: Int = 0, netTotal: Int = 0) {
+        self.assetsTotal = assetsTotal
+        self.debtTotal = debtTotal
+        self.netTotal = netTotal
     }
 }
