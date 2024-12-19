@@ -24,7 +24,7 @@ struct CircleButton: View {
                                 Image(systemName: imageNm)
                                     .resizable()
                                     .scaledToFit()
-                                    .padding(text == "" ? 12 : 0)
+                                    .padding(text == "" ? 10 : 0)
                             } else {
                                 Image(systemName: imageNm)
                             }

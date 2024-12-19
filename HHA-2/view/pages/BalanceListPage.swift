@@ -9,12 +9,13 @@ import SwiftUI
 import RealmSwift
 
 struct BalanceListPage: View {
+    @Binding var isRegistPagePresented: Bool
     var accentColor: Color
     var accentTextColor: Color
     // 表示データ
     @State var balTotalDic = BalanceViewModel().getBalTotalDic()
     @State var dispInfoIndex = 0
-    let allBalDataDic = BalanceViewModel().getBalanceDic()
+    @State var allBalDataDic = BalanceViewModel().getBalanceDic()
     @State var dispBalDataDic = [Int: Results<BalanceModel>]()
     var titles = [TabData(title: "資産・負債一覧", iconNm: "square.stack.3d.up"),
                   TabData(title: "資産一覧", iconNm: "hand.thumbsup"),
@@ -54,6 +55,22 @@ struct BalanceListPage: View {
                 case 2:
                     self.dispBalDataDic = [1: allBalDataDic[1]!]
                 default:
+                    self.dispBalDataDic = allBalDataDic
+                }
+            }
+        }.onChange(of: isDetailPagePresented) {
+            if !isDetailPagePresented {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation {
+                        self.allBalDataDic = viewModel.getBalanceDic()
+                        self.dispBalDataDic = allBalDataDic
+                    }
+                }
+            }
+        }.onChange(of: isRegistPagePresented) {
+            if !isRegistPagePresented {
+                withAnimation {
+                    self.allBalDataDic = viewModel.getBalanceDic()
                     self.dispBalDataDic = allBalDataDic
                 }
             }
@@ -151,9 +168,12 @@ struct BalanceListPage: View {
                                 }.padding(.horizontal, 10)
                             }.frame(height: 70 * CGFloat(results!.count) + CGFloat(1 * results!.count))
                         } else {
-                            Footnote(text: key == 0 ? "資産は存在しません" : "負債は存在しません")
-                                .padding(.vertical, 10)
-                                .frame(maxWidth: .infinity)
+                            VStack {
+                                ResizColableImage(key == 0 ? "watoring.money" : "happy.person")
+                                    .frame(width: 50, height: 50)
+                                Footnote(text: key == 0 ? "資産残高は存在しません" : "負債残高は存在しません")
+                            }.frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
                         }
                     }.padding(.horizontal, 10)
                         .padding(.leading, allInfoDisp ? 10 : 0)

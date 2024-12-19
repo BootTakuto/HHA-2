@@ -18,9 +18,9 @@ struct SegmentedSelector: View {
             let size = $0.size
             let elementWidth = size.width / CGFloat(texts.count)
             ZStack {
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color(uiColor: .systemGray5))
-                RoundedRectangle(cornerRadius: 5)
+                RoundedRectangle(cornerRadius: .infinity)
+                    .fill(Color(uiColor: .systemGray6))
+                RoundedRectangle(cornerRadius: .infinity)
                     .fill(accentColor)
                     .shadow(color: .changeableShadow, radius: 2)
                     .frame(width: elementWidth - 10, height: 25)

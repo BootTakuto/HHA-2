@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct BalanceDetailPage: View {
     @Binding var isPresented: Bool
@@ -13,19 +14,77 @@ struct BalanceDetailPage: View {
     var accentTextColor: Color
     @State var balModel: BalanceModel
     // 画面表示設定
-    @State var isHeaderShow = true
+    @State var selectedPageIndex = 0
     @State var isEditMode = false
     @State var selectedDate = Date()
+    @State var isDeleteAlertShow = false
+    let viewModel = BalanceViewModel()
     var body: some View {
         NavigationStack {
-            GeometryReader { geom in
-                VStack(spacing: 0) {
-                  
-                }.ignoresSafeArea()
-            }
+            ZStack(alignment: .bottom) {
+                Header()
+                ZStack(alignment: .top) {
+                    UnevenRoundedRectangle(topLeadingRadius: 0, topTrailingRadius: 10)
+                        .fill(.changeable)
+                        .shadow(color: .changeableShadow, radius: 5)
+                    switch selectedPageIndex {
+                    case 0:
+                        BalanceLinkHistoryPage()
+                    case 1:
+                        EditBalancePage(accentColor: accentColor,
+                                        accentTextColor: accentTextColor,
+                                        balModel: balModel)
+                    default:
+                        BalanceLinkHistoryPage()
+                    }
+                }.padding(.top, 10 + 30)
+                HStack(spacing: 15) {
+                    RoundedTab(selectIndex: $selectedPageIndex,
+                               tabDatas: [TabData(title: "連携一覧", iconNm: "list.bullet"),
+                                          TabData(title: "編集", iconNm: "square.and.pencil")],
+                               accentColor: accentColor, accentTextColor: accentTextColor)
+                    CircleButton(imageNm: "trash", color: .changeable, textColor: .red) {
+                        self.isDeleteAlertShow = true
+                    }.frame(width: 40)
+                }.padding(.bottom, 30)
+            }.background(accentColor)
+                .ignoresSafeArea(edges: .bottom)
         }.navigationBarBackButtonHidden()
+            .floatingSheet(isPresented: $isDeleteAlertShow) {
+                AlertPopUpCard(isPresented: $isDeleteAlertShow,
+                               message: "この残高を削除します。よろしいですか？\n※この残高の連携収支・金額等の情報の一切が削除されます。") {
+                    self.isDeleteAlertShow = false
+                    self.isPresented = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        viewModel.deleteBalanceModel(balKey: balModel.balKey)
+                    }
+                }.presentationDetents([.fraction(0.999)])
+            }
     }
     
+    @ViewBuilder
+    func Header() -> some View {
+        VStack {
+            HStack {
+                Button(action: {
+                    self.isPresented = false
+                }) {
+                    HStack {
+                        Card(radiuses: [.infinity, .infinity, .infinity, .infinity]) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .foregroundStyle(.changeableText)
+                                    .font(.footnote)
+                                Footnote(text: "戻る", color: .changeableText)
+                            }
+                        }
+                    }
+                }.frame(width: 100, height: 30)
+                Spacer()
+            }.padding(.horizontal, 10)
+            Spacer()
+        }
+    }
 //    @ViewBuilder
 //    func Header(size: CGSize, safeAreaInsets: EdgeInsets) -> some View {
 //        VStack(spacing: 0) {
@@ -122,6 +181,7 @@ struct BalanceDetailPage: View {
 
 #Preview {
     @Previewable @State var isPresented = false
+//    @Previewable @State var allBalDic = BalanceViewModel().getBalanceDic()
     BalanceDetailPage(isPresented: $isPresented,
                       accentColor: .yellow,
                       accentTextColor: .black,

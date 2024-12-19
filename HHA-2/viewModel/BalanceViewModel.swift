@@ -25,6 +25,15 @@ class BalanceViewModel: CommonViewModel {
     }
     
     /*
+     主キーから残高を選択
+     -param balKey 残高主キー
+     -return 残高
+     */
+    func getBalanceModel(balKey: String) -> BalanceModel {
+        return realm.object(ofType: BalanceModel.self, forPrimaryKey: balKey)!
+    }
+    
+    /*
      残高の合計金額を取得します。
      -return 残高の合計
      */
@@ -54,6 +63,48 @@ class BalanceViewModel: CommonViewModel {
         dic[1] = debtResults
         return dic
     }
+    
+    /*
+     残高情報を更新
+     -param balModel 残高情報
+     -return 成功フラグ
+     */
+    func updateBalance(balModel: BalanceModel) -> Bool {
+        print(balModel.balKey == "" ? "空" : balModel.balKey)
+        if balModel.balKey == "" {
+            return false
+        }
+        let targetBalModel = realm.object(ofType: BalanceModel.self, forPrimaryKey: balModel.balKey)
+        do {
+            try realm.write() {
+                targetBalModel!.assetDebtFlg = balModel.assetDebtFlg
+                targetBalModel!.balName = balModel.balName
+                targetBalModel!.balColorHex = balModel.balColorHex
+                targetBalModel!.balAmount = balModel.balAmount
+            }
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    /*
+     残高を削除
+     -param balKey 主キー
+     */
+    func deleteBalanceModel(balKey: String) {
+        let balModel = realm.object(ofType: BalanceModel.self, forPrimaryKey: balKey)
+        do {
+            try realm.write() {
+                if let unWrapModel = balModel {
+                    realm.delete(unWrapModel)
+                }
+            }
+        } catch {
+            print("balance delete error")
+        }
+    }
+    
 }
 
 struct BalanceTotalData {

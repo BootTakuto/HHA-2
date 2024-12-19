@@ -13,9 +13,9 @@ struct YearMonthSelector: View {
     var selectComponents: DateSelectComponents = .month
     let commonVm = CommonViewModel()
     var body: some View {
-        RoundedRectangle(cornerRadius: 5)
-            .fill(Color(uiColor: .systemGray5))
-            .frame(height: 25)
+        RoundedRectangle(cornerRadius: .infinity)
+            .fill(Color(uiColor: .systemGray6))
+            .frame(height: 35)
             .overlay {
                 HStack {
                     Button(action: {
