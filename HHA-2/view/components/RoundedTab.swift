@@ -8,51 +8,99 @@
 import SwiftUI
 
 struct RoundedTab: View {
-    @Binding var selectIndex: Int
+    @State var selectIndex = 0
     var tabDatas: [TabData]
+    var buttonsData: [PageScrollViewButtonData]
     let accentColor: Color
     let accentTextColor: Color
+    var scrollViewProxy: ScrollViewProxy
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: .infinity)
-                .fill(.changeable)
-            HStack(spacing: 0) {
-                ForEach(tabDatas.indices, id: \.self) { index in
-                    let data = tabDatas[index]
-                    let isSelected = selectIndex == index
-                    VStack(spacing: 0) {
-                        Circle()
-                            .fill(isSelected ? accentColor : .clear)
-                            .frame(width: 25)
-                            .overlay {
-                                Image(systemName: data.iconNm)
-                                    .foregroundStyle(isSelected ? accentTextColor : .gray)
-                            }
-                        if isSelected {
-                            Text(data.title)
-                                .font(.caption)
+        GeometryReader {
+            if let scrollViewWidth = $0.bounds(of: .scrollView(axis: .horizontal))?.width,
+               scrollViewWidth > 0 {
+                let minX = $0.frame(in: .scrollView(axis: .horizontal)).minX
+                let activeIndex = round(-minX / scrollViewWidth)
+                HStack(alignment: .center, spacing: 0) {
+                    HStack(spacing: 0) {
+                        ForEach(tabDatas.indices, id: \.self) { index in
+                            let data = tabDatas[index]
+                            let isSelected = selectIndex == index
+                            VStack(spacing: 0) {
+                                Circle()
+                                    .fill(isSelected ? accentColor : .clear)
+                                    .frame(width: 25)
+                                    .overlay {
+                                        Image(systemName: data.iconNm)
+                                            .foregroundStyle(isSelected ? accentTextColor : .gray)
+                                    }
+                                Text(isSelected ? data.title : "")
+                                    .font(.caption)
+                            }.frame(width: 80)
+                                .onTapGesture {
+                                    withAnimation {
+                                        scrollViewProxy.scrollTo(index)
+                                    }
+                                }.offset(y: isSelected ? 0 : 6.5)
                         }
-                    }.frame(width: 80)
-                        .onTapGesture {
-                            withAnimation {
-                                self.selectIndex = index
-                            }
+                    }.background {
+                        RoundedRectangle(cornerRadius: .infinity)
+                            .fill(.changeable)
+                            .frame(height: 50)
+                    }.onChange(of: activeIndex) {
+                        withAnimation(.linear) {
+                            self.selectIndex = Int(activeIndex)
                         }
-                }
+                    }.compositingGroup()
+                    .shadow(color: .changeableShadow, radius: 5)
+                    ForEach(buttonsData.indices, id: \.self) {index in
+                        let data = buttonsData[index]
+                        CircleButton(text: data.label,
+                                     imageNm: data.imageNm,
+                                     color: data.bgColor,
+                                     textColor: data.textColor,
+                                     action: data.action)
+                        .frame(width: 40)
+                    }.padding(.leading, 10)
+                }.frame(width: scrollViewWidth, height: 60)
+                    .offset(x: -minX)
             }
-        }.frame(width: 80 * CGFloat(tabDatas.count), height: 50)
-            .compositingGroup()
-            .shadow(color: .changeableShadow, radius: 5)
+        }.frame(height: 60)
     }
 }
 
+//#Preview {
+//    @Previewable @State var selectedIndex = 0
+//    let tabDatas = [TabData(title: "一覧", iconNm: "list.bullet"),
+//                    TabData(title: "追加", iconNm: "plus"),
+//                    TabData(title: "追加", iconNm: "plus")]
+//    RoundedTab(selectIndex: $selectedIndex,
+//               tabDatas: tabDatas,
+//               accentColor: .yellow,
+//               accentTextColor: .black)
+//}
+
 #Preview {
-    @Previewable @State var selectedIndex = 0
-    let tabDatas = [TabData(title: "一覧", iconNm: "list.bullet"),
-                    TabData(title: "追加", iconNm: "plus"),
-                    TabData(title: "追加", iconNm: "plus")]
-    RoundedTab(selectIndex: $selectedIndex,
-               tabDatas: tabDatas,
-               accentColor: .yellow,
-               accentTextColor: .black)
+    PageScrollView(pageData: [TabData(title: "一覧", iconNm: "list.bullet"),
+                              TabData(title: "追加", iconNm: "plus"),
+                              TabData(title: "追加", iconNm: "plus")],
+                   buttonsData: [PageScrollViewButtonData(label: "入力",
+                                                          imageNm: "square.and.pencil",
+                                                          bgColor: .yellow,
+                                                          textColor: .black,
+                                                          action: {print("aaaaa")}),
+                                 PageScrollViewButtonData(label: "使い方",
+                                                          imageNm: "questionmark",
+                                                          bgColor: .yellow,
+                                                          textColor: .black,
+                                                          action: {print("aaaaa")})]) {
+        Text("aaaa")
+            .containerRelativeFrame(.horizontal)
+            .id(0)
+        Text("bbbb")
+            .containerRelativeFrame(.horizontal)
+            .id(1)
+        Text("cccc")
+            .containerRelativeFrame(.horizontal)
+            .id(2)
+    }
 }

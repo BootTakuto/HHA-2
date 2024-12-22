@@ -39,10 +39,11 @@ struct BalanceDetailPage: View {
                     }
                 }.padding(.top, 10 + 30)
                 HStack(spacing: 15) {
-                    RoundedTab(selectIndex: $selectedPageIndex,
-                               tabDatas: [TabData(title: "連携一覧", iconNm: "list.bullet"),
-                                          TabData(title: "編集", iconNm: "square.and.pencil")],
-                               accentColor: accentColor, accentTextColor: accentTextColor)
+//                    RoundedTab(selectIndex: $selectedPageIndex,
+//                               tabDatas: [TabData(title: "連携一覧", iconNm: "list.bullet"),
+//                                          TabData(title: "編集", iconNm: "square.and.pencil")],
+//                               accentColor: accentColor, accentTextColor: accentTextColor,
+//                               scrollViewProxy: )
                     CircleButton(imageNm: "trash", color: .changeable, textColor: .red) {
                         self.isDeleteAlertShow = true
                     }.frame(width: 40)

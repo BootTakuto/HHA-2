@@ -39,10 +39,11 @@
 		2C7201302D0E9787006E9013 /* EditBalancePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C72012F2D0E9787006E9013 /* EditBalancePage.swift */; };
 		2C767F672CBBA1F70023EE8A /* BalanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C767F662CBBA1F70023EE8A /* BalanceViewModel.swift */; };
 		2C862CCD2D04548A0079C0D3 /* BalanceParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C862CCC2D04548A0079C0D3 /* BalanceParentView.swift */; };
-		2C862CCF2D0455770079C0D3 /* HouseHoldParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C862CCE2D0455770079C0D3 /* HouseHoldParentView.swift */; };
+		2C862CCF2D0455770079C0D3 /* PageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C862CCE2D0455770079C0D3 /* PageScrollView.swift */; };
 		2C862CD12D0516AA0079C0D3 /* ShrinkableTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C862CD02D0516AA0079C0D3 /* ShrinkableTab.swift */; };
 		2C862CD32D0794870079C0D3 /* RegistBalanacePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C862CD22D0794870079C0D3 /* RegistBalanacePage.swift */; };
 		2C862CD52D0798060079C0D3 /* SlideableTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C862CD42D0798060079C0D3 /* SlideableTab.swift */; };
+		2C87D85A2D16CF8F00CC19AF /* HouseHoldParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C87D8592D16CF8F00CC19AF /* HouseHoldParentView.swift */; };
 		2C8A0B132C9EDA12003D7647 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */; };
 		2C8A0B172C9F6A7B003D7647 /* InputNumWithCalc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8A0B162C9F6A7B003D7647 /* InputNumWithCalc.swift */; };
 		2C9348C82C95C38000E9129B /* YearMonthSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9348C72C95C37F00E9129B /* YearMonthSelector.swift */; };
@@ -55,7 +56,6 @@
 		2CB19EEC2C931AED008D1600 /* CalendarPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EEB2C931AED008D1600 /* CalendarPage.swift */; };
 		2CB19EEE2C931B08008D1600 /* MenuPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EED2C931B08008D1600 /* MenuPage.swift */; };
 		2CB19EF02C931B1F008D1600 /* CommonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EEF2C931B1F008D1600 /* CommonModel.swift */; };
-		2CB19EF22C931BA3008D1600 /* CustomTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB19EF12C931BA3008D1600 /* CustomTab.swift */; };
 		2CB8AB9D2C95BADD006ED0C4 /* InnerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB8AB9C2C95BADD006ED0C4 /* InnerHeader.swift */; };
 		2CB9F9FE2D13791A00A91F8F /* ResizColableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB9F9FD2D13791A00A91F8F /* ResizColableImage.swift */; };
 		2CBF5DE52CCEEF4500A7893A /* IncConsSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBF5DE42CCEEF4500A7893A /* IncConsSectionViewModel.swift */; };
@@ -65,7 +65,6 @@
 		2CCC91322D03F19700CF1F15 /* BalanceMovementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC91312D03F19700CF1F15 /* BalanceMovementModel.swift */; };
 		2CCC913A2D04291700CF1F15 /* ParentTabShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC91392D04291700CF1F15 /* ParentTabShape.swift */; };
 		2CD68B522CC7072200EEC61D /* RegistButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD68B512CC7072200EEC61D /* RegistButton.swift */; };
-		2CD68B542CC7072D00EEC61D /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD68B532CC7072D00EEC61D /* CancelButton.swift */; };
 		2CE7127E2CCDAE7B00548FFC /* IncConsSecionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7127D2CCDAE7B00548FFC /* IncConsSecionModel.swift */; };
 		2CE712802CCDB0AA00548FFC /* IncConsCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7127F2CCDB0AA00548FFC /* IncConsCategoryModel.swift */; };
 		2CF193032C9689A600D4843B /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF193022C9689A600D4843B /* PieChart.swift */; };
@@ -108,10 +107,11 @@
 		2C72012F2D0E9787006E9013 /* EditBalancePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBalancePage.swift; sourceTree = "<group>"; };
 		2C767F662CBBA1F70023EE8A /* BalanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceViewModel.swift; sourceTree = "<group>"; };
 		2C862CCC2D04548A0079C0D3 /* BalanceParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceParentView.swift; sourceTree = "<group>"; };
-		2C862CCE2D0455770079C0D3 /* HouseHoldParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseHoldParentView.swift; sourceTree = "<group>"; };
+		2C862CCE2D0455770079C0D3 /* PageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageScrollView.swift; sourceTree = "<group>"; };
 		2C862CD02D0516AA0079C0D3 /* ShrinkableTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShrinkableTab.swift; sourceTree = "<group>"; };
 		2C862CD22D0794870079C0D3 /* RegistBalanacePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistBalanacePage.swift; sourceTree = "<group>"; };
 		2C862CD42D0798060079C0D3 /* SlideableTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideableTab.swift; sourceTree = "<group>"; };
+		2C87D8592D16CF8F00CC19AF /* HouseHoldParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseHoldParentView.swift; sourceTree = "<group>"; };
 		2C8A0B122C9EDA12003D7647 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		2C8A0B162C9F6A7B003D7647 /* InputNumWithCalc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNumWithCalc.swift; sourceTree = "<group>"; };
 		2C9348C72C95C37F00E9129B /* YearMonthSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearMonthSelector.swift; sourceTree = "<group>"; };
@@ -124,7 +124,6 @@
 		2CB19EEB2C931AED008D1600 /* CalendarPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPage.swift; sourceTree = "<group>"; };
 		2CB19EED2C931B08008D1600 /* MenuPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPage.swift; sourceTree = "<group>"; };
 		2CB19EEF2C931B1F008D1600 /* CommonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModel.swift; sourceTree = "<group>"; };
-		2CB19EF12C931BA3008D1600 /* CustomTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTab.swift; sourceTree = "<group>"; };
 		2CB8AB9C2C95BADD006ED0C4 /* InnerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerHeader.swift; sourceTree = "<group>"; };
 		2CB9F9FD2D13791A00A91F8F /* ResizColableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizColableImage.swift; sourceTree = "<group>"; };
 		2CBF5DE42CCEEF4500A7893A /* IncConsSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsSectionViewModel.swift; sourceTree = "<group>"; };
@@ -134,7 +133,6 @@
 		2CCC91312D03F19700CF1F15 /* BalanceMovementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceMovementModel.swift; sourceTree = "<group>"; };
 		2CCC91392D04291700CF1F15 /* ParentTabShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentTabShape.swift; sourceTree = "<group>"; };
 		2CD68B512CC7072200EEC61D /* RegistButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistButton.swift; sourceTree = "<group>"; };
-		2CD68B532CC7072D00EEC61D /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		2CE7127D2CCDAE7B00548FFC /* IncConsSecionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsSecionModel.swift; sourceTree = "<group>"; };
 		2CE7127F2CCDB0AA00548FFC /* IncConsCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsCategoryModel.swift; sourceTree = "<group>"; };
 		2CF193022C9689A600D4843B /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
@@ -253,7 +251,6 @@
 			children = (
 				2C8A0B162C9F6A7B003D7647 /* InputNumWithCalc.swift */,
 				2C9348C72C95C37F00E9129B /* YearMonthSelector.swift */,
-				2CB19EF12C931BA3008D1600 /* CustomTab.swift */,
 				2CB8AB9C2C95BADD006ED0C4 /* InnerHeader.swift */,
 				2C15264D2C963F7000D20E35 /* CompareChart.swift */,
 				2CF193022C9689A600D4843B /* PieChart.swift */,
@@ -261,7 +258,6 @@
 				2CFBCC922CA609FA00E8A72A /* SectionSelector.swift */,
 				2CBFB4542CC4732E00FC7578 /* Palette.swift */,
 				2CD68B512CC7072200EEC61D /* RegistButton.swift */,
-				2CD68B532CC7072D00EEC61D /* CancelButton.swift */,
 				2C2A6D7A2CCC7C19004675EB /* CircleButton.swift */,
 				2CC989132CD0422300905119 /* NavigationHeader.swift */,
 				2C862CD02D0516AA0079C0D3 /* ShrinkableTab.swift */,
@@ -270,6 +266,9 @@
 				2C1765152D0CFC60006D113D /* RoundedTab.swift */,
 				2CFB64E62D0F87060069E6B2 /* AlertPopUpCard.swift */,
 				2CB9F9FD2D13791A00A91F8F /* ResizColableImage.swift */,
+				2C862CCE2D0455770079C0D3 /* PageScrollView.swift */,
+				2C87D8592D16CF8F00CC19AF /* HouseHoldParentView.swift */,
+				2C862CCC2D04548A0079C0D3 /* BalanceParentView.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -285,8 +284,6 @@
 				2C2A6D782CCBD005004675EB /* IncConsSecListPage.swift */,
 				2C1B250B2CD1884A009E7C49 /* IncConsCatgListPage.swift */,
 				2C58078E2D0243B3006BE0B3 /* BalanceDetailPage.swift */,
-				2C862CCC2D04548A0079C0D3 /* BalanceParentView.swift */,
-				2C862CCE2D0455770079C0D3 /* HouseHoldParentView.swift */,
 				2C862CD22D0794870079C0D3 /* RegistBalanacePage.swift */,
 				2C72012D2D0E91B4006E9013 /* BalanceLinkHistoryPage.swift */,
 				2C72012F2D0E9787006E9013 /* EditBalancePage.swift */,
@@ -451,10 +448,9 @@
 				2C65458D2CB7341D002EA834 /* BalanceModel.swift in Sources */,
 				2CA63C392CEE9020001E69D0 /* IncomeConsumeViewModel.swift in Sources */,
 				2CFB64E72D0F87060069E6B2 /* AlertPopUpCard.swift in Sources */,
-				2C862CCF2D0455770079C0D3 /* HouseHoldParentView.swift in Sources */,
+				2C862CCF2D0455770079C0D3 /* PageScrollView.swift in Sources */,
 				2C5481DB2CF20669006FF4FC /* Border.swift in Sources */,
 				2C1FBE332CED390600526C03 /* IncConsLinkBalModel.swift in Sources */,
-				2CD68B542CC7072D00EEC61D /* CancelButton.swift in Sources */,
 				2C8A0B132C9EDA12003D7647 /* ViewExtension.swift in Sources */,
 				2CCC87052C9A31BA00345310 /* Bar.swift in Sources */,
 				2C0658452D08EAB500CBAC29 /* RegistPopUpCard.swift in Sources */,
@@ -473,10 +469,10 @@
 				2C2B5D5D2CF2B5B10070AF84 /* CalendarViewModel.swift in Sources */,
 				2CF193032C9689A600D4843B /* PieChart.swift in Sources */,
 				2C1B250E2CD18BE0009E7C49 /* IncConsCategoryViewModel.swift in Sources */,
+				2C87D85A2D16CF8F00CC19AF /* HouseHoldParentView.swift in Sources */,
 				2C72012E2D0E91B4006E9013 /* BalanceLinkHistoryPage.swift in Sources */,
 				2C862CD32D0794870079C0D3 /* RegistBalanacePage.swift in Sources */,
 				2CB9F9FE2D13791A00A91F8F /* ResizColableImage.swift in Sources */,
-				2CB19EF22C931BA3008D1600 /* CustomTab.swift in Sources */,
 				2C9AC8352C9E7B0400C57CDD /* InputText.swift in Sources */,
 				2CFBCC932CA609FA00E8A72A /* SectionSelector.swift in Sources */,
 				2C9348C82C95C38000E9129B /* YearMonthSelector.swift in Sources */,

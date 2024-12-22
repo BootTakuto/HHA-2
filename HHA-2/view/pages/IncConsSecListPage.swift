@@ -160,9 +160,9 @@ struct IncConsSecListPage: View {
                     self.isSheetShow = false
                 }.frame(height: 40)
                     .padding(.bottom, 5)
-                CancelButton(text: "閉じる") {
-                    self.isSheetShow = false
-                }.frame(height: 40)
+//                CancelButton(text: "閉じる") {
+//                    self.isSheetShow = false
+//                }.frame(height: 40)
             }.padding(.horizontal, 10)
                 .frame(height: 570, alignment: .top)
         }.frame(height: 570)
