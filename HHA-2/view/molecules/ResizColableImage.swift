@@ -9,14 +9,20 @@ import SwiftUI
 
 struct ResizColableImage: View {
     var imageNm: String
+    var color: Color
     init(_ imageNm: String) {
         self.imageNm = imageNm
+        self.color = Color.gray
+    }
+    init(_ imageNm: String, color: Color) {
+        self.imageNm = imageNm
+        self.color = color
     }
     var body: some View {
         Image(imageNm)
             .resizable()
             .renderingMode(.template)
-            .foregroundStyle(.gray)
+            .foregroundStyle(color)
     }
 }
 

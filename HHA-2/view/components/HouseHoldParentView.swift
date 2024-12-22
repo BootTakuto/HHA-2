@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HouseHoldParentView: View {
+    var accentColor: Color
+    var accentTextColor: Color
     let tabData = [TabData(title: "収支", iconNm: "yensign.square"),
                    TabData(title: "カレンダー", iconNm: "calendar")]
     @State var buttonsData = [PageScrollViewButtonData]()
@@ -15,10 +17,11 @@ struct HouseHoldParentView: View {
     var body: some View {
         NavigationStack {
             PageScrollView(pageData: tabData, buttonsData: buttonsData) {
-                Text("")
+                IncomeConsumePage()
                     .containerRelativeFrame(.horizontal)
                     .id(0)
-                Text("")
+                CalendarPage(accentColor: accentColor,
+                             accentTextColor: accentTextColor)
                     .containerRelativeFrame(.horizontal)
                     .id(1)
             }
@@ -42,5 +45,5 @@ struct HouseHoldParentView: View {
 }
 
 #Preview {
-    HouseHoldParentView()
+    HouseHoldParentView(accentColor: .yellow, accentTextColor: .black)
 }

@@ -191,6 +191,7 @@
 				2C65458A2CB72665002EA834 /* CheckBox.swift */,
 				2C3B7C802CD7295E007D305F /* Radio.swift */,
 				2C5481DA2CF20669006FF4FC /* Border.swift */,
+				2CB9F9FD2D13791A00A91F8F /* ResizColableImage.swift */,
 			);
 			path = molecules;
 			sourceTree = "<group>";
@@ -265,7 +266,6 @@
 				2C0658442D08EAB500CBAC29 /* RegistPopUpCard.swift */,
 				2C1765152D0CFC60006D113D /* RoundedTab.swift */,
 				2CFB64E62D0F87060069E6B2 /* AlertPopUpCard.swift */,
-				2CB9F9FD2D13791A00A91F8F /* ResizColableImage.swift */,
 				2C862CCE2D0455770079C0D3 /* PageScrollView.swift */,
 				2C87D8592D16CF8F00CC19AF /* HouseHoldParentView.swift */,
 				2C862CCC2D04548A0079C0D3 /* BalanceParentView.swift */,

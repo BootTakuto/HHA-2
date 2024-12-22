@@ -183,10 +183,11 @@ struct BalanceListPage: View {
     }
 }
 
-#Preview {
-   ContentView()
-}
-
 //#Preview {
-//    BalanceListPage()
+//   ContentView()
 //}
+
+#Preview {
+    @Previewable @State var isRegistPagePresented = false
+    BalanceListPage(isRegistPagePresented: $isRegistPagePresented, accentColor: .yellow, accentTextColor: .black)
+}

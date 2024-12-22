@@ -16,7 +16,6 @@ struct SlideableTab: View {
     var body: some View {
         GeometryReader { geom in
             let size = geom.size
-            let safeareaInsets = geom.safeAreaInsets
             VStack(spacing: 0) {
                 ZStack {
                     GeometryReader { proxy in
@@ -30,7 +29,15 @@ struct SlideableTab: View {
                         ForEach(titles.indices, id: \.self) { index in
                             let titleInfo = titles[index]
                             HStack {
-                                Image(systemName: titleInfo.icon)
+                                if titleInfo.isSystemName {
+                                    Image(systemName: titleInfo.icon)
+                                        .fontWeight(.thin)
+                                } else {
+                                    ResizColableImage(titleInfo.icon, color: Color.changeableText)
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+                                        .fontWeight(.bold)
+                                }
                                 Text(titleInfo.title)
                             }.foregroundStyle(selectIndex == index ? .changeableText : accentTextColor)
                                 .frame(width: size.width / 3)
@@ -63,18 +70,20 @@ struct SlideableTabTitle {
     var title: String
     var rectTLRadi: CGFloat
     var rectTTRadi: CGFloat
-    init(icon: String, title: String, rectTLRadi: CGFloat, rectTTRadi: CGFloat) {
+    var isSystemName: Bool
+    init(icon: String, title: String, rectTLRadi: CGFloat, rectTTRadi: CGFloat, isSystemName: Bool) {
         self.icon = icon
         self.title = title
         self.rectTLRadi = rectTLRadi
         self.rectTTRadi = rectTTRadi
+        self.isSystemName = isSystemName
     }
 }
 
 #Preview {
     @Previewable @State var selectedIndex = 0
-    var titles = [SlideableTabTitle(icon: "banknote", title: "資産・負債", rectTLRadi: 0, rectTTRadi: 10),
-                  SlideableTabTitle(icon: "yensign.square", title: "家計", rectTLRadi: 10, rectTTRadi: 10),
-                  SlideableTabTitle(icon: "gearshape", title: "その他", rectTLRadi: 10, rectTTRadi: 0)]
+    var titles = [SlideableTabTitle(icon: "banknote", title: "資産・負債", rectTLRadi: 0, rectTTRadi: 0, isSystemName: true),
+                  SlideableTabTitle(icon: "piggy.bank.no.coins", title: "家計", rectTLRadi: 10, rectTTRadi: 0, isSystemName: false),
+                  SlideableTabTitle(icon: "gearshape", title: "その他", rectTLRadi: 10, rectTTRadi: 0, isSystemName: true)]
     SlideableTab(selectIndex: $selectedIndex, titles: titles)
 }

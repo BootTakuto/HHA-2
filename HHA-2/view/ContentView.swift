@@ -10,9 +10,9 @@ struct ContentView: View {
     @State var accentColor = CommonViewModel.getAccentColor()
     @State var accentTextColor = CommonViewModel.getTextColor()
     @State var selectedIndex = 0
-    let tabTitles = [SlideableTabTitle(icon: "banknote", title: "資産・負債", rectTLRadi: 0, rectTTRadi: 0),
-                     SlideableTabTitle(icon: "yensign.square", title: "家計", rectTLRadi: 10, rectTTRadi: 0),
-                     SlideableTabTitle(icon: "gearshape", title: "その他", rectTLRadi: 10, rectTTRadi: 0)]
+    let tabTitles = [SlideableTabTitle(icon: "banknote", title: "資産・負債", rectTLRadi: 0, rectTTRadi: 0, isSystemName: true),
+                     SlideableTabTitle(icon: "piggy.bank.no.coins", title: "家計", rectTLRadi: 10, rectTTRadi: 0, isSystemName: false),
+                     SlideableTabTitle(icon: "gearshape", title: "その他", rectTLRadi: 10, rectTTRadi: 0, isSystemName: true)]
     var body: some View {
         NavigationStack {
             GeometryReader { geom in
@@ -29,7 +29,7 @@ struct ContentView: View {
                                               accentTextColor: accentTextColor,
                                               safeAreaInsets: safeAreaInsets)
                         case 1:
-                            HouseHoldParentView()
+                            HouseHoldParentView(accentColor: accentColor, accentTextColor: accentTextColor)
                         case 2:
                             MenuPage(accentColor: $accentColor, accentTextColor: $accentTextColor)
                         default:

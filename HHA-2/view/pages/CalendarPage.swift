@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct CalendarPage: View {
-    @Binding var isCalendarShow: Bool
     var accentColor: Color
     var accentTextColor: Color
-    @State var hiddenOffset: CGFloat = -290
     @State var selectDate = Date()
     @State var caledarDataArray = CalendarViewModel().getCalendarDays(selectedDate: Date())
     @State var currnetDate = CalendarViewModel().getFormatDate(format: "yyyyMMdd", date: Date())
@@ -22,10 +20,7 @@ struct CalendarPage: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
-                CalendarHeader(size: geometry.size)
-                    .zIndex(1000)
                 IncConsListByDay(size: geometry.size)
-                    .offset(y: isCalendarShow ? 0 : hiddenOffset)
                     .frame(height: geometry.size.height)
             }
         }.onChange(of: selectDate) {
@@ -37,60 +32,6 @@ struct CalendarPage: View {
                 consTotal = viewModel.getIncOrConsMonthlyTotal(incConsFlg: 1, selectedDate: selectDate)
                 // 収入・支出データ
                 incConsDic = viewModel.getIncConsDicByDay(selectedDate: selectDate)
-            }
-        }
-    }
-    
-    @ViewBuilder
-    func CalendarHeader(size: CGSize) -> some View {
-        let dayLabels = ["月", "火", "水", "木", "金", "土", "日"]
-        InnerHeader(isShow: $isCalendarShow, hiddenOffset: hiddenOffset, height: CGFloat(320)) {
-            VStack(spacing: 0) {
-                YearMonthSelector(targetDate: $selectDate)
-                    .padding(.vertical, 5)
-                VStack(spacing: 3) {
-                    HStack(spacing: 0) {
-                        ForEach(0 ..< 7, id: \.self) { index in
-                            Text(dayLabels[index])
-                                .font(.system(size: 10))
-                                .frame(width: size.width / 7 - 2)
-                        }
-                    }.frame(height: 10)
-                    ForEach(0 ..< 6, id: \.self) { row in
-                        HStack(spacing: 0) {
-                            ForEach(0 ..< 7, id: \.self) { col in
-                                let index = col + (row * 7)
-                                let calendarData = caledarDataArray[index]
-                                let isCurrent = currnetDate == calendarData.yyyyMMdd
-                                Rectangle()
-                                    .fill(.clear)
-                                    .frame(width: size.width / 7 - 2, height: 230 / 6)
-                                    .overlay {
-                                        VStack {
-                                            Text(calendarData.day)
-                                                .foregroundStyle(calendarData.isOtherMonth ? isCurrent ? .white : .gray :
-                                                                    isCurrent  ? accentTextColor : .changeableText)
-                                                .background {
-                                                    Circle()
-                                                        .fill(isCurrent ? calendarData.isOtherMonth ? .gray : accentColor : .clear)
-                                                        .frame(width: 15, height: 15)
-                                                }
-                                            Group {
-                                                Text(calendarData.incConsExsistFlg == 0 || calendarData.incConsExsistFlg == 2 ?
-                                                     "¥\(calendarData.dayIncTotal)" : "")
-                                                    .lineLimit(1)
-                                                    .foregroundStyle(.blue)
-                                                Text(calendarData.incConsExsistFlg == 1 || calendarData.incConsExsistFlg == 2 ? "¥\(calendarData.dayConsTotal)" : "")
-                                                    .lineLimit(1)
-                                                    .foregroundStyle(.red)
-                                            }.frame(width: size.width / 7 - 2)
-                                        }.font(.system(size: 10))
-                                    }
-                            }
-                        }
-                    }
-                }.frame(height: 260)
-                    .padding(.horizontal, 7)
             }
         }
     }
@@ -194,7 +135,7 @@ struct CalendarPage: View {
                     }
                 }
             }.padding(.top, 10)
-                .padding(.bottom, isCalendarShow ? 320 : 40)
+//                .padding(.bottom, isCalendarShow ? 320 : 40)
         }.scrollIndicators(.hidden)
     }
 }
