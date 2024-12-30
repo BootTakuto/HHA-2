@@ -15,15 +15,11 @@ struct BalanceLinkHistoryPage: View {
         GeometryReader {
             let size = $0.size
             VStack(spacing: 0) {
-                VStack(alignment: .leading) {
-                    Text("連携一覧")
-                        .font(.title3)
-                    Footnote(text: "この残高に連携された収支情報を一覧表示")
-                }.frame(width: size.width - 40, alignment: .leading)
+                Title(title: "連携一覧", message: "この残高に連携された収支情報を一覧表示")
                 HistoryList()
                     .padding(.vertical, 20)
+                    .padding(.horizontal, 10)
             }.padding(.top, 20)
-                .padding(.horizontal, 10)
         }
     }
     

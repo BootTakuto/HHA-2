@@ -20,6 +20,7 @@ struct CalendarPage: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
+                Title(title: "カレンダー", message: "発生した収支情報を日ごとに表示")
                 IncConsListByDay(size: geometry.size)
                     .frame(height: geometry.size.height)
             }
@@ -34,6 +35,71 @@ struct CalendarPage: View {
                 incConsDic = viewModel.getIncConsDicByDay(selectedDate: selectDate)
             }
         }
+    }
+    
+    @ViewBuilder
+    func CalendarCard() -> some View {
+        let weekDays = ["月", "火", "水", "木", "金", "土", "日"]
+        Card {
+            VStack(spacing: 0) {
+                YearMonthSelector(targetDate: $selectDate)
+                HStack(spacing: 3) {
+                    ForEach(0 ..< 7, id: \.self) { index in
+                        let weekDay = weekDays[index]
+                        Text(weekDay)
+                            .foregroundStyle(weekDay == "日" ? Color.red : Color.changeableText)
+                            .font(.system(size: 10))
+                            .frame(maxWidth: .infinity)
+                    }
+                }.padding(.horizontal, 3)
+                    .padding(.top, 3)
+                VStack(spacing: 3) {
+                    ForEach(0 ..< 6, id: \.self) { row in
+                        HStack(spacing: 3) {
+                            ForEach(0 ..< 7, id: \.self) { col in
+                                let index = CommonViewModel.getRowColIndex(col, row, 7)
+                                let data = caledarDataArray[index]
+                                let now = !data.isOtherMonth &&
+                                          data.yyyyMMdd == CommonViewModel().getFormatDate(format: "yyyyMMdd", date: Date())
+                                let inc = data.dayIncTotal
+                                let cons = data.dayConsTotal
+                                ZStack {
+                                    Rectangle().fill(.clear)
+                                    VStack {
+                                        Circle()
+                                            .fill(now ? accentColor : .clear)
+                                            .frame(width: 15)
+                                            .overlay {
+                                                Text(data.day)
+                                                    .foregroundStyle(data.isOtherMonth ? Color.gray : now ?
+                                                                     accentTextColor : Color.changeableText)
+                                                    .font(.system(size: 10))
+                                            }
+                                        if data.incConsExsistFlg == 3 {
+                                            Spacer()
+                                        } else {
+                                            VStack(alignment: .leading, spacing: 1) {
+                                                if data.incConsExsistFlg == 0 || data.incConsExsistFlg == 2 {
+                                                    Text("\(inc)").foregroundStyle(.blue)
+                                                } else {
+                                                    Text("")
+                                                }
+                                                if data.incConsExsistFlg == 1 || data.incConsExsistFlg == 2 {
+                                                    Text("\(cons)").foregroundStyle(.red)
+                                                } else {
+                                                    Text("")
+                                                }
+                                            }.font(.system(size: 10))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }.padding(.horizontal, 3)
+            }.padding(.vertical, 5)
+        }.padding(.horizontal, 10)
+            .frame(height: 320)
     }
     
     @ViewBuilder
@@ -70,7 +136,6 @@ struct CalendarPage: View {
                 }.frame(width: size.width / 3 - 20)
             }
         }.frame(height: 60)
-            .padding(.horizontal, 10)
     }
     
     @ViewBuilder
@@ -98,12 +163,17 @@ struct CalendarPage: View {
     @ViewBuilder
     func IncConsListByDay(size: CGSize) -> some View {
         ScrollView {
-            VStack() {
+            VStack {
+                CalendarCard()
                 IncConsTotalCard(size: size)
-                    .padding(.top, 10)
+                    .padding(10)
                 if incConsDic.isEmpty {
-                    Footnote(text: "当月の収入・支出情報はありません。")
-                        .padding(.top, 50)
+                    VStack {
+                        ResizColableImage("piggy.bank")
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                        Footnote(text: "当月の収入・支出情報はありません。")
+                    }.padding(.top, 50)
                 } else {
                     ForEach(Array(incConsDic.keys).sorted(by: >), id: \.self) { date in
                         let dateStr = viewModel.getFormatDate(format: "yyyy年M月d日", date: date)

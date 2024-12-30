@@ -33,13 +33,8 @@ struct RegistBalanacePage: View {
                         .fill(.changeable)
                         .shadow(color: .changeableShadow, radius: 5)
                     VStack(spacing: 0) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("残高追加")
-                                    .font(.title3)
-                                Footnote(text: "預金・ポイントなどの資産残高\nクレジットカード・ローンなどの負債残高を追加")
-                            }.frame(maxWidth: .infinity, alignment: .leading)
-                        }.padding(.horizontal, 20)
+                        Title(title: "残高追加",
+                               message: "預金・ポイントなどの資産残高\nクレジットカード・ローンなどの負債残高を追加")
                         SegmentedSelector(selectedIndex: $selectedIndex, texts: ["資産", "負債"])
                             .padding(.vertical, 10)
                             .frame(width: 200)
@@ -48,14 +43,14 @@ struct RegistBalanacePage: View {
                             Footnote(text: selectedIndex == 0 ? "資産残高名" : "負債残高名")
                                 .frame(width: size.width - 40, alignment: .leading)
                             InputText(placeHolder: "", text: $balName, isDispShadow: false)
-                        }.padding(.horizontal, 20)
+                        }.padding(.horizontal, 10)
                             .padding(.vertical, 10)
                         // ▼初期金額設定
                         VStack {
                             Footnote(text: "初期金額")
                                 .frame(width: size.width - 40, alignment: .leading)
                             InputNumWithCalc(accentColor: accentColor, inputNum: $initNum, isDispShadow: false)
-                        }.padding(.horizontal, 20)
+                        }.padding(.horizontal, 10)
                             .padding(.vertical, 10)
                         
                         // ▼初期金額設定
@@ -86,7 +81,7 @@ struct RegistBalanacePage: View {
                                 self.isColorSheetShow = true
                                 //                            }
                             }
-                        }.padding(.horizontal, 20)
+                        }.padding(.horizontal, 10)
                             .padding(.vertical, 10)
                         RoundedButton(color: accentColor.opacity(balName == "" ? 0.5 : 1),
                                       text: "登 録",
@@ -109,7 +104,7 @@ struct RegistBalanacePage: View {
                             }
                         }.disabled(balName == "")
                             .frame(height: 40)
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 10)
                             .padding(.vertical, 20)
                         Spacer()
                     }.padding(.top, 20)

@@ -34,7 +34,7 @@ struct RoundedTab: View {
                                             .foregroundStyle(isSelected ? accentTextColor : .gray)
                                     }
                                 Text(isSelected ? data.title : "")
-                                    .font(.caption)
+                                    .font(.caption2)
                             }.frame(width: 80)
                                 .onTapGesture {
                                     withAnimation {
@@ -80,27 +80,20 @@ struct RoundedTab: View {
 //}
 
 #Preview {
-    PageScrollView(pageData: [TabData(title: "一覧", iconNm: "list.bullet"),
+    PageScrollView(accentColor: .yellow, accentTextColor: .black,
+        pageData: [TabData(title: "一覧", iconNm: "list.bullet"),
                               TabData(title: "追加", iconNm: "plus"),
                               TabData(title: "追加", iconNm: "plus")],
-                   buttonsData: [PageScrollViewButtonData(label: "入力",
-                                                          imageNm: "square.and.pencil",
-                                                          bgColor: .yellow,
-                                                          textColor: .black,
-                                                          action: {print("aaaaa")}),
-                                 PageScrollViewButtonData(label: "使い方",
-                                                          imageNm: "questionmark",
+                   buttonsData: [PageScrollViewButtonData(label: "add",
+                                                          imageNm: "plus",
                                                           bgColor: .yellow,
                                                           textColor: .black,
                                                           action: {print("aaaaa")})]) {
         Text("aaaa")
-            .containerRelativeFrame(.horizontal)
             .id(0)
         Text("bbbb")
-            .containerRelativeFrame(.horizontal)
             .id(1)
         Text("cccc")
-            .containerRelativeFrame(.horizontal)
             .id(2)
     }
 }

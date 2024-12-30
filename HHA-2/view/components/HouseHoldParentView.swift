@@ -16,7 +16,10 @@ struct HouseHoldParentView: View {
     @State var isInputShow = false
     var body: some View {
         NavigationStack {
-            PageScrollView(pageData: tabData, buttonsData: buttonsData) {
+            PageScrollView(accentColor: accentColor,
+                           accentTextColor: accentTextColor,
+                           pageData: tabData,
+                           buttonsData: buttonsData) {
                 IncomeConsumePage()
                     .containerRelativeFrame(.horizontal)
                     .id(0)
@@ -28,13 +31,13 @@ struct HouseHoldParentView: View {
         }.onAppear {
             self.buttonsData = [PageScrollViewButtonData(label: "入力",
                                                          imageNm: "square.and.pencil",
-                                                         bgColor: .yellow,
-                                                         textColor: .black,
+                                                         bgColor: accentColor,
+                                                         textColor: accentTextColor,
                                                          action: {self.isInputShow = true}),
                                 PageScrollViewButtonData(label: "使い方",
                                                          imageNm: "questionmark",
-                                                         bgColor: .yellow,
-                                                         textColor: .black,
+                                                         bgColor: accentColor,
+                                                         textColor: accentTextColor,
                                                          action: {})]
         }.fullScreenCover(isPresented: $isInputShow) {
             Text("close").onTapGesture {

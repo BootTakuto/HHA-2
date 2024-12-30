@@ -17,7 +17,7 @@ struct BalanceListPage: View {
     @State var dispInfoIndex = 0
     @State var allBalDataDic = BalanceViewModel().getBalanceDic()
     @State var dispBalDataDic = [Int: Results<BalanceModel>]()
-    var titles = [TabData(title: "資産・負債一覧", iconNm: "square.stack.3d.up"),
+    var titles = [TabData(title: "資産・負債一覧", iconNm: "list.bullet"),
                   TabData(title: "資産一覧", iconNm: "hand.thumbsup"),
                   TabData(title: "負債一覧", iconNm: "hand.thumbsdown")]
     // 画面遷移データ
@@ -30,14 +30,11 @@ struct BalanceListPage: View {
             GeometryReader {
                 let localSize = $0.frame(in: .local).size
                 VStack(spacing: 0) {
-                    VStack(alignment: .leading) {
-                        Text("残高一覧")
-                            .font(.title3)
-                        Footnote(text: "資産・負債の残高を一覧で表示")
-                    }.frame(width: localSize.width - 40, alignment: .leading)
-                        .padding(.bottom, 10)
+                    Title(title: "残高一覧", message: "資産・負債の残高を一覧で表示")
+//                        .padding(.bottom, 10)
                     ShrinkableTab(selectedIndex: $dispInfoIndex, titles: titles)
                         .padding(.horizontal, 10)
+                        .padding(.vertical, 10)
                     TotalCard(size: localSize)
                         .zIndex(1000)
                     BalanceList(size: localSize)
@@ -103,7 +100,6 @@ struct BalanceListPage: View {
             }.padding(.horizontal, 10)
         }.frame(height: 70)
             .padding(.horizontal, 10)
-            .padding(.vertical, 20)
     }
     
     @ViewBuilder
@@ -178,7 +174,7 @@ struct BalanceListPage: View {
                     }.padding(.horizontal, 10)
                         .padding(.leading, allInfoDisp ? 10 : 0)
                 }
-            }
+            }.padding(.top, 10)
         }
     }
 }

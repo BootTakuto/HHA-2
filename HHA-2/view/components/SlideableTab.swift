@@ -29,14 +29,19 @@ struct SlideableTab: View {
                         ForEach(titles.indices, id: \.self) { index in
                             let titleInfo = titles[index]
                             HStack {
-                                if titleInfo.isSystemName {
-                                    Image(systemName: titleInfo.icon)
-                                        .fontWeight(.thin)
-                                } else {
-                                    ResizColableImage(titleInfo.icon, color: Color.changeableText)
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20)
-                                        .fontWeight(.bold)
+                                Group {
+                                    if titleInfo.isSystemName {
+                                        Image(systemName: titleInfo.icon)
+                                            .resizable()
+                                            .fontWeight(.thin)
+                                            .scaledToFit()
+                                            .frame(width: 20, height: 20)
+                                    } else {
+                                        ResizColableImage(titleInfo.icon,
+                                                          color: selectIndex == index ? .changeableText : accentTextColor)
+                                            .scaledToFit()
+                                            .frame(width: 25, height: 25)
+                                    }
                                 }
                                 Text(titleInfo.title)
                             }.foregroundStyle(selectIndex == index ? .changeableText : accentTextColor)

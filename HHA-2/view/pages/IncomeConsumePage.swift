@@ -9,18 +9,25 @@ import SwiftUI
 
 struct IncomeConsumePage: View {
     @State var selectDate = Date()
+    @State var seelctedIndex = 0
     /* 収入・支出表示データ */
     @State var incTotal = IncomeConsumeViewModel().getIncOrConsMonthlyTotal(selectedDate: Date(), incConsFlg: 0)      // 月間収入合計金額
     @State var consTotal = IncomeConsumeViewModel().getIncOrConsMonthlyTotal(selectedDate: Date(), incConsFlg: 1)     // 月間支出合計金額
     @State var incConsDic = IncomeConsumeViewModel().getIncConsDic(selectedDate: Date())                              // リスト表示用辞書
     @State var incPieDataArray = IncomeConsumeViewModel().getIncConsPieDataArray(incConsFlg: 0, selectedDate: Date()) // 収入円チャート用データ
     @State var consPieDataArray = IncomeConsumeViewModel().getIncConsPieDataArray(incConsFlg: 1, selectedDate: Date())// 支出円チャート用データ
+    let tabData = [TabData(title: "全項目", iconNm: "list.bullet"),
+                   TabData(title: "収入の項目", iconNm: "piggy.bank.receive.coin", isSystemName: false),
+                   TabData(title: "支出の項目", iconNm: "piggy.bank.leave.coin", isSystemName: false)]
+    
     let viewModel = IncomeConsumeViewModel()
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
+                Title(title: "収支レポート", message: "月間の収支情報を表示")
+//                    .padding(.bottom, 10)
                 IncConsList(size: geometry.size)
-                    .frame(height: geometry.size.height)
+//                    .frame(height: geometry.size.height)
             }
         }.onChange(of: selectDate) {
             withAnimation {
@@ -67,6 +74,40 @@ struct IncomeConsumePage: View {
 //            }
 //        }
 //    }
+    
+    @ViewBuilder
+    func IncConsInfoCard(size: CGSize) -> some View {
+        Card {
+            VStack(spacing: 0) {
+                YearMonthSelector(targetDate: $selectDate)
+                    .padding(.vertical, 5)
+                    .padding(.bottom, 5)
+                ScrollView(.horizontal) {
+                    HStack(spacing: 0) {
+                        ForEach(0 ..< 3, id: \.self) { index in
+                            HStack {
+                                switch index {
+                                case 0:
+                                    CompareChart(target: incTotal, comparison: consTotal, width: 20)
+                                case 1:
+                                    PieChartIncCons(size: size, chartTitle: "収入構成", incConsFlg: 0)
+                                case 2:
+                                    PieChartIncCons(size: size, chartTitle: "支出構成", incConsFlg: 1)
+                                default:
+                                    CompareChart(target: incTotal, comparison: consTotal, width: 20)
+                                }
+                            }.padding(.horizontal, 20)
+                                .frame(height: 140)
+                                .containerRelativeFrame([.horizontal])
+                        }
+                    }.scrollTargetLayout()
+                }.scrollTargetBehavior(.viewAligned)
+                    .scrollIndicators(.hidden)
+                Spacer()
+            }.frame(height: 150)
+        }.frame(height: 220)
+            .padding(.horizontal, 10)
+    }
     
     @ViewBuilder
     func PieChartIncCons(size: CGSize, chartTitle: String, incConsFlg: Int) -> some View {
@@ -122,7 +163,11 @@ struct IncomeConsumePage: View {
     @ViewBuilder
     func IncConsList(size: CGSize) -> some View {
         ScrollView {
-            VStack {
+            VStack(spacing: 0) {
+                ShrinkableTab(selectedIndex: $seelctedIndex, titles: tabData)
+                    .padding(.horizontal, 10)
+                IncConsInfoCard(size: size)
+                    .padding(.vertical, 10)
                 ForEach(incConsDic.keys.sorted(), id: \.self) { key in
                     let dataArray = incConsDic[key]?.sorted(by: {$0.amtTotal > $1.amtTotal}) ?? []
                     let arrayCnt = dataArray.count
@@ -135,8 +180,8 @@ struct IncomeConsumePage: View {
                                 .padding(.trailing, 10)
                             if dataArray.isEmpty {
                                 Footnote(text: key == 0 ? "当月の収入は存在しません。" : "当月の支出は存在しません。")
-                                    .padding(.vertical, 10)
                                     .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 30)
                             } else {
                                 Card {
                                     VStack(spacing: 0) {
@@ -155,9 +200,9 @@ struct IncomeConsumePage: View {
                             }
                         }.padding(.horizontal, 10)
                             .padding(.leading, 10)
-                    }.padding(.top, 10)
+                    }
                 }
-            }
+            }.padding(.top, 10)
         }
     }
 }

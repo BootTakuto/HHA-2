@@ -27,7 +27,7 @@ struct BalanceParentView: View {
                     
                 }.frame(width: 40)
             }.frame(height: 60)
-                .padding(.bottom, 10)
+                .padding(.bottom, 20)
         }.fullScreenCover(isPresented: $isRegistBalSheetShow) {
         RegistBalanacePage(isPresented: $isRegistBalSheetShow,
                            accentColor: accentColor,

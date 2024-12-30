@@ -65,6 +65,7 @@
 		2CCC91322D03F19700CF1F15 /* BalanceMovementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC91312D03F19700CF1F15 /* BalanceMovementModel.swift */; };
 		2CCC913A2D04291700CF1F15 /* ParentTabShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC91392D04291700CF1F15 /* ParentTabShape.swift */; };
 		2CD68B522CC7072200EEC61D /* RegistButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD68B512CC7072200EEC61D /* RegistButton.swift */; };
+		2CDD74342D18032D00C77893 /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD74332D18032D00C77893 /* Title.swift */; };
 		2CE7127E2CCDAE7B00548FFC /* IncConsSecionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7127D2CCDAE7B00548FFC /* IncConsSecionModel.swift */; };
 		2CE712802CCDB0AA00548FFC /* IncConsCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7127F2CCDB0AA00548FFC /* IncConsCategoryModel.swift */; };
 		2CF193032C9689A600D4843B /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF193022C9689A600D4843B /* PieChart.swift */; };
@@ -133,6 +134,7 @@
 		2CCC91312D03F19700CF1F15 /* BalanceMovementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceMovementModel.swift; sourceTree = "<group>"; };
 		2CCC91392D04291700CF1F15 /* ParentTabShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentTabShape.swift; sourceTree = "<group>"; };
 		2CD68B512CC7072200EEC61D /* RegistButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistButton.swift; sourceTree = "<group>"; };
+		2CDD74332D18032D00C77893 /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		2CE7127D2CCDAE7B00548FFC /* IncConsSecionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsSecionModel.swift; sourceTree = "<group>"; };
 		2CE7127F2CCDB0AA00548FFC /* IncConsCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncConsCategoryModel.swift; sourceTree = "<group>"; };
 		2CF193022C9689A600D4843B /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				2C3B7C802CD7295E007D305F /* Radio.swift */,
 				2C5481DA2CF20669006FF4FC /* Border.swift */,
 				2CB9F9FD2D13791A00A91F8F /* ResizColableImage.swift */,
+				2CDD74332D18032D00C77893 /* Title.swift */,
 			);
 			path = molecules;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 			files = (
 				2CC989142CD0422300905119 /* NavigationHeader.swift in Sources */,
 				2CB19EEC2C931AED008D1600 /* CalendarPage.swift in Sources */,
+				2CDD74342D18032D00C77893 /* Title.swift in Sources */,
 				2C58078F2D0243B3006BE0B3 /* BalanceDetailPage.swift in Sources */,
 				2C31998E2C9397E0007EDC3C /* RoundedButton.swift in Sources */,
 				2C31998C2C9396C4007EDC3C /* Card.swift in Sources */,

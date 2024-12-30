@@ -20,8 +20,15 @@ struct ShrinkableTab: View {
                     let titleModel = titles[index]
                     let isSelected = selectedIndex == index
                     HStack {
-                        Image(systemName: titleModel.iconNm)
-                            .foregroundStyle(isSelected ? accentTextColor : .gray)
+                        if titleModel.isSystemName {
+                            Image(systemName: titleModel.iconNm)
+                                .foregroundStyle(isSelected ? accentTextColor : .gray)
+                                .fontWeight(.thin)
+                        } else {
+                            ResizColableImage(titleModel.iconNm, color: isSelected ? accentTextColor : .gray)
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                        }
                         if isSelected {
                             Text(titleModel.title)
                                 .font(.caption)
@@ -58,9 +65,17 @@ struct ShrinkableTab: View {
 struct TabData {
     var title: String
     var iconNm: String
+    var isSystemName: Bool = true
+    
     init(title: String, iconNm: String) {
         self.title = title
         self.iconNm = iconNm
+    }
+    
+    init(title: String, iconNm: String, isSystemName: Bool) {
+        self.title = title
+        self.iconNm = iconNm
+        self.isSystemName = isSystemName
     }
 }
 
@@ -69,7 +84,7 @@ struct TabData {
 #Preview {
     @Previewable @State var selectIndex = 0
     var titles = [TabData(title: "資産・負債一覧", iconNm: "square.stack.3d.up"),
-                  TabData(title: "資産一覧", iconNm: "hand.thumbsup"),
+                  TabData(title: "資産一覧", iconNm: "piggy.bank.no.coins", isSystemName: false),
                   TabData(title: "負債一覧", iconNm: "hand.thumbsdown")]
     ShrinkableTab(selectedIndex: $selectIndex, titles: titles)
 }

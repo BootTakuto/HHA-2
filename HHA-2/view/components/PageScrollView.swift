@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PageScrollView<Content: View>: View {
+    var accentColor: Color
+    var accentTextColor: Color
     let pageData: [TabData]
     let buttonsData: [PageScrollViewButtonData]
     @ViewBuilder var scrollPage: Content
@@ -21,15 +23,15 @@ struct PageScrollView<Content: View>: View {
                 .overlay(alignment: .bottom) {
                     RoundedTab(tabDatas: pageData,
                                buttonsData: buttonsData,
-                               accentColor: .yellow,
-                               accentTextColor: .black,
+                               accentColor: accentColor,
+                               accentTextColor: accentTextColor,
                                scrollViewProxy: scrollProxy)
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 20)
                 }
             }
         }.scrollTargetBehavior(.paging)
             .scrollIndicators(.hidden)
-            .ignoresSafeArea()
+            .ignoresSafeArea(edges: .bottom)
     }
 }
 
@@ -49,7 +51,8 @@ struct PageScrollViewButtonData {
 }
 
 #Preview {
-    PageScrollView(pageData: [TabData(title: "一覧", iconNm: "list.bullet"),
+    PageScrollView(accentColor: .yellow, accentTextColor: .black,
+        pageData: [TabData(title: "一覧", iconNm: "list.bullet"),
                               TabData(title: "追加", iconNm: "plus"),
                               TabData(title: "追加", iconNm: "plus")],
                    buttonsData: [PageScrollViewButtonData(label: "add",

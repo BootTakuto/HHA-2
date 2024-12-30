@@ -27,13 +27,7 @@ struct EditBalancePage: View {
         GeometryReader { geom in
             let size = geom.size
             VStack(spacing: 0) {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text("残高編集")
-                            .font(.title3)
-                        Footnote(text: "追加された資産・負債残高の情報を編集")
-                    }.frame(maxWidth: .infinity, alignment: .leading)
-                }.padding(.horizontal, 20)
+                Title(title: "残高編集", message: "追加された資産・負債残高の情報を編集")
                 BalanceCard()
                     .padding(.vertical, 20)
                 // ▼残高名入力領域

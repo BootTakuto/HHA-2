@@ -10,7 +10,7 @@ struct ContentView: View {
     @State var accentColor = CommonViewModel.getAccentColor()
     @State var accentTextColor = CommonViewModel.getTextColor()
     @State var selectedIndex = 0
-    let tabTitles = [SlideableTabTitle(icon: "banknote", title: "資産・負債", rectTLRadi: 0, rectTTRadi: 0, isSystemName: true),
+    let tabTitles = [SlideableTabTitle(icon: "banknote", title: "残高", rectTLRadi: 0, rectTTRadi: 0, isSystemName: true),
                      SlideableTabTitle(icon: "piggy.bank.no.coins", title: "家計", rectTLRadi: 10, rectTTRadi: 0, isSystemName: false),
                      SlideableTabTitle(icon: "gearshape", title: "その他", rectTLRadi: 10, rectTTRadi: 0, isSystemName: true)]
     var body: some View {
